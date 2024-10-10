@@ -1,6 +1,4 @@
 
-
-
 # Namada Wallet in Rust
 
 A Rust implementation of a Namada wallet featuring functionalities to create, derive, and import wallets.
@@ -29,3 +27,6 @@ Clone the repository:
 git clone https://github.com/yourusername/namada-wallet.git
 cd namada-wallet
 
+## Acknowledgements
+
+Special thanks to [Ian (Spork)](https://github.com/iskay) for helping me out with the process!
