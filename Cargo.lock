@@ -6241,6 +6241,8 @@ dependencies = [
  "namada_sdk",
  "namada_token",
  "namada_tx",
+ "rand 0.8.5",
+ "rand_core 0.6.4",
  "tendermint",
  "tendermint-config",
  "tendermint-proto",

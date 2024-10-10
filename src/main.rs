@@ -88,7 +88,7 @@ where
     I: Io + MaybeSync + MaybeSend,
 {
     // Generate a new mnemonic phrase with a specified type
-    let mnemonic_type = namada_sdk::bip39::MnemonicType::Words12; // Change as needed
+    let mnemonic_type = namada_sdk::bip39::MnemonicType::Words24; // Change as needed
     let mnemonic = Mnemonic::new(mnemonic_type, namada_sdk::bip39::Language::English);
     let phrase = mnemonic.phrase();
 
@@ -113,7 +113,7 @@ where
             None, // No password
         )
         .expect("Unable to derive key from mnemonic code");
-
+        // println!("Derived secret key: {:?}", _sk);
     // Save the wallet to disk
     sdk.wallet().await.save().expect("Could not save wallet!");
 
@@ -174,6 +174,7 @@ where
         None => println!("No address found for alias: {}", alias),
     }
 }
+
 
 fn prompt_user(prompt: &str) -> String {
     // Create a buffer to capture user input
