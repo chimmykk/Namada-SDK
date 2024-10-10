@@ -97,7 +97,8 @@ where
 
     // Derive the keypair from the mnemonic and add it to the wallet
     let derivation_path = DerivationPath::default_for_transparent_scheme(SchemeType::Ed25519);
-    sdk.wallet_mut()
+    let (_key_alias, sk) = sdk
+        .wallet_mut()
         .await
         .derive_store_key_from_mnemonic_code(
             SchemeType::Ed25519,
@@ -110,10 +111,14 @@ where
         )
         .expect("Unable to derive key from mnemonic code");
 
+    // Print the secret key
+    println!("Derived secret key: {:?}", sk);
+    sdk.wallet().await.save().expect("Could not save wallet!");
     // Derive the spending key using the same mnemonic
     let spending_alias = prompt_user("Enter an alias for the spending key: ");
     let spending_derivation_path = DerivationPath::default_for_shielded();
-    sdk.wallet_mut()
+    let (_spending_key_alias, sk_spending) = sdk
+        .wallet_mut()
         .await
         .derive_store_spending_key_from_mnemonic_code(
             spending_alias.clone(),
@@ -125,6 +130,9 @@ where
             None,
         )
         .expect("Unable to derive spending key from mnemonic");
+
+    // Print the spending key
+    println!("Derived spending key: {:?}", sk_spending);
 
     // Save the wallet to disk
     sdk.wallet().await.save().expect("Could not save wallet!");
@@ -167,11 +175,12 @@ where
     let derivation_path = DerivationPath::default_for_transparent_scheme(SchemeType::Ed25519);
 
     // Derive the keypair from the mnemonic and add to the wallet
-    sdk.wallet_mut()
+    let (_key_alias, sk) = sdk
+        .wallet_mut()
         .await
         .derive_store_key_from_mnemonic_code(
             SchemeType::Ed25519, // Key scheme
-            Some(alias.clone()),          // Alias
+            Some(alias.clone()),  // Alias
             true,                 // Overwrite alias if it exists
             derivation_path,
             Some((mnemonic.clone(), Zeroizing::new("".to_owned()))),
@@ -180,10 +189,15 @@ where
         )
         .expect("Unable to derive key from mnemonic code");
 
+    // Print the secret key
+    println!("Derived secret key: {:?}", sk);
+    sdk.wallet().await.save().expect("Could not save wallet!");
+
     // Derive the spending key using the same mnemonic
     let spending_alias = prompt_user("Enter an alias for the spending key: ");
     let spending_derivation_path = DerivationPath::default_for_shielded();
-    sdk.wallet_mut()
+    let (_spending_key_alias, sk_spending) = sdk
+        .wallet_mut()
         .await
         .derive_store_spending_key_from_mnemonic_code(
             spending_alias.clone(),
@@ -195,6 +209,9 @@ where
             None,
         )
         .expect("Unable to derive spending key from mnemonic");
+
+    // Print the spending key
+    println!("Derived spending key: {:?}", sk_spending);
 
     // Save the wallet to disk
     sdk.wallet().await.save().expect("Could not save wallet!");
