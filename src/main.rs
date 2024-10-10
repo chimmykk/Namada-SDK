@@ -19,7 +19,6 @@ use namada_sdk::{
 };
 use tendermint_rpc::{HttpClient, Url};
 
-
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // Change as necessary
 const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Change as necessary
 
@@ -55,9 +54,9 @@ async fn main() {
     loop {
         // Display the menu
         println!("\nNamada wallet example:");
-        println!("1. Create a new wallet");
-        println!("2. Add a new key from a mnemonic");
-        println!("3. Print an address from the wallet");
+        println!("1. Create a new wallet and spending key");
+        println!("2. Print an address from the wallet");
+        println!("3. Add an existing mnemonic and generate spending key");
         println!("4. Exit");
 
         print!("Enter your choice: ");
@@ -68,9 +67,9 @@ async fn main() {
 
         // Match on user input
         match input.trim().parse::<usize>() {
-            Ok(1) => create_wallet(&sdk).await,
-            Ok(2) => add_key(&sdk).await,
-            Ok(3) => print_address(&sdk).await,
+            Ok(1) => create_wallet_and_spending_key(&sdk).await,
+            Ok(2) => print_address(&sdk).await,
+            Ok(3) => add_key(&sdk).await,
             Ok(4) => {
                 println!("Exiting...");
                 break;
@@ -80,46 +79,72 @@ async fn main() {
     }
 }
 
-async fn create_wallet<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+async fn create_wallet_and_spending_key<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
     U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
     V: ShieldedUtils + MaybeSync + MaybeSend,
     I: Io + MaybeSync + MaybeSend,
 {
-    // Generate a new mnemonic phrase with a specified type
-    let mnemonic_type = namada_sdk::bip39::MnemonicType::Words24; // Change as needed
+    // Generate a new mnemonic phrase
+    let mnemonic_type = namada_sdk::bip39::MnemonicType::Words24;
     let mnemonic = Mnemonic::new(mnemonic_type, namada_sdk::bip39::Language::English);
     let phrase = mnemonic.phrase();
-
     println!("Generated mnemonic: {}", phrase);
 
     // Prompt for an alias to store the key
     let alias = prompt_user("Enter an alias for the new wallet: ");
 
-    // Derive the keypair from the mnemonic and add to the wallet
+    // Derive the keypair from the mnemonic and add it to the wallet
     let derivation_path = DerivationPath::default_for_transparent_scheme(SchemeType::Ed25519);
-
-    let (_key_alias, _sk) = sdk
-        .wallet_mut()
+    sdk.wallet_mut()
         .await
         .derive_store_key_from_mnemonic_code(
             SchemeType::Ed25519,
-            Some(alias),
-            true, // Overwrite if alias exists
+            Some(alias.clone()),
+            true,
             derivation_path,
             Some((mnemonic.clone(), Zeroizing::new("".to_owned()))),
-            true, // Prompt for encryption passphrase
-            None, // No password
+            true,
+            None,
         )
         .expect("Unable to derive key from mnemonic code");
-        // println!("Derived secret key: {:?}", _sk);
+
+    // Derive the spending key using the same mnemonic
+    let spending_alias = prompt_user("Enter an alias for the spending key: ");
+    let spending_derivation_path = DerivationPath::default_for_shielded();
+    sdk.wallet_mut()
+        .await
+        .derive_store_spending_key_from_mnemonic_code(
+            spending_alias.clone(),
+            true,
+            None,
+            spending_derivation_path,
+            Some((mnemonic.clone(), Zeroizing::new("".to_owned()))),
+            true,
+            None,
+        )
+        .expect("Unable to derive spending key from mnemonic");
+
     // Save the wallet to disk
     sdk.wallet().await.save().expect("Could not save wallet!");
 
-    println!("Wallet created and saved!");
+    println!("Wallet and spending key created and saved!");
 }
 
+async fn print_address<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let alias = prompt_user("Which alias do you want to look up? ");
+    match sdk.wallet().await.find_address(alias.clone()) {
+        Some(address) => println!("Address for {}: {:?}", alias, address),
+        None => println!("No address found for alias: {}", alias),
+    }
+}
 
 async fn add_key<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
@@ -142,12 +167,11 @@ where
     let derivation_path = DerivationPath::default_for_transparent_scheme(SchemeType::Ed25519);
 
     // Derive the keypair from the mnemonic and add to the wallet
-    let (_key_alias, _sk) = sdk
-        .wallet_mut()
+    sdk.wallet_mut()
         .await
         .derive_store_key_from_mnemonic_code(
             SchemeType::Ed25519, // Key scheme
-            Some(alias),          // Alias
+            Some(alias.clone()),          // Alias
             true,                 // Overwrite alias if it exists
             derivation_path,
             Some((mnemonic.clone(), Zeroizing::new("".to_owned()))),
@@ -156,34 +180,32 @@ where
         )
         .expect("Unable to derive key from mnemonic code");
 
+    // Derive the spending key using the same mnemonic
+    let spending_alias = prompt_user("Enter an alias for the spending key: ");
+    let spending_derivation_path = DerivationPath::default_for_shielded();
+    sdk.wallet_mut()
+        .await
+        .derive_store_spending_key_from_mnemonic_code(
+            spending_alias.clone(),
+            true,
+            None,
+            spending_derivation_path,
+            Some((mnemonic.clone(), Zeroizing::new("".to_owned()))),
+            true,
+            None,
+        )
+        .expect("Unable to derive spending key from mnemonic");
+
     // Save the wallet to disk
     sdk.wallet().await.save().expect("Could not save wallet!");
-}
 
-async fn print_address<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
-where
-    C: Client + MaybeSync + MaybeSend,
-    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
-    V: ShieldedUtils + MaybeSync + MaybeSend,
-    I: Io + MaybeSync + MaybeSend,
-{
-    // Prompt user for an alias
-    let alias = prompt_user("Which alias do you want to look up? ");
-    match sdk.wallet().await.find_address(alias.clone()) {
-        Some(address) => println!("Address for {}: {:?}", alias, address),
-        None => println!("No address found for alias: {}", alias),
-    }
+    println!("Key and spending key added and saved!");
 }
-
 
 fn prompt_user(prompt: &str) -> String {
-    // Create a buffer to capture user input
-    let mut input = String::new();
-
-    // Print the prompt and flush stdout to make sure the prompt is displayed
     print!("{}", prompt);
     io::stdout().flush().unwrap();
+    let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
-    
     input.trim().to_string()
 }

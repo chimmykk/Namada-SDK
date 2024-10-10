@@ -17,5 +17,10 @@ tendermint-config = "0.38.0"
 tendermint-rpc = { version = "0.38.0", features = ["http-client"] }
 tendermint-proto = "0.38.0"
 tokio = { version = "1.0", features = ["full"] }
-rand = "0.8"  # Add the rand crate for random number generation
-rand_core = "0.6" # Add rand_core as well
+rand = "0.8" 
+rand_core = "0.6" 
+wasm-bindgen = "0.2" 
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+web-sys = { version = "0.3", features = ["Window", "Document", "HtmlElement"] }
+
