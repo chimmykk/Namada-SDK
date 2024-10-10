@@ -26,7 +26,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/yourusername/namada-wallet.git
 cd namada-wallet
-
+```
 ## Acknowledgements
 
 Special thanks to [Ian (Spork)](https://github.com/iskay) for helping me out with the process!
