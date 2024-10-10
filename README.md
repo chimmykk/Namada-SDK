@@ -12,6 +12,7 @@ The wallet will be saved to/loaded from `./sdk-wallet/wallet.toml`
 - **Wallet Creation**: Generate a new wallet with a secure mnemonic phrase and seed.
 - **Key Derivation**: Derive keys using BIP32 paths for hierarchical deterministic wallets.
 - **Wallet Import**: Import existing wallets using mnemonic phrases.
+- **Spending Key Generationt**: Generates Spending key.
 
 ## Getting Started
 
