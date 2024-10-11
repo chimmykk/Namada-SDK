@@ -17,11 +17,12 @@ use namada_sdk::{
     bip39::Mnemonic,
     key::SchemeType,
 };
-use namada_sdk::ExtendedSpendingKey;
+
 use namada_sdk::ExtendedViewingKey;
-use rand::rngs::OsRng;
-use namada_core::masp::PaymentAddress;
+use namada_sdk::PaymentAddress;
+use rand_core::OsRng;
 use namada_sdk::masp::find_valid_diversifier;
+
 use tendermint_rpc::{HttpClient, Url};
 
 
@@ -201,40 +202,49 @@ where
     I: Io + MaybeSync + MaybeSend,
 {
     // Hardcoded viewing key
-    let viewing_key_str = "zvknam1qddsrtp4qqqqpqr6t24a76wu3gdszc0jw8r0643mhfs3sgx49cftd8qjtetl4a5aa24fmryf29uz7xkqket0exqm8vkky8w99uqjl80cl290uqfev3yegg3ym4z84x5gwruuw4t2ln26wkadckksfkfu8ku6jdqjryvdvtlq3x8atu9p3lk7a86wals57zp7dfnydr8088pmflt6c2zgwjnzdnrsfy4v3r85gf2my2ynzqtug4euewsj0ps6upqrw524jw5g5cyecjq4c8gjy";
+    let viewing_key_str = "zvknam1qweyj2jhqqqqpq9qs0l0535mz8d3lymgf4wg2vxmleqjy53uaglzfh96ahq9xyh49kknppamczs7w5tuvdlvy79av8wm9urm567uj5ey93eus8uyda2jelr73dy4grv08utl5guqkuh6n24sr4wt5ykg0ljnyu3nfs45sfxkgp2l9d3w32ws2je02lzm5afr4z8ng7jvj9d98eyqxd3vj3gfck4g7rvmqvyr5227m4seujwpf0u740xdmqs4c27p3dkjn0hkytx78pqze6q4d";
     let viewing_key = ExtendedViewingKey::from_str(viewing_key_str).expect("Invalid viewing key");
 
     let alias = prompt_user("Enter the alias to generate a payment address: ");
     let alias_force = prompt_user("Do you want to force alias generation if it already exists? (yes/no): ").to_lowercase() == "yes";
 
-    // Check if an address exists for the alias
     if let Some(address) = sdk.wallet().await.find_address(&alias) {
         println!("Address already exists for {}: {:?}", alias, address);
+
+        if !alias_force {
+            println!("Skipping address generation for {}, as alias exists and force option is not enabled.", alias);
+            return; // Exit if not forcing alias generation
+        } else {
+            println!("Forcing address generation for {}...", alias);
+        }
     } else {
         println!("No address found for alias: {}, generating new payment address...", alias);
-
-        // Generate the shielded payment address using the viewing key directly
-        let (div, _g_d) = find_valid_diversifier(&mut OsRng);
-        let masp_payment_addr = viewing_key
-            .to_payment_address(div) // Call directly on viewing_key
-            .expect("Unable to generate a PaymentAddress");
-        let payment_addr = PaymentAddress::from(masp_payment_addr);
-
-        // Store the payment address in the wallet
-        sdk.wallet_mut().await
-            .insert_payment_addr(alias.clone(), payment_addr, alias_force)
-            .expect("Payment address could not be inserted");
-
-        // Save the wallet with the new address
-        sdk.wallet().await.save().expect("Could not save wallet!");
-
-        println!("New payment address generated and saved for {}: {:?}", alias, payment_addr);
     }
+
+    // Use the provided viewing key (Access according to your structure)
+    let viewing_key_ref = &viewing_key.as_viewing_key();
+
+    // Generate the shielded payment address
+    let (div, _g_d) = find_valid_diversifier(&mut OsRng);
+    let masp_payment_addr = viewing_key_ref
+        .to_payment_address(div)
+        .expect("Unable to generate a PaymentAddress");
+    let payment_addr = PaymentAddress::from(masp_payment_addr);
+
+    // Store the payment address in the wallet
+    sdk.wallet_mut().await
+        .insert_payment_addr(alias.clone(), payment_addr.clone(), alias_force)
+        .expect("Payment address could not be inserted");
+
+    // Save the wallet with the new address
+    sdk.wallet().await.save().expect("Could not save wallet!");
+
+    println!("New payment address generated and saved for {}: {:?}", alias, payment_addr);
 }
 
 
 
-// Helper function to prompt the user for input
+
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().expect("Failed to flush stdout");
