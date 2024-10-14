@@ -28,7 +28,7 @@ use std::error::Error;
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Chain ID
-const OWNER_ADDRESS: &str = "tnam1qze5x6au3egfnq7qp963c793cev5z5jvkcufnfhj"; 
+const OWNER_ADDRESS: &str = "tnam1qze5x6au3egfnq7qp963c793cev5z5jvkcufnfhj"; // Just a placeholder to check if address is reveal pk or not
 
 #[tokio::main]
 async fn main() {
@@ -52,7 +52,6 @@ async fn main() {
     }
 
     loop {
-        // Display the menu
         display_menu();
 
         let choice = get_user_choice();
@@ -81,10 +80,10 @@ fn display_menu() {
     println!("4. Create a spending key");
     println!("5. Generate a payment address");
     println!("6. Send tokens");
-    println!("7. Check if account is revealed"); // New option
+    println!("7. Check if account is revealed"); 
     println!("8. Exit");
 }
-// Get user input for menu selection
+// User input here
 fn get_user_choice() -> usize {
     print!("Enter your choice: ");
     io::stdout().flush().expect("Failed to flush stdout");
@@ -94,55 +93,6 @@ fn get_user_choice() -> usize {
 
     input.trim().parse::<usize>().unwrap_or(0) // Default to 0 if parsing fails
 }
-// Check revealed or not
-async fn check_if_revealed<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
-where
-    C: Client + MaybeSync + MaybeSend,
-    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
-    V: ShieldedUtils + MaybeSync + MaybeSend,
-    I: Io + MaybeSync + MaybeSend,
-{
-    let owner_address = Address::from_str(OWNER_ADDRESS).expect("Invalid owner address");
-
-    match findifreveal(sdk, RPC_URL, &owner_address).await {
-        Ok(is_revealed) => {
-            if is_revealed {
-                println!("The account is revealed.");
-            } else {
-                println!("The account is not revealed.");
-            }
-        }
-        Err(e) => eprintln!("Error checking reveal status: {}", e),
-    }
-}
-
-// Function to check if an account is revealed by querying the Tendermint node
-async fn findifreveal<C, U, V, I>( // Custom function so _sdk
-    _sdk: &NamadaImpl<C, U, V, I>,
-    tendermint_addr: &str,
-    owner: &Address,
-) -> Result<bool, Box<dyn Error>>
-where
-    C: Client + MaybeSync + MaybeSend,
-    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
-    V: ShieldedUtils + MaybeSync + MaybeSend,
-    I: Io + MaybeSync + MaybeSend,
-{
-    let client = HttpClient::new(
-        Url::from_str(tendermint_addr)
-            .map_err(|e| Box::new(e) as Box<dyn Error>)?,
-    )?;
-
-    let account_info: Option<namada_sdk::account::Account> = rpc::get_account_info(&client, owner).await?;
-    if let Some(account) = account_info {
-        println!("Account information: {:?}", account);
-        Ok(!account.public_keys_map.idx_to_pk.is_empty()) // Return true if public keys exist
-    } else {
-        println!("No account information found.");
-        Ok(false)
-    }
-}
-
 
 // Create a new wallet
 async fn create_wallet<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
@@ -306,6 +256,7 @@ where
     I: Io + MaybeSync + MaybeSend,
 {
     let alias = "rilsso-public";
+    let tendermint_addr = "https://rpc.knowable.run:443"; 
 
     // Retrieve the source address using the alias
     let source_address = match sdk.wallet().await.find_address(&alias) {
@@ -316,37 +267,47 @@ where
         }
     };
 
-    // Create a new reveal transaction builder for the public key
-    let public_key = CommonPublicKey::from_str("tpknam1qqrs797hgc3qvh3ajrncyhhp2ge0ljlaszsc55exu278emd7s2mg7u3d6uw")
-        .expect("Invalid public key format");
-
-    let reveal_tx_builder = sdk
-        .new_reveal_pk(public_key.clone())
-        .signing_keys(vec![public_key.clone()]);
-
-    // Build the reveal transaction
-    let (mut reveal_tx, signing_data) = reveal_tx_builder
-        .build(sdk)
+    // Check if the account is already revealed
+    if !findifreveal(sdk, tendermint_addr, &source_address)
         .await
-        .expect("Unable to build reveal pk tx");
+        .expect("Error checking reveal status")
+    {
+        println!("Account is not revealed, proceeding to reveal the public key.");
 
-    // Sign the reveal transaction
-    sdk.sign(&mut reveal_tx, &reveal_tx_builder.tx, signing_data, default_sign, ())
-        .await
-        .expect("Unable to sign reveal pk tx");
+        // Create a new reveal transaction builder for the public key
+        let public_key = CommonPublicKey::from_str("tpknam1qqrs797hgc3qvh3ajrncyhhp2ge0ljlaszsc55exu278emd7s2mg7u3d6uw")
+            .expect("Invalid public key format");
 
-    // Submit the signed reveal transaction
-    match sdk.submit(reveal_tx.clone(), &reveal_tx_builder.tx).await {
-        Ok(res) => println!("Public key successfully revealed: {:?}", res),
-        Err(e) => {
-            println!("Failed to reveal public key: {:?}", e);
-            return;  // Exit if revealing the public key fails
+        let reveal_tx_builder = sdk
+            .new_reveal_pk(public_key.clone())
+            .signing_keys(vec![public_key.clone()]);
+
+        // Build the reveal transaction
+        let (mut reveal_tx, signing_data) = reveal_tx_builder
+            .build(sdk)
+            .await
+            .expect("Unable to build reveal pk tx");
+
+        // Sign the reveal transaction
+        sdk.sign(&mut reveal_tx, &reveal_tx_builder.tx, signing_data, default_sign, ())
+            .await
+            .expect("Unable to sign reveal pk tx");
+
+        // Submit the signed reveal transaction
+        match sdk.submit(reveal_tx.clone(), &reveal_tx_builder.tx).await {
+            Ok(res) => println!("Public key successfully revealed: {:?}", res),
+            Err(e) => {
+                println!("Failed to reveal public key: {:?}", e);
+                return;  // Exit if revealing the public key fails
+            }
         }
+    } else {
+        println!("Account is already revealed, skipping the reveal step.");
     }
 
-
+    // Continue with the token transfer
     let target_address = Address::from_str("tnam1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt").expect("Invalid target address");
-    let amount = InputAmount::from_str("12").expect("Invalid amount");  
+    let amount = InputAmount::from_str("1").expect("Invalid amount");
 
     // Retrieve the native token from the SDK
     let token = sdk.native_token();
@@ -365,11 +326,11 @@ where
 
     let mut transfer_tx_builder = sdk
         .new_transparent_transfer(vec![data])
-        .signing_keys(vec![signing_key]); 
+        .signing_keys(vec![signing_key]);
 
     // Build and sign the transaction
     let (mut transfer_tx, signing_data) = transfer_tx_builder
-        .build(sdk)  
+        .build(sdk)
         .await
         .expect("Unable to build transfer");
 
@@ -382,6 +343,55 @@ where
     match sdk.submit(transfer_tx, &transfer_tx_builder.tx).await {
         Ok(res) => println!("Transaction successfully submitted: {:?}", res),
         Err(e) => println!("Failed to submit transaction: {:?}", e),
+    }
+}
+
+// Check revealed or not
+async fn check_if_revealed<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let owner_address = Address::from_str(OWNER_ADDRESS).expect("Invalid owner address");
+
+    match findifreveal(sdk, RPC_URL, &owner_address).await {
+        Ok(is_revealed) => {
+            if is_revealed {
+                println!("The account is revealed.");
+            } else {
+                println!("The account is not revealed.");
+            }
+        }
+        Err(e) => eprintln!("Error checking reveal status: {}", e),
+    }
+}
+
+// Function to check if an account is revealed by querying the Tendermint node
+async fn findifreveal<C, U, V, I>( // Custom function so _sdk 
+    _sdk: &NamadaImpl<C, U, V, I>,
+    tendermint_addr: &str,
+    owner: &Address,
+) -> Result<bool, Box<dyn Error>>
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let client = HttpClient::new(
+        Url::from_str(tendermint_addr)
+            .map_err(|e| Box::new(e) as Box<dyn Error>)?,
+    )?;
+
+    let account_info: Option<namada_sdk::account::Account> = rpc::get_account_info(&client, owner).await?;
+    if let Some(account) = account_info {
+        println!("Account information: {:?}", account);
+        Ok(!account.public_keys_map.idx_to_pk.is_empty()) // Return true if public keys exist
+    } else {
+        println!("No account information found.");
+        Ok(false)
     }
 }
 
