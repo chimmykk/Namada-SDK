@@ -25,6 +25,8 @@ use namada_sdk::masp::find_valid_diversifier;
 use namada_core::key::common::CommonPublicKey;
 use tendermint_rpc::{HttpClient, Url};
 use std::error::Error;
+use toml::Value;
+use tokio::fs;
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Chain ID
@@ -275,41 +277,69 @@ where
         println!("Account is not revealed, proceeding to reveal the public key.");
 
         // Create a new reveal transaction builder for the public key
-        let public_key = CommonPublicKey::from_str("tpknam1qqrs797hgc3qvh3ajrncyhhp2ge0ljlaszsc55exu278emd7s2mg7u3d6uw")
-            .expect("Invalid public key format");
+        let _test = get_viewing_keys().await; 
 
-        let reveal_tx_builder = sdk
-            .new_reveal_pk(public_key.clone())
-            .signing_keys(vec![public_key.clone()]);
-
-        // Build the reveal transaction
-        let (mut reveal_tx, signing_data) = reveal_tx_builder
-            .build(sdk)
-            .await
-            .expect("Unable to build reveal pk tx");
-
-        // Sign the reveal transaction
-        sdk.sign(&mut reveal_tx, &reveal_tx_builder.tx, signing_data, default_sign, ())
-            .await
-            .expect("Unable to sign reveal pk tx");
-
-        // Submit the signed reveal transaction
-        match sdk.submit(reveal_tx.clone(), &reveal_tx_builder.tx).await {
-            Ok(res) => println!("Public key successfully revealed: {:?}", res),
+        match _test {
+            Ok(keys) => {
+                for key in keys {
+                    println!("{}", key); 
+                }
+            }
             Err(e) => {
-                println!("Failed to reveal public key: {:?}", e);
-                return;  // Exit if revealing the public key fails
+                eprintln!("Error getting viewing keys: {}", e);
+            }
+        }
+
+        // Fetch public keys from the wallet.toml
+        let _testpk = get_public_keys().await; 
+        
+        match _testpk {
+            Ok(keys) => {
+                for key in keys {
+                    println!("{}", key); 
+                    
+                    // Pass the derived key to the `CommonPublicKey::from_str`
+                    let public_key = CommonPublicKey::from_str(&key)
+                        .expect("Invalid public key format");
+
+                    let reveal_tx_builder = sdk
+                        .new_reveal_pk(public_key.clone())
+                        .signing_keys(vec![public_key.clone()]);
+
+                    // Build the reveal transaction
+                    let (mut reveal_tx, signing_data) = reveal_tx_builder
+                        .build(sdk)
+                        .await
+                        .expect("Unable to build reveal pk tx");
+
+                    // Sign the reveal transaction
+                    sdk.sign(&mut reveal_tx, &reveal_tx_builder.tx, signing_data, default_sign, ())
+                        .await
+                        .expect("Unable to sign reveal pk tx");
+
+                    // Submit the signed reveal transaction
+                    match sdk.submit(reveal_tx.clone(), &reveal_tx_builder.tx).await {
+                        Ok(res) => println!("Public key successfully revealed: {:?}", res),
+                        Err(e) => {
+                            println!("Failed to reveal public key: {:?}", e);
+                            return;  // Exit if revealing the public key fails
+                        }
+                    }
+                }
+            }
+            Err(e) => {
+                eprintln!("Error getting public keys: {}", e);
             }
         }
     } else {
         println!("Account is already revealed, skipping the reveal step.");
     }
 
-    // Continue with the token transfer
-    let target_address = Address::from_str("tnam1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt").expect("Invalid target address");
+
+    let target_address = Address::from_str("tnam1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt")
+        .expect("Invalid target address");
     let amount = InputAmount::from_str("1").expect("Invalid amount");
 
-    // Retrieve the native token from the SDK
     let token = sdk.native_token();
 
     // Prepare the transaction data
@@ -320,13 +350,21 @@ where
         amount,
     };
 
-    // Build the transaction for token transfer
-    let signing_key = CommonPublicKey::from_str("tpknam1qqrs797hgc3qvh3ajrncyhhp2ge0ljlaszsc55exu278emd7s2mg7u3d6uw")
-        .expect("Invalid public key format");
+    // Fetch public keys again for use in signing the transfer transaction
+    let _testpk = get_public_keys().await; 
+    let signing_keys: Vec<CommonPublicKey> = match _testpk {
+        Ok(keys) => keys.iter()
+            .map(|key| CommonPublicKey::from_str(key).expect("Invalid public key format"))
+            .collect(),
+        Err(e) => {
+            eprintln!("Error getting public keys: {}", e);
+            return; 
+        }
+    };
 
     let mut transfer_tx_builder = sdk
         .new_transparent_transfer(vec![data])
-        .signing_keys(vec![signing_key]);
+        .signing_keys(signing_keys);
 
     // Build and sign the transaction
     let (mut transfer_tx, signing_data) = transfer_tx_builder
@@ -345,6 +383,7 @@ where
         Err(e) => println!("Failed to submit transaction: {:?}", e),
     }
 }
+
 
 // Check revealed or not
 async fn check_if_revealed<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
@@ -396,6 +435,56 @@ where
 }
 
 
+async fn get_viewing_keys() -> Result<Vec<String>, String> {
+    let file_path = "./sdk-wallet/wallet.toml"; 
+
+    // Await the future and use map_err on the result
+    let content = fs::read_to_string(file_path).await.map_err(|e| format!("Unable to read file: {}", e))?;
+
+    let parsed: Value = toml::de::from_str(&content).map_err(|e| format!("Unable to parse TOML: {}", e))?;
+
+    let mut keys = Vec::new();
+    if let Some(view_keys) = parsed.get("view_keys") {
+        for (_key, value) in view_keys.as_table().unwrap() {
+            if let Some(address) = value.get("key") {
+                keys.push(clean_address(address.as_str().unwrap()));
+            }
+        }
+    } else {
+        return Err("No view_keys found.".to_string());
+    }
+
+    Ok(keys)
+}
+
+fn clean_address(address: &str) -> String {
+    address.trim().to_string()
+}
+
+
+
+async fn get_public_keys() -> Result<Vec<String>, String> {
+    let file_path = "./sdk-wallet/wallet.toml"; 
+
+    let content = fs::read_to_string(file_path).await.map_err(|e| format!("Unable to read file: {}", e))?;
+
+    let parsed: Value = toml::de::from_str(&content).map_err(|e| format!("Unable to parse TOML: {}", e))?;
+
+    let mut keys = Vec::new();
+    if let Some(public_keys) = parsed.get("public_keys") {
+        for (_key, value) in public_keys.as_table().unwrap() {
+            if let Some(address) = value.as_str() {
+                // Remove the "ED25519_PK_PREFIX" prefix from the address
+                let cleaned_address = address.replace("ED25519_PK_PREFIX", "");
+                keys.push(cleaned_address);
+            }
+        }
+    } else {
+        return Err("No public_keys found.".to_string());
+    }
+
+    Ok(keys)
+}
 
 
 fn prompt_user(prompt: &str) -> String {
