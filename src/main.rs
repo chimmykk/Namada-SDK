@@ -5,7 +5,7 @@ use std::io::{self, Write};
 use namada_sdk::{
     MaybeSend, 
     MaybeSync,
-    args::TxBuilder, 
+    args::{InputAmount, TxTransparentTransferData, TxBuilder}, 
     io::{StdIo, Io, Client}, 
     masp::{ShieldedUtils, fs::FsShieldedUtils}, 
     rpc, 
@@ -15,9 +15,10 @@ use namada_sdk::{
     chain::ChainId,
     zeroize::Zeroizing,
     bip39::Mnemonic,
-    key::SchemeType,
+    key::{SchemeType, RefTo},
 };
-
+use namada_core::address::Address;
+use namada_sdk::signing::default_sign;
 use namada_sdk::ExtendedViewingKey;
 use namada_sdk::PaymentAddress;
 use rand_core::OsRng;
@@ -26,8 +27,9 @@ use namada_sdk::masp::find_valid_diversifier;
 use tendermint_rpc::{HttpClient, Url};
 
 
-const RPC_URL: &str = "https://rpc.knowable.run:443"; // Change as necessary
-const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Change as necessary
+const RPC_URL: &str = "https://rpc.namada.tududes.com:443"; // Change as necessary
+const CHAIN_ID: &str = "tududes-fragile.ba8b841cd08325"; // Change as necessary
+const TARGET_ADDRESS: &str = "tnam1qzqs8sd33j9vvd25auv6rzarxuaqe6jvyq8sh6rl";  // Hardcoded target address
 
 #[tokio::main]
 async fn main() {
@@ -50,13 +52,6 @@ async fn main() {
         println!("No existing wallet found.");
     }
 
-    // Query the current epoch
-    if let Err(e) = rpc::query_epoch(&sdk.clone_client()).await {
-        println!("Query error: {:?}", e);
-    } else {
-        println!("Current epoch queried successfully.");
-    }
-
     loop {
         // Display the menu
         display_menu();
@@ -68,7 +63,8 @@ async fn main() {
             3 => print_address(&sdk).await,
             4 => create_spending_key(&sdk).await,
             5 => generate_payment_address(&sdk).await,
-            6 => {
+            6 => send_token(&sdk).await,  // New function to send tokens
+            7 => {
                 println!("Exiting...");
                 break;
             }
@@ -77,6 +73,7 @@ async fn main() {
     }
 }
 
+// Display menu options
 fn display_menu() {
     println!("\nNamada wallet example:");
     println!("1. Create a new wallet");
@@ -84,9 +81,11 @@ fn display_menu() {
     println!("3. Print an address from the wallet");
     println!("4. Create a spending key");
     println!("5. Generate a payment address");
-    println!("6. Exit");
+    println!("6. Send tokens");  // New option to send tokens
+    println!("7. Exit");
 }
 
+// Get user input for menu selection
 fn get_user_choice() -> usize {
     print!("Enter your choice: ");
     io::stdout().flush().expect("Failed to flush stdout");
@@ -97,6 +96,7 @@ fn get_user_choice() -> usize {
     input.trim().parse::<usize>().unwrap_or(0) // Default to 0 if parsing fails
 }
 
+// Create a new wallet
 async fn create_wallet<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
@@ -126,6 +126,7 @@ where
     println!("Wallet created and saved!");
 }
 
+// Add a key from a mnemonic
 async fn add_key<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
@@ -153,6 +154,7 @@ where
     println!("Key added successfully!");
 }
 
+// Print an address associated with an alias
 async fn print_address<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
@@ -167,6 +169,7 @@ where
     }
 }
 
+// Create a new spending key
 async fn create_spending_key<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
@@ -194,6 +197,8 @@ where
     sdk.wallet().await.save().expect("Could not save wallet!");
     println!("Spending key created and saved!");
 }
+
+// Generate a shielded payment address
 async fn generate_payment_address<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
@@ -202,12 +207,14 @@ where
     I: Io + MaybeSync + MaybeSend,
 {
     // Hardcoded viewing key
-    let viewing_key_str = "zvknam1qweyj2jhqqqqpq9qs0l0535mz8d3lymgf4wg2vxmleqjy53uaglzfh96ahq9xyh49kknppamczs7w5tuvdlvy79av8wm9urm567uj5ey93eus8uyda2jelr73dy4grv08utl5guqkuh6n24sr4wt5ykg0ljnyu3nfs45sfxkgp2l9d3w32ws2je02lzm5afr4z8ng7jvj9d98eyqxd3vj3gfck4g7rvmqvyr5227m4seujwpf0u740xdmqs4c27p3dkjn0hkytx78pqze6q4d";
+    let viewing_key_str = "zvknam1qddsrtp4qqqqpqr6t24a76wu3gdszc0jw8r0643mhfs3sgx49cftd8qjtetl4a5aa24fmryf29uz7xkqket0exqm8vkky8w99uqjl80cl290uqfev3yegg3ym4z84x5gwruuw4t2ln26wkadckksfkfu8ku6jdqjryvdvtlq3x8atu9p3lk7a86wals57zp7dfnydr8088pmflt6c2zgwjnzdnrsfy4v3r85gf2my2ynzqtug4euewsj0ps6upqrw524jw5g5cyecjq4c8gjy";
     let viewing_key = ExtendedViewingKey::from_str(viewing_key_str).expect("Invalid viewing key");
 
-    let alias = prompt_user("Enter the alias to generate a payment address: ");
-    let alias_force = prompt_user("Do you want to force alias generation if it already exists? (yes/no): ").to_lowercase() == "yes";
+    // Hardcoded alias
+    let alias = "default"; // No need for user input
+    let alias_force = true; // Set force to true
 
+    // Check if an address already exists for the alias
     if let Some(address) = sdk.wallet().await.find_address(&alias) {
         println!("Address already exists for {}: {:?}", alias, address);
 
@@ -221,7 +228,7 @@ where
         println!("No address found for alias: {}, generating new payment address...", alias);
     }
 
-    // Use the provided viewing key (Access according to your structure)
+    // Use the provided viewing key
     let viewing_key_ref = &viewing_key.as_viewing_key();
 
     // Generate the shielded payment address
@@ -233,7 +240,7 @@ where
 
     // Store the payment address in the wallet
     sdk.wallet_mut().await
-        .insert_payment_addr(alias.clone(), payment_addr.clone(), alias_force)
+        .insert_payment_addr(alias.to_string(), payment_addr.clone(), alias_force) // Convert alias to String
         .expect("Payment address could not be inserted");
 
     // Save the wallet with the new address
@@ -242,9 +249,65 @@ where
     println!("New payment address generated and saved for {}: {:?}", alias, payment_addr);
 }
 
+// New function to send tokens
+async fn send_token<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let alias = prompt_user("Enter the alias for the source address: ");
 
+    // Retrieve the source address using the alias
+    let source_address = match sdk.wallet().await.find_address(&alias) {
+        Some(address) => address.into_owned(),
+        None => {
+            println!("No address found for alias: {}", alias);
+            return;
+        }
+    };
 
+    // Hardcoded target address
+    let target_address = Address::from_str(TARGET_ADDRESS).expect("Invalid target address");
 
+    // Specify the amount of tokens to transfer (for simplicity, we use a fixed value here)
+    let amount = InputAmount::from_str("1").expect("Invalid amount");  // Send 1 token
+
+    // Retrieve the native token from the SDK
+    let token = sdk.native_token();
+
+    // Prepare the transaction data
+    let data = TxTransparentTransferData {
+        source: source_address,
+        target: target_address,
+        token,
+        amount,
+    };
+
+    // Build the transaction
+    let mut transfer_tx_builder = sdk
+        .new_transparent_transfer(vec![data])
+        .signing_keys(vec![]);  // Adjust signing keys as needed, use the source alias
+
+    // Build and sign the transaction
+    let (mut transfer_tx, signing_data) = transfer_tx_builder
+    .build(sdk)  // Corrected to pass sdk directly
+    .await
+    .expect("Unable to build transfer");
+
+sdk.sign(&mut transfer_tx, &transfer_tx_builder.tx, signing_data, default_sign, ())
+    .await
+    .expect("Unable to sign transparent-transfer tx");
+
+    // Submit the signed transaction to the ledger
+    match sdk.submit(transfer_tx, &transfer_tx_builder.tx).await {
+        Ok(res) => println!("Transaction successfully submitted: {:?}", res),
+        Err(e) => println!("Failed to submit transaction: {:?}", e),
+    }
+}
+
+// Function to get user input (already included in your original code)
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().expect("Failed to flush stdout");

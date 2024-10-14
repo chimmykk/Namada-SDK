@@ -6249,6 +6249,7 @@ dependencies = [
  "tendermint-proto",
  "tendermint-rpc",
  "tokio",
+ "toml 0.5.11",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
