@@ -8,14 +8,13 @@ use namada_sdk::{
     args::{InputAmount, TxTransparentTransferData, TxBuilder}, 
     io::{StdIo, Io, Client}, 
     masp::{ShieldedUtils, fs::FsShieldedUtils}, 
-    rpc, 
     wallet::{WalletIo, DerivationPath, WalletStorage, fs::FsWalletUtils}, 
     Namada, 
     NamadaImpl, 
     chain::ChainId,
     zeroize::Zeroizing,
     bip39::Mnemonic,
-    key::{SchemeType, RefTo},
+    key::{SchemeType},
 };
 use namada_core::address::Address;
 use namada_sdk::signing::default_sign;
@@ -63,7 +62,7 @@ async fn main() {
             3 => print_address(&sdk).await,
             4 => create_spending_key(&sdk).await,
             5 => generate_payment_address(&sdk).await,
-            6 => send_token(&sdk).await,  // New function to send tokens
+            6 => send_token(&sdk).await, 
             7 => {
                 println!("Exiting...");
                 break;
@@ -257,7 +256,7 @@ where
     V: ShieldedUtils + MaybeSync + MaybeSend,
     I: Io + MaybeSync + MaybeSend,
 {
-    let alias = prompt_user("Enter the alias for the source address: ");
+    let alias = "rilsso-public";
 
     // Retrieve the source address using the alias
     let source_address = match sdk.wallet().await.find_address(&alias) {
@@ -271,8 +270,8 @@ where
     // Hardcoded target address
     let target_address = Address::from_str(TARGET_ADDRESS).expect("Invalid target address");
 
-    // Specify the amount of tokens to transfer (for simplicity, we use a fixed value here)
-    let amount = InputAmount::from_str("1").expect("Invalid amount");  // Send 1 token
+    // Specify the amount of tokens to transfer 
+    let amount = InputAmount::from_str("1").expect("Invalid amount");  
 
     // Retrieve the native token from the SDK
     let token = sdk.native_token();
