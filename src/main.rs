@@ -1,7 +1,6 @@
 use tokio;
 use std::str::FromStr;
 use std::io::{self, Write};
-
 use namada_sdk::{
     MaybeSend, 
     MaybeSync,
@@ -15,6 +14,7 @@ use namada_sdk::{
     zeroize::Zeroizing,
     bip39::Mnemonic,
     key::{SchemeType},
+    rpc, // Importing RPC for account info
 };
 use namada_core::address::Address;
 use namada_sdk::signing::default_sign;
@@ -23,13 +23,12 @@ use namada_sdk::PaymentAddress;
 use rand_core::OsRng;
 use namada_sdk::masp::find_valid_diversifier;
 use namada_core::key::common::CommonPublicKey;
-
 use tendermint_rpc::{HttpClient, Url};
+use std::error::Error;
 
-
-const RPC_URL: &str = "https://rpc.knowable.run:443"; // Change as necessary
-const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Change as necessary
-
+const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
+const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Chain ID
+const OWNER_ADDRESS: &str = "tnam1qze5x6au3egfnq7qp963c793cev5z5jvkcufnfhj"; 
 
 #[tokio::main]
 async fn main() {
@@ -45,7 +44,7 @@ async fn main() {
         .expect("Unable to initialize Namada context")
         .chain_id(ChainId::from_str(CHAIN_ID).expect("Invalid chain ID"));
 
-    // Load existing wallet.toml (if any)
+    // Load existing wallet
     if sdk.wallet_mut().await.load().is_ok() {
         println!("Existing wallet found");
     } else {
@@ -64,7 +63,8 @@ async fn main() {
             4 => create_spending_key(&sdk).await,
             5 => generate_payment_address(&sdk).await,
             6 => send_token(&sdk).await, 
-            7 => {
+            7 => check_if_revealed(&sdk).await, // New option to check if account is revealed
+            8 => {
                 println!("Exiting...");
                 break;
             }
@@ -72,7 +72,6 @@ async fn main() {
         }
     }
 }
-
 // Display menu options
 fn display_menu() {
     println!("\nNamada wallet example:");
@@ -81,10 +80,10 @@ fn display_menu() {
     println!("3. Print an address from the wallet");
     println!("4. Create a spending key");
     println!("5. Generate a payment address");
-    println!("6. Send tokens");  // New option to send tokens
-    println!("7. Exit");
+    println!("6. Send tokens");
+    println!("7. Check if account is revealed"); // New option
+    println!("8. Exit");
 }
-
 // Get user input for menu selection
 fn get_user_choice() -> usize {
     print!("Enter your choice: ");
@@ -95,6 +94,55 @@ fn get_user_choice() -> usize {
 
     input.trim().parse::<usize>().unwrap_or(0) // Default to 0 if parsing fails
 }
+// Check revealed or not
+async fn check_if_revealed<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let owner_address = Address::from_str(OWNER_ADDRESS).expect("Invalid owner address");
+
+    match findifreveal(sdk, RPC_URL, &owner_address).await {
+        Ok(is_revealed) => {
+            if is_revealed {
+                println!("The account is revealed.");
+            } else {
+                println!("The account is not revealed.");
+            }
+        }
+        Err(e) => eprintln!("Error checking reveal status: {}", e),
+    }
+}
+
+// Function to check if an account is revealed by querying the Tendermint node
+async fn findifreveal<C, U, V, I>( // Custom function so _sdk
+    _sdk: &NamadaImpl<C, U, V, I>,
+    tendermint_addr: &str,
+    owner: &Address,
+) -> Result<bool, Box<dyn Error>>
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let client = HttpClient::new(
+        Url::from_str(tendermint_addr)
+            .map_err(|e| Box::new(e) as Box<dyn Error>)?,
+    )?;
+
+    let account_info: Option<namada_sdk::account::Account> = rpc::get_account_info(&client, owner).await?;
+    if let Some(account) = account_info {
+        println!("Account information: {:?}", account);
+        Ok(!account.public_keys_map.idx_to_pk.is_empty()) // Return true if public keys exist
+    } else {
+        println!("No account information found.");
+        Ok(false)
+    }
+}
+
 
 // Create a new wallet
 async fn create_wallet<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
@@ -321,7 +369,7 @@ where
 
     // Build and sign the transaction
     let (mut transfer_tx, signing_data) = transfer_tx_builder
-        .build(sdk)  // Ensure sdk is passed here
+        .build(sdk)  
         .await
         .expect("Unable to build transfer");
 
@@ -339,7 +387,7 @@ where
 
 
 
-// Function to get user input (already included in your original code)
+
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().expect("Failed to flush stdout");
