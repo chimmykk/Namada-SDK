@@ -22,13 +22,14 @@ use namada_sdk::ExtendedViewingKey;
 use namada_sdk::PaymentAddress;
 use rand_core::OsRng;
 use namada_sdk::masp::find_valid_diversifier;
+use namada_core::key::common::CommonPublicKey;
 
 use tendermint_rpc::{HttpClient, Url};
 
 
-const RPC_URL: &str = "https://rpc.namada.tududes.com:443"; // Change as necessary
-const CHAIN_ID: &str = "tududes-fragile.ba8b841cd08325"; // Change as necessary
-const TARGET_ADDRESS: &str = "tnam1qzqs8sd33j9vvd25auv6rzarxuaqe6jvyq8sh6rl";  // Hardcoded target address
+const RPC_URL: &str = "https://rpc.knowable.run:443"; // Change as necessary
+const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Change as necessary
+
 
 #[tokio::main]
 async fn main() {
@@ -267,11 +268,37 @@ where
         }
     };
 
-    // Hardcoded target address
-    let target_address = Address::from_str(TARGET_ADDRESS).expect("Invalid target address");
+    // Create a new reveal transaction builder for the public key
+    let public_key = CommonPublicKey::from_str("tpknam1qqrs797hgc3qvh3ajrncyhhp2ge0ljlaszsc55exu278emd7s2mg7u3d6uw")
+        .expect("Invalid public key format");
 
-    // Specify the amount of tokens to transfer 
-    let amount = InputAmount::from_str("1").expect("Invalid amount");  
+    let reveal_tx_builder = sdk
+        .new_reveal_pk(public_key.clone())
+        .signing_keys(vec![public_key.clone()]);
+
+    // Build the reveal transaction
+    let (mut reveal_tx, signing_data) = reveal_tx_builder
+        .build(sdk)
+        .await
+        .expect("Unable to build reveal pk tx");
+
+    // Sign the reveal transaction
+    sdk.sign(&mut reveal_tx, &reveal_tx_builder.tx, signing_data, default_sign, ())
+        .await
+        .expect("Unable to sign reveal pk tx");
+
+    // Submit the signed reveal transaction
+    match sdk.submit(reveal_tx.clone(), &reveal_tx_builder.tx).await {
+        Ok(res) => println!("Public key successfully revealed: {:?}", res),
+        Err(e) => {
+            println!("Failed to reveal public key: {:?}", e);
+            return;  // Exit if revealing the public key fails
+        }
+    }
+
+
+    let target_address = Address::from_str("tnam1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt").expect("Invalid target address");
+    let amount = InputAmount::from_str("12").expect("Invalid amount");  
 
     // Retrieve the native token from the SDK
     let token = sdk.native_token();
@@ -284,20 +311,24 @@ where
         amount,
     };
 
-    // Build the transaction
+    // Build the transaction for token transfer
+    let signing_key = CommonPublicKey::from_str("tpknam1qqrs797hgc3qvh3ajrncyhhp2ge0ljlaszsc55exu278emd7s2mg7u3d6uw")
+        .expect("Invalid public key format");
+
     let mut transfer_tx_builder = sdk
         .new_transparent_transfer(vec![data])
-        .signing_keys(vec![]);  // Adjust signing keys as needed, use the source alias
+        .signing_keys(vec![signing_key]); 
 
     // Build and sign the transaction
     let (mut transfer_tx, signing_data) = transfer_tx_builder
-    .build(sdk)  // Corrected to pass sdk directly
-    .await
-    .expect("Unable to build transfer");
+        .build(sdk)  // Ensure sdk is passed here
+        .await
+        .expect("Unable to build transfer");
 
-sdk.sign(&mut transfer_tx, &transfer_tx_builder.tx, signing_data, default_sign, ())
-    .await
-    .expect("Unable to sign transparent-transfer tx");
+    // Sign the transaction
+    sdk.sign(&mut transfer_tx, &transfer_tx_builder.tx, signing_data, default_sign, ())
+        .await
+        .expect("Unable to sign transparent-transfer tx");
 
     // Submit the signed transaction to the ledger
     match sdk.submit(transfer_tx, &transfer_tx_builder.tx).await {
@@ -305,6 +336,8 @@ sdk.sign(&mut transfer_tx, &transfer_tx_builder.tx, signing_data, default_sign, 
         Err(e) => println!("Failed to submit transaction: {:?}", e),
     }
 }
+
+
 
 // Function to get user input (already included in your original code)
 fn prompt_user(prompt: &str) -> String {
