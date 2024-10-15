@@ -338,7 +338,7 @@ where
 
     let target_address = Address::from_str("tnam1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt")
         .expect("Invalid target address");
-    let amount = InputAmount::from_str("1").expect("Invalid amount");
+    let amount = InputAmount::from_str("10").expect("Invalid amount");
 
     let token = sdk.native_token();
 
@@ -427,7 +427,7 @@ where
     let account_info: Option<namada_sdk::account::Account> = rpc::get_account_info(&client, owner).await?;
     if let Some(account) = account_info {
         println!("Account information: {:?}", account);
-        Ok(!account.public_keys_map.idx_to_pk.is_empty()) // Return true if public keys exist
+        Ok(!account.public_keys_map.idx_to_pk.is_empty()) 
     } else {
         println!("No account information found.");
         Ok(false)
@@ -474,7 +474,6 @@ async fn get_public_keys() -> Result<Vec<String>, String> {
     if let Some(public_keys) = parsed.get("public_keys") {
         for (_key, value) in public_keys.as_table().unwrap() {
             if let Some(address) = value.as_str() {
-                // Remove the "ED25519_PK_PREFIX" prefix from the address
                 let cleaned_address = address.replace("ED25519_PK_PREFIX", "");
                 keys.push(cleaned_address);
             }
@@ -490,7 +489,6 @@ async fn get_public_keys() -> Result<Vec<String>, String> {
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().expect("Failed to flush stdout");
-
     let mut input = String::new();
     io::stdin().read_line(&mut input).expect("Failed to read line");
     input.trim().to_string()
