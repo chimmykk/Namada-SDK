@@ -6234,6 +6234,7 @@ name = "wallet-example"
 version = "0.1.0"
 dependencies = [
  "js-sys",
+ "kdam",
  "namada_core",
  "namada_governance",
  "namada_ibc",
@@ -6244,6 +6245,7 @@ dependencies = [
  "namada_tx",
  "rand 0.8.5",
  "rand_core 0.6.4",
+ "reqwest",
  "tendermint",
  "tendermint-config",
  "tendermint-proto",

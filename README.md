@@ -16,6 +16,8 @@ The wallet will be saved to/loaded from `./sdk-wallet/wallet.toml`
 - **Reveal PK Check & Revealing Support:**: Reveal PK if not revealed.
 - **Transparent Transfer Support:**: Send funds transparently.
 - **Generate Payment:**: Generates payment address from viewing key.
+- **Shielded Sync:**: Shielded sync and save context to transparent to shielded address.
+- **Transparent>Shielded Transfer:**: Send funds from transparent to shielded address.
  
 
 ## Getting Started
