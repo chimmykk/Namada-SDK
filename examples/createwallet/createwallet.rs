@@ -1,10 +1,9 @@
 use tokio;
 use std::str::FromStr;
-use std::error::Error;
 use namada_sdk::{
     MaybeSend, 
     MaybeSync,
-    args::{InputAmount, TxTransparentTransferData, TxBuilder}, 
+    args::{ TxBuilder}, 
     io::{StdIo, Io, Client}, 
     masp::{ShieldedUtils, fs::FsShieldedUtils}, 
     wallet::{WalletIo, DerivationPath, WalletStorage, fs::FsWalletUtils}, 
@@ -14,7 +13,6 @@ use namada_sdk::{
     zeroize::Zeroizing,
     bip39::Mnemonic,
     key::SchemeType,
-    rpc,
 };
 use tendermint_rpc::{HttpClient, Url};
 use anyhow::{Result, Context};
