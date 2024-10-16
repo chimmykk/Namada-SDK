@@ -19,7 +19,7 @@ The wallet will be saved to/loaded from `./sdk-wallet/wallet.toml`
 - **Shielded Sync:**: Shielded sync and save context to transparent to shielded address.
 - **Transparent>Shielded Transfer:**: Send funds from transparent to shielded address.
 - **Generate Memo for IBC:**: Generates Memo for IBC transfer.
-- **IBC Token Transfer **IBC transfer.
+- **IBC Token Transfer** IBC transfer.
  
 
 ## Getting Started

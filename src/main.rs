@@ -100,7 +100,7 @@ fn display_menu() {
     println!("8. Shielded Sync"); // New option for shielded sync
     println!("9. Transparent Token Transfer"); // Added for transparent token transfer
     println!("10. IBC Token Transfer"); // Added IBC transfer
-    println!("10. Exit");
+    println!("11. Exit");
 }
 
 // User input here
