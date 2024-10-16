@@ -34,6 +34,14 @@ use namada_sdk::ExtendedSpendingKey;
 use namada_sdk::control_flow::install_shutdown_signal;
 use namada_sdk::wallet::DatedSpendingKey;
 use namada_sdk::masp::{MaspLocalTaskEnv, ShieldedSyncConfig};
+use namada_core::ibc::core::host::types::identifiers::PortId;
+use namada_sdk::args::TxIbcTransfer;
+use std::path::PathBuf;
+use namada_ibc::event::ChannelId;
+use namada_sdk::TransferSource;
+use namada_sdk::TransferTarget;
+use anyhow::Result;
+use namada_sdk::args::NamadaTypes;
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Chain ID
@@ -70,11 +78,11 @@ async fn main() {
             3 => print_address(&sdk).await,
             4 => create_spending_key(&sdk).await,
             5 => generate_payment_address(&sdk).await,
-            6 => send_token(&sdk).await, 
+            6 => send_token_shielded(&sdk).await, 
             7 => check_if_revealed(&sdk).await, // New option to check if account is revealed
             8 => shielded_sync(&sdk).await.expect("Failed to sync shielded context"),
             9 => send_transparent_token(&sdk).await,
-            10 => {
+            11 => {
                 println!("Exiting...");
                 break;
             },
@@ -352,7 +360,7 @@ where
 }
 
 // New function to send tokens
-async fn send_token<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+async fn send_token_shielded<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
 where
     C: Client + MaybeSync + MaybeSend,
     U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
@@ -707,6 +715,46 @@ where
     }
 }
 
+/// Generates the IBC memo for a transfer transaction.
+
+pub async fn generate_ibc_memo<C, U, V, I>(
+    sdk: &NamadaImpl<C, U, V, I>, 
+) -> String
+where
+    C: Client + MaybeSync + MaybeSend, 
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let alias = "rilsso-public"; 
+    let wallet_guard = sdk.wallet().await; // Await to get the read guard
+
+    // Retrieve the source address using the alias
+    let source_address = match wallet_guard.find_address(&alias) { // Call find_address on the guard
+        Some(address) => address.into_owned(),
+        None => {
+            println!("No address found for alias: {}", alias);
+            return String::new(); 
+        }
+    };
+
+    let amount = InputAmount::from_str("1").expect("Invalid amount"); 
+
+
+    let channel_id_str = "channel-0"; 
+    let port_id_str = "transfer/channel-0"; 
+    let receiver = "cosmos1tsf6mvwzgxakzfltdxjlxygkrm2ht8fk5tq4kp"; // Replace with your actual receiver address
+    let amount_str = format!("{:?}", amount); 
+
+    format!(
+        "Transfer of {} tokens from {} to {} via port {} and channel {}",
+        amount_str, 
+        source_address, 
+        receiver, 
+        port_id_str,
+        channel_id_str 
+    )
+}
 
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);

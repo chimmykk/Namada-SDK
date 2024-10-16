@@ -6233,6 +6233,7 @@ dependencies = [
 name = "wallet-example"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "js-sys",
  "kdam",
  "namada_core",
