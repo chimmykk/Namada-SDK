@@ -34,6 +34,8 @@ Clone the repository:
 ```bash
 git clone https://github.com/yourusername/namada-wallet.git
 cd namada-wallet
+cargo build
+cargo run dev
 ```
 
 ## Acknowledgements
