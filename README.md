@@ -9,16 +9,39 @@ Load an existing wallet.toml and allow the entry of a new keypair from a mnemoni
 The wallet will be saved to/loaded from `./sdk-wallet/wallet.toml`
 ## Features
 
-- **Wallet Creation**: Generate a new wallet with a secure mnemonic phrase and seed.
-- **Key Derivation**: Derive keys using paths for hierarchical deterministic wallets.
-- **Wallet Import**: Import existing wallets using mnemonic phrases.
-- **Spending Key Generationt**: Generates Spending key.
-- **Reveal PK Check & Revealing Support:**: Reveal PK if not revealed.
-- **Transparent Transfer Support:**: Send funds transparently.
-- **Generate Payment:**: Generates payment address from viewing key.
-- **Shielded Sync:**: Shielded sync and save context to transparent to shielded address.
-- **Transparent>Shielded Transfer:**: Send funds from transparent to shielded address.
-- **Generate Memo for IBC:**: Generates Memo for IBC transfer.
+1. **Wallet Creation**
+   - Generate a new wallet with a secure mnemonic phrase and seed.
+
+2. **Key Derivation**
+   - Derive keys using specified paths for hierarchical deterministic wallets (HD wallets).
+
+3. **Wallet Import**
+   - Import existing wallets using mnemonic phrases.
+
+4. **Spending Key Generation**
+   - Generate a spending key for transactions.
+
+5. **Reveal PK Check & Revealing Support**
+   - Check if the private key (PK) has been revealed; if not, reveal it when necessary.
+
+6. **Transparent Transfer Support**
+   - Facilitate sending funds transparently between wallets.
+
+7. **Generate Payment**
+   - Generate a payment address from a viewing key.
+
+8. **Shielded Sync**
+   - Perform shielded sync and save the context from transparent to shielded addresses.
+
+9. **Transparent to Shielded Transfer**
+   - Send funds from a transparent address to a shielded address.
+
+10. **Generate Memo for IBC**
+    - Generate a memo for Inter-Blockchain Communication (IBC) transfers.
+
+11. **IBC Token Transfer**
+    - Support IBC token transfers between different blockchain networks.
+
  
 
 ## Getting Started
@@ -38,6 +61,8 @@ cargo build
 cargo run dev
 ```
 
+
+
 ## Acknowledgements
 
-Special thanks to [Ian (Spork)](https://github.com/iskay) for helping me out with the process!
+Thanks to [Ian (Spork)](https://github.com/iskay) for helping me out with the process!

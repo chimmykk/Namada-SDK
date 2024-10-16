@@ -34,14 +34,9 @@ use namada_sdk::ExtendedSpendingKey;
 use namada_sdk::control_flow::install_shutdown_signal;
 use namada_sdk::wallet::DatedSpendingKey;
 use namada_sdk::masp::{MaspLocalTaskEnv, ShieldedSyncConfig};
-use namada_core::ibc::core::host::types::identifiers::PortId;
-use namada_sdk::args::TxIbcTransfer;
-use std::path::PathBuf;
-use namada_ibc::event::ChannelId;
+use namada_ibc::core::host::types::identifiers::ChannelId;
 use namada_sdk::TransferSource;
-use namada_sdk::TransferTarget;
 use anyhow::Result;
-use namada_sdk::args::NamadaTypes;
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Chain ID
@@ -82,6 +77,7 @@ async fn main() {
             7 => check_if_revealed(&sdk).await, // New option to check if account is revealed
             8 => shielded_sync(&sdk).await.expect("Failed to sync shielded context"),
             9 => send_transparent_token(&sdk).await,
+            10=> send_ibc_token(&sdk).await,
             11 => {
                 println!("Exiting...");
                 break;
@@ -102,7 +98,8 @@ fn display_menu() {
     println!("6. Send tokens");
     println!("7. Check if account is revealed");
     println!("8. Shielded Sync"); // New option for shielded sync
-    println!("9. Transparent Token Transfer"); // New option for shielded sync
+    println!("9. Transparent Token Transfer"); // Added for transparent token transfer
+    println!("10. IBC Token Transfer"); // Added IBC transfer
     println!("10. Exit");
 }
 
@@ -755,6 +752,78 @@ where
         channel_id_str 
     )
 }
+
+
+async fn send_ibc_token<C, U, V, I>(sdk: &NamadaImpl<C, U, V, I>)
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    let alias = "rilsso-public";
+    let tendermint_addr = "https://rpc.knowable.run:443"; 
+
+    // Retrieve the source address using the alias
+    let source_address = match sdk.wallet().await.find_address(&alias) {
+        Some(address) => address.into_owned(),
+        None => {
+            println!("No address found for alias: {}", alias);
+            return;
+        }
+    };
+
+    // Check if the account is already revealed
+    if !findifreveal(sdk, tendermint_addr, &source_address)
+        .await
+        .expect("Error checking reveal status")
+    {
+        println!("Account is not revealed, proceeding to reveal the public key.");
+        // Call your reveal function here if needed
+    } else {
+        println!("Account is already revealed, skipping the reveal step.");
+    }
+
+    let target_address = "cosmos1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt"; // Example Cosmos IBC target address
+
+
+    let channel_id = ChannelId::new(0);
+
+
+    let amount = InputAmount::from_str("10").expect("Invalid amount");
+    let token = sdk.native_token();
+
+
+    let receiver = target_address.to_string(); // IBC receiver address
+    let source_transfer = TransferSource::Address(source_address.clone());
+
+    // Build the IBC transfer transaction
+    let  ibc_transfer_tx_builder = sdk.new_ibc_transfer(
+        source_transfer,
+        receiver.clone(),
+        token.clone(),
+        amount.clone(),
+        channel_id,  
+        false,
+    );
+
+    let (mut ibc_transfer_tx, signing_data, _epoch_option) = ibc_transfer_tx_builder
+        .build(sdk)
+        .await
+        .expect("Unable to build IBC transfer transaction");
+
+    // Sign the transaction
+    sdk.sign(&mut ibc_transfer_tx, &ibc_transfer_tx_builder.tx, signing_data, default_sign, ())
+        .await
+        .expect("Unable to sign IBC transfer transaction");
+
+    match sdk.submit(ibc_transfer_tx, &ibc_transfer_tx_builder.tx).await {
+        Ok(res) => println!("IBC transfer successfully submitted: {:?}", res),
+        Err(e) => println!("Failed to submit IBC transfer: {:?}", e),
+    }
+}
+
+
 
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);
