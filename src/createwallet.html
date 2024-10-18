@@ -7,85 +7,180 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <style>
+        body {
+            background-color: #1e1e1e; /* Dark background */
+            font-family: Arial, sans-serif;
+            color: #fff; /* Light text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-box {
+            background-color: #2a2a2a; /* Darker box background */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+        }
+
         .progress-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px; /* Margin below progress bar */
-            padding: 0 20px; /* Padding for spacing */
+            margin-bottom: 20px;
+            padding: 0 20px;
         }
 
         .step {
-            flex: 1; /* Each step takes equal space */
-            text-align: center; /* Center align text */
-            position: relative; /* Position for pseudo-elements */
+            flex: 1;
+            text-align: center;
+            position: relative;
         }
 
         .step span {
             display: inline-block;
-            width: 30px; /* Fixed width for step number */
-            height: 30px; /* Fixed height for step number */
-            border-radius: 50%; /* Circular shape */
-            background-color:rgb(44, 178, 7); /* Background for incomplete steps */
-            line-height: 30px; /* Center text vertically */
-            font-weight: bold; /* Bold text */
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgb(44, 178, 7);
+            line-height: 30px;
+            font-weight: bold;
         }
 
         .step.completed span {
-            background-color: #4caf50; /* Green for completed steps */
-            color: white; /* White text for completed steps */
+            background-color: #4caf50;
+            color: white;
         }
 
         .step.active span {
-            background-color: #ff9800; /* Orange for active step */
-            color: white; /* White text for active step */
+            background-color: #ff9800;
+            color: white;
         }
 
         .step p {
-            margin-top: 5px; /* Space between number and text */
-            font-size: 14px; /* Font size for step label */
-            color: #333; /* Text color */
+            margin-top: 5px;
+            font-size: 14px;
+            color: #ccc; /* Lighter text color for step labels */
         }
 
-        /* Add a line connecting the steps */
-        .progress-bar::before {
-            content: '';
-            position: absolute;
-            top: 15px; /* Adjust for vertical alignment */
-            left: 30px; /* Adjust to start after the first step */
-            right: 30px; /* Adjust to end before the last step */
-            height: 2px; /* Thickness of the line */
- 
-            z-index: 0; /* Place behind the steps */
+        .input-box {
+            margin-bottom: 15px;
         }
 
-        .step:first-child::before {
-            content: none; /* No line before the first step */
+        .createwalletinput {
+            width: 95%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #000; /* Input background */
+            color: #fff; /* Input text color */
+            font-size: 14px;
         }
 
-        .step:last-child::before {
-            content: none; /* No line after the last step */
+        .createwalletinput::placeholder {
+            color: #555; /* Placeholder color */
         }
+
+        .createwalletshowpassword {
+            cursor: pointer;
+            color: #ffc800; /* Show/hide text color */
+            margin-left: 10px;
+        }
+
+        .createwalletbutton {
+            background-color: #ffc800; /* Button background */
+            color: #000; /* Button text color */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .createwalletbutton:hover {
+            background-color: #e6b800; /* Button hover color */
+        }
+
+        .createwalletback {
+            margin-top: 10px;
+            background-color: #444; /* Back button background */
+            color: #fff; /* Back button text color */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .createwalletback:hover {
+            background-color: #555; /* Back button hover color */
+        }
+
+        .checkbox-container {
+            margin: 10px 0;
+        }
+
+        .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        #password-display {
+            margin-top: 20px;
+            color: #ffc800; /* Password display color */
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .step-indicator div {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: #444;
+            margin: 0 4px;
+        }
+
+        .step-indicator div.active {
+            background-color: #ffc800;
+        }
+
     </style>
 </head>
 <body class="createwalletbody">
     <div class="container createwalletcontainer">
         <div class="form-box createwalletformbox">
+            <div class="step-indicator">
+                <div class="active"></div>
+                <div class="active"></div>
+                <div></div>
+                <div></div>
+            </div>
             <div class="progress-bar createwalletprogress">
                 <div class="step createwalletstep completed active">
                     <span>1</span>
-                    <p style="color: azure;">Create password</p>
+                    <p>Create password</p>
                 </div>
                 <div class="step createwalletstep completed">
                     <span>2</span>
-                    <p style="color: azure;">Secure wallet</p>
+                    <p>Secure wallet</p>
                 </div>
                 <div class="step createwalletstep">
                     <span>3</span>
-                    <p style="color: azure;">Confirm phrase</p>
+                    <p>Confirm phrase</p>
                 </div>
             </div>
-            <h1 class="createwallettitle">Create password</h1>
+            <h1 class="createwallettitle">Create Password</h1>
             <p class="createwalletdescription">
                 This password will unlock your wallet only on this device. Your provider cannot recover this password.
             </p>
@@ -103,7 +198,7 @@
                 </div>
                 <div class="checkbox-container createwalletcheckbox">
                     <input type="checkbox" id="understand" name="understand" required>
-                    <label for="understand">I agree and understand the terms and conditions.</label>
+                    <label for="understand" style="color: #ccc;">I agree and understand the terms and conditions.</label>
                 </div>
                 <button type="submit" class="createwalletbutton">Create a new wallet</button>
                 <br>
