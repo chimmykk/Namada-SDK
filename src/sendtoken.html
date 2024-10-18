@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Interface</title>
+    <style>
+        /* Reset some basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1f1f1f, #3b3b3b);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1); /* Frosted glass effect */
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo .icon {
+            font-size: 30px;
+        }
+
+        .username {
+            margin-left: 15px;
+            font-size: 22px;
+            color: #ffcc00;
+        }
+
+        .status {
+            color: #00ffcc;
+            font-size: 14px;
+            align-self: center;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .send-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .send-section h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            background-color: #00bcd4;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #008c9e;
+        }
+
+        .send-btn {
+            background-color: #28a745;
+        }
+
+        .send-btn:hover {
+            background-color: #218838;
+        }
+
+        .input-group p {
+            font-size: 14px;
+            color: #ffcc00;
+        }
+
+        .fee {
+            color: #ffcc00;
+        }
+
+        .max-btn {
+            background-color: #2a2d50;
+            color: #fff;
+            border-radius: 8px;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 50px;
+            float: right;
+        }
+
+        .new-template-btn {
+            background-color: #ff5733;
+        }
+
+        .new-template-btn:hover {
+            background-color: #c83e1d;
+        }
+
+        /* Dropdown section */
+        .transfer-select {
+            background-color: #292b2f;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .send-section {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .status {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <span class="icon">🪙</span>
+                <span class="username">userwallet</span>
+            </div>
+            <div class="status">SYNCHRONIZED</div>
+        </header>
+        <div class="content">
+            <div class="send-section">
+                <h2>Send</h2>
+                <form>
+                    <div class="input-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" placeholder="Enter address">
+                    </div>
+                    <div class="input-group">
+                        <label for="btc">NAM</label>
+                        <input type="number" id="btc" value="0.0000">
+                        <button type="button" class="max-btn">ALL</button>
+                    </div>
+                    <div class="input-group">
+                        <label for="transfer-select">Transfer Type</label>
+                        <select id="transfer-select" class="transfer-select">
+                            <option value="ibc">IBC Transfer</option>
+                            <option value="shielded">Shielded Transfer</option>
+                            <option value="transparent">Transparent Transfer</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <p>Estimated fee: <span class="fee">0.00000936 NAM</span> (0.64 USD)</p>
+                    </div>
+                    <div class="input-group">
+                        <button type="button" class="new-template-btn">Address List</button>
+                    </div>
+                    <div class="input-group">
+                        <button type="submit" class="send-btn">Send</button>
+                    </div>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
