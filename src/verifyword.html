@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Seed Phrase</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header span {
+            font-size: 24px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .step-indicator div {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: #444;
+            margin: 0 4px;
+        }
+
+        .step-indicator div.active {
+            background-color: #ffc800;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 95%;
+            background-color: #000;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .next-button {
+            background-color: #444;
+            color: #999;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .input-group input {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .next-button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <span>&larr;</span>
+        </div>
+
+        <div class="step-indicator">
+            <div class="active"></div>
+            <div class="active"></div>
+            <div class="active"></div>
+            <div></div>
+        </div>
+
+        <h2>Verify your seed phrase</h2>
+        <p class="description">Fill out the words according to their numbers</p>
+
+        <div class="input-group">
+            <label for="word2">Word #2</label>
+            <input type="text" id="word2">
+        </div>
+
+        <div class="input-group">
+            <label for="word5">Word #5</label>
+            <input type="text" id="word5">
+        </div>
+
+        <a href="createwallet.html">
+            <button class="next-button">Next</button>
+        </a>
+
+</body>
+</html>
