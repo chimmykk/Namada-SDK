@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form</title>
+</head>
+<body>
+    <h1>Input Form</h1>
+    <form id="input-form">
+        <label for="user-input">Enter your information:</label>
+        <input type="text" id="user-input" name="user-input" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result-message" class="result-message"></div> <!-- Area to display results -->
+
+    <script type="module">
+        // Use Tauri's core invoke function
+        const { invoke } = window.__TAURI__.core; // Access the invoke function from Tauri
+
+        document.getElementById("input-form").onsubmit = async function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            const userInput = document.getElementById("user-input").value;
+
+            // Use Tauri invoke to call the Rust function
+            try {
+                // Call your Rust function 'process_input'
+                const response = await invoke("process_input", { input: userInput });
+                
+                console.log("Response from Rust:", response); // Log the response to the console
+                document.getElementById("result-message").innerText = response; // Display the response
+            } catch (error) {
+                console.error("Error invoking Rust command:", error);
+                document.getElementById("result-message").innerText = `Error: ${error.message}`;
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri App</title>
+    <script type="module" src="main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Namada Wallet</h1>
+
+        <div class="row">
+            <a href="https://namadawallet.app" target="_blank">
+                <img src="/assets/namada.svg" class="logo namada" alt="Namada logo" />
+            </a>
+        
+        </div>
+
+        <p></p>
+
+        <!-- Form for creating a wallet -->
+        <form class="row" id="create-wallet-form">
+            <button type="submit">Create Wallet</button>
+        </form>
+
+        <!-- New button for getting viewing keys -->
+        <button id="get-viewing-keys">Get Viewing Keys</button>
+
+        <!-- New button for getting payment address -->
+        <button id="get-payment-address">Get Payment Address</button>
+
+        <!-- New button for viewing payment addresses -->
+        <button id="viewpaymentaddress">View Payment Addresses</button>
+
+        <!-- New button for updating all details -->
+        <button id="update-all-details">Update All Details</button> <!-- Added button -->
+
+        <p id="wallet-msg"></p>
+        <ul id="viewing-keys-list"></ul> <!-- List to display viewing keys -->
+
+        <!-- New section to display payment address -->
+        <p id="payment-address"></p>
+        
+        <!-- New section to display multiple payment addresses -->
+        <p id="viewpaymentaddress"></p> <!-- Updated to match JS reference -->
+        <form class="row" id="sendtoken" action="transfertoken.html" method="get">
+            <button type="submit">Send token</button>
+        </form>
+
+    </div>
+</body>
+</html>

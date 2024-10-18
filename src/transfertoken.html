@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tauri App</title>
+    <script type="module" src="main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Send Transfer Token</h1>
+        
+        <!-- Form for sending tokens -->
+        <form id="send-token-form" class="row">
+            <input type="text" id="recipient-address" placeholder="Recipient Address" required />
+            <input type="number" id="token-amount" placeholder="Amount to Send" required />
+            <button type="submit">Send Tokens</button>
+        </form>
+
+        <p id="send-msg"></p> <!-- Message for sending tokens -->
+    </div>
+</body>
+</html>
+
+
+
+

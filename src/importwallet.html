@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="importwalletbody"> <!-- unique body class -->
+    <div class="import-container">
+        <div class="form-box-import">
+            <div class="progress-bar-import">
+                <div class="step-import completed-import">
+                    <span>1</span>
+                    <p>Confirm secret recovery phrase</p>
+                </div>
+                <div class="step-import">
+                    <span>2</span>
+                    <p>Create password</p>
+                </div>
+            </div>
+            <h1>Access your wallet with your Secret Recovery Phrase</h1>
+           
+            <form>
+                <label for="phrase">Type your Secret Recovery Phrase</label>
+                <div class="dropdown">
+                    <select id="phrase" class="dropdown-select">
+                        <option value="24">I have a 24-word phrase</option>
+                        <option value="12">I have a 12-word phrase</option>
+                    </select>
+                </div>
+                
+              
+                
+                <!-- Secret Recovery Phrase Input Fields -->
+                <div id="phrase-inputs" class="grid-container-import">
+                    <!-- Input fields will be dynamically inserted here -->
+                </div>
+                
+                <!-- Confirm Button -->
+                <button type="submit" class="confirm-import-button">Confirm Secret Recovery Phrase</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const phraseInputsContainer = document.getElementById('phrase-inputs');
+        const phraseSelect = document.getElementById('phrase');
+    
+        // Function to generate input fields
+        function generateInputFields(numberOfFields) {
+            phraseInputsContainer.innerHTML = ''; // Clear any existing fields
+    
+            // Create all the input fields
+            for (let i = 1; i <= numberOfFields; i++) {
+                // Create the input-box-import div
+                const inputBox = document.createElement('div');
+                inputBox.classList.add('input-box-import');
+    
+                // Create the input field
+                const inputField = document.createElement('input');
+                inputField.type = 'password';
+                inputField.classList.add('phrase-input');
+                inputField.placeholder = i; // Add a placeholder number
+                inputField.id = `phrase-input-${i}`; // Assign an ID to each input
+    
+                // Add paste event listener to the first input field
+                if (i === 1) {
+                    inputField.addEventListener('paste', handlePaste);
+                }
+    
+                // Create the toggle visibility span
+                const visibilityToggle = document.createElement('span');
+                visibilityToggle.classList.add('toggle-visibility-import');
+                visibilityToggle.textContent = '👁️'; // Eye icon
+    
+                // Add event listener to toggle visibility
+                visibilityToggle.addEventListener('click', function() {
+                    if (inputField.type === 'password') {
+                        inputField.type = 'text'; // Show the text
+                        visibilityToggle.textContent = '🙈'; // Change icon to closed-eye
+                    } else {
+                        inputField.type = 'password'; // Hide the text
+                        visibilityToggle.textContent = '👁️'; // Change icon back to open-eye
+                    }
+                });
+    
+                // Append input field and visibility toggle to the input box
+                inputBox.appendChild(inputField);
+                inputBox.appendChild(visibilityToggle);
+    
+                // Append input box to the grid container
+                phraseInputsContainer.appendChild(inputBox);
+            }
+        }
+    
+        // Handle paste event to auto-fill the inputs
+        function handlePaste(event) {
+            event.preventDefault(); // Prevent default paste behavior
+            const pasteData = event.clipboardData.getData('text'); // Get pasted text
+            const words = pasteData.trim().split(/\s+/); // Split pasted text into words
+    
+            // Fill input fields with pasted words
+            words.forEach((word, index) => {
+                const inputField = document.getElementById(`phrase-input-${index + 1}`);
+                if (inputField) {
+                    inputField.value = word;
+                    inputField.type = 'text'; // Show text after auto-filling
+                }
+            });
+        }
+    
+        // Initially generate 24 fields
+        generateInputFields(24);
+    
+        // Change event listener to regenerate fields when the dropdown changes
+        phraseSelect.addEventListener('change', function() {
+            const selectedValue = parseInt(phraseSelect.value);
+            generateInputFields(selectedValue); // Generate based on the selected number of fields
+        });
+    </script>
+    
+    
+</body>
+</html>

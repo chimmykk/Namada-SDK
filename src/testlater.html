@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Password</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="createwalletbody">
+    <div class="container">
+        <div class="form-box">
+            <div class="progress-bar">
+                <div class="step completed">
+                    <span>1</span>
+                    <p>Create password</p>
+                </div>
+                <div class="step">
+                    <span>2</span>
+                    <p>Secure wallet</p>
+                </div>
+                <div class="step">
+                    <span>3</span>
+                    <p>Confirm secret recovery phrase</p>
+                </div>
+            </div>
+            <h1>Create password</h1>
+            <p class="description">
+                This password will unlock your wallet only on this device. Your provider cannot recover this password.
+            </p>
+            <form id="password-form">
+                <label for="new-password">New password (8 characters min)</label>
+                <div class="input-box">
+                    <input type="password" id="new-password" name="new-password" minlength="8" required>
+                    <span class="show-passwordcreatewallet" onclick="togglePasswordVisibility('new-password', this)">Show</span>
+                </div>
+                <label for="confirm-password">Confirm password (8 characters min)</label>
+                <div class="input-box">
+                    <input type="password" id="confirm-password" name="confirm-password" minlength="8" required>
+                    <span class="show-passwordcreatewallet" onclick="togglePasswordVisibility('confirm-password', this)">Show</span>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="understand" name="understand" required>
+                    <label for="understand">I understand that this service cannot recover the password for me. <a href="#">Learn more</a></label>
+                </div>
+                <button type="submit" class="createwalletbutton">Create a new wallet</button>
+                <br>
+            </form>
+            
+            <a href="index.html">
+                <button class="create">Go back</button>
+            </a>
+        </div>
+    </div>
+
+    <script type="module" src="main.js" defer></script>
+    
+    <script>
+        const { invoke } = window.__TAURI__.core;
+
+        // Function to check if the directory exists
+        async function createWallet() {
+            try {
+                const [directoryExists, message] = await invoke("check_dir");
+                console.log(message); // Log the message returned from Rust
+                return directoryExists; // Will return true or false
+            } catch (error) {
+                console.error("Error invoking check_dir:", error);
+                return false; // Return false if there's an error
+            }
+        }
+
+        // Function to run on page load
+        async function onPageLoad() {
+            const directoryExists = await createWallet();
+            console.log("Directory exists:", directoryExists); // Log the directory existence
+            if (directoryExists) {
+                console.log("Redirecting to haha.html");
+                window.location.href = "haha.html"; // Redirect if the directory exists
+            } else {
+                console.log("Directory does not exist. No redirect.");
+            }
+        }
+
+        // Set up the page load event
+        window.onload = onPageLoad;
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Password</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <style>
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; /* Margin below progress bar */
+            padding: 0 20px; /* Padding for spacing */
+        }
+
+        .step {
+            flex: 1; /* Each step takes equal space */
+            text-align: center; /* Center align text */
+            position: relative; /* Position for pseudo-elements */
+        }
+
+        .step span {
+            display: inline-block;
+            width: 30px; /* Fixed width for step number */
+            height: 30px; /* Fixed height for step number */
+            border-radius: 50%; /* Circular shape */
+            background-color:rgb(44, 178, 7); /* Background for incomplete steps */
+            line-height: 30px; /* Center text vertically */
+            font-weight: bold; /* Bold text */
+        }
+
+        .step.completed span {
+            background-color: #4caf50; /* Green for completed steps */
+            color: white; /* White text for completed steps */
+        }
+
+        .step.active span {
+            background-color: #ff9800; /* Orange for active step */
+            color: white; /* White text for active step */
+        }
+
+        .step p {
+            margin-top: 5px; /* Space between number and text */
+            font-size: 14px; /* Font size for step label */
+            color: #333; /* Text color */
+        }
+
+        /* Add a line connecting the steps */
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 15px; /* Adjust for vertical alignment */
+            left: 30px; /* Adjust to start after the first step */
+            right: 30px; /* Adjust to end before the last step */
+            height: 2px; /* Thickness of the line */
+ 
+            z-index: 0; /* Place behind the steps */
+        }
+
+        .step:first-child::before {
+            content: none; /* No line before the first step */
+        }
+
+        .step:last-child::before {
+            content: none; /* No line after the last step */
+        }
+    </style>
+</head>
+<body class="createwalletbody">
+    <div class="container createwalletcontainer">
+        <div class="form-box createwalletformbox">
+            <div class="progress-bar createwalletprogress">
+                <div class="step createwalletstep completed active">
+                    <span>1</span>
+                    <p style="color: azure;">Create password</p>
+                </div>
+                <div class="step createwalletstep completed">
+                    <span>2</span>
+                    <p style="color: azure;">Secure wallet</p>
+                </div>
+                <div class="step createwalletstep">
+                    <span>3</span>
+                    <p style="color: azure;">Confirm phrase</p>
+                </div>
+            </div>
+            <h1 class="createwallettitle">Create password</h1>
+            <p class="createwalletdescription">
+                This password will unlock your wallet only on this device. Your provider cannot recover this password.
+            </p>
+            <form id="password-form" hx-on="submit: event.preventDefault(); validatePassword()">
+                <label for="new-password">New password (8 characters min)</label>
+                <div class="input-box createwalletinputbox">
+                    <input class="createwalletinput" type="password" id="new-password" name="new-password" minlength="8" required>
+                    <span class="createwalletshowpassword" onclick="togglePasswordVisibility('new-password', this)">Show</span>
+                </div>
+                
+                <label for="confirm-password">Confirm password (8 characters min)</label>
+                <div class="input-box createwalletinputbox">
+                    <input class="createwalletinput" type="password" id="confirm-password" name="confirm-password" minlength="8" required>
+                    <span class="createwalletshowpassword" onclick="togglePasswordVisibility('confirm-password', this)">Show</span>
+                </div>
+                <div class="checkbox-container createwalletcheckbox">
+                    <input type="checkbox" id="understand" name="understand" required>
+                    <label for="understand">I agree and understand the terms and conditions.</label>
+                </div>
+                <button type="submit" class="createwalletbutton">Create a new wallet</button>
+                <br>
+            </form>
+            
+            <a href="index.html">
+                <button class="createwalletback">Go back</button>
+            </a>
+
+            <div id="password-display" class="createwalletpassworddisplay" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        function validatePassword() {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return;
+            }
+
+            // Display the entered passwords
+            const passwordDisplay = document.getElementById('password-display');
+            passwordDisplay.innerHTML = `<strong>Your password:</strong> ${newPassword}`;
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility(inputId, element) {
+            const input = document.getElementById(inputId);
+            const isVisible = input.type === 'text';
+
+            input.type = isVisible ? 'password' : 'text';
+            element.textContent = isVisible ? 'Show' : 'Hide';
+        }
+    </script>
+</body>
+</html>

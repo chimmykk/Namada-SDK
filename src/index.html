@@ -1,52 +1,31 @@
-<!doctype html>
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
-    <script type="module" src="main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NamaZoro</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Tauri!</h1>
-
-        <div class="row">
-            <a href="https://tauri.app" target="_blank">
-                <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
+        <div class="logo-container">
+            <img src="https://play-lh.googleusercontent.com/VRqo1bQjwHpkYU3ywbL7CXaT1A56_t_3wPioG_GiajSnGtn6aTTzB69My4oOLBHvnw" alt="Cake Wallet Logo" class="logo">
+        </div>
+        <h1>Welcome to Zoro</h1>
+        <p>Keep Your Crypto Safe: Privacy Meets Security with Zoro!</p>
+        <div class="button-container">
+            <a href="createwallet.html">
+                <button class="primary-button">Create New Wallet</button>
             </a>
-            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-                <img src="/assets/javascript.svg" class="logo vanilla" alt="JavaScript logo" />
+            
+            <a href="importwallet.html">
+ 
+            <button class="secondary-button">Restore Wallet</button>
             </a>
         </div>
-
-        <p>Click on the Tauri logo to learn more about the framework</p>
-
-        <!-- Form for creating a wallet -->
-        <form class="row" id="create-wallet-form">
-            <button type="submit">Create Wallet</button>
-        </form>
-
-        <!-- New button for getting viewing keys -->
-        <button id="get-viewing-keys">Get Viewing Keys</button>
-
-        <!-- New button for getting payment address -->
-        <button id="get-payment-address">Get Payment Address</button>
-
-        <!-- New button for viewing payment addresses -->
-        <button id="viewpaymentaddress">View Payment Addresses</button>
-
-        <!-- New button for updating all details -->
-        <button id="update-all-details">Update All Details</button> <!-- Added button -->
-
-        <p id="wallet-msg"></p>
-        <ul id="viewing-keys-list"></ul> <!-- List to display viewing keys -->
-
-        <!-- New section to display payment address -->
-        <p id="payment-address"></p>
-        
-        <!-- New section to display multiple payment addresses -->
-        <p id="viewpaymentaddress"></p> <!-- Updated to match JS reference -->
     </div>
 </body>
 </html>

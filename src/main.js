@@ -5,6 +5,7 @@ let viewingKeysListEl;
 let paymentAddressEl;
 let viewPaymentEl; // Renamed to avoid confusion
 let updateAllDetailsEl; // New element for update all details
+let testButtonEl; // New element for Test button
 
 // Function to create a wallet
 async function createWallet() {
@@ -66,12 +67,24 @@ async function updateAllDetails() {
     }
 }
 
+// Function to test directory
+async function testDirectory() {
+    try {
+        await invoke("check_dir");
+        alert("Directory check completed!"); // Notify user about the check
+    } catch (error) {
+        console.error("Error checking directory:", error);
+        alert("Error checking directory: " + error.message);
+    }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     walletMsgEl = document.querySelector("#wallet-msg");
     viewingKeysListEl = document.querySelector("#viewing-keys-list");
     paymentAddressEl = document.querySelector("#payment-address");
     viewPaymentEl = document.querySelector("#viewpaymentaddress"); // Ensure this element exists in your HTML
     updateAllDetailsEl = document.querySelector("#update-all-details"); // New button for updating all details
+    testButtonEl = document.querySelector("#test-button"); // Get reference to Test button
 
     document.querySelector("#create-wallet-form").addEventListener("submit", (e) => {
         e.preventDefault();
@@ -99,5 +112,10 @@ window.addEventListener("DOMContentLoaded", () => {
     updateAllDetailsEl.addEventListener("click", () => {
         viewPaymentEl.textContent = "Updating payment addresses..."; // Show loading message
         updateAllDetails(); // Call the update function
+    });
+
+    // New event listener for testing directory
+    testButtonEl.addEventListener("click", () => {
+        testDirectory(); // Call the test directory function
     });
 });
