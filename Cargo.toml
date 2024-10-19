@@ -30,3 +30,4 @@ anyhow = "1.0"
 eyre = "0.6"
 either = "1.6"
 masp_primitives = { git = "https://github.com/anoma/masp", rev = "12ed8b060b295c06502a2ff8468e4a941cb7cca4" }
+colored = "2.0"

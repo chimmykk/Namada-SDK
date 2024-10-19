@@ -53,6 +53,7 @@ use masp_primitives::zip32::ExtendedFullViewingKey;
 use masp_primitives::sapling::ViewingKey;
 use std::io::Cursor;
 use namada_sdk::io::{display, display_line, edisplay_line};
+use colored::*; 
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-cotton.d3c912fee7462"; // Chain ID
@@ -883,11 +884,14 @@ where
 
 pub async fn query_and_print_masp_epoch(context: &impl Namada) -> MaspEpoch {
     let epoch = rpc::query_masp_epoch(context.client()).await.unwrap();
-    println!("Last committed masp epoch: {}", epoch); 
+    
+    // Print the epoch in green color
+    println!("{}", format!("Last committed masp epoch: {}", epoch).green());
+    
     epoch
 }
 
-
+// This query the epoch of the masp (dynamically set a function to integrate with the shielded balance fetch)
 
 fn prompt_user(prompt: &str) -> String {
     print!("{}", prompt);
