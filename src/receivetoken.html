@@ -13,32 +13,33 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #1a1d3f;
-            color: #fff;
+            background-color: #0d1122;
+            font-family: 'Poppins', Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            align-items: center;
+            height: 100vh;
+            color: white;
         }
 
         .container {
-            width: 100%;
-            max-width: 500px;
-            background-color: #23264c;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            background: linear-gradient(145deg, #1a233a, #1c2847);
+            padding: 40px;
+            border-radius: 20px;
+            width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background-color: #2a2d50;
+            margin-bottom: 20px;
         }
 
         .logo {
@@ -46,7 +47,7 @@
             align-items: center;
         }
 
-        .logo .icon {
+        .icon {
             font-size: 24px;
             color: #ffbf00;
         }
@@ -57,17 +58,20 @@
         }
 
         .status {
-            color: #0f0;
-            font-size: 14px;
+            color: #57a6ff;
+            font-size: 12px;
         }
 
-        .content {
-            padding: 20px;
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #f0f4f8;
         }
 
         .balance-section,
         .receive-section {
-            background-color: #2a2d50;
+            background-color: #2b3551;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -78,25 +82,15 @@
             margin-bottom: 10px;
         }
 
-        .balance-info p {
-            margin: 10px 0;
-            font-size: 16px;
-        }
-
         .balance-info span {
             font-size: 20px;
             font-weight: bold;
         }
 
         .silent-payments {
-            margin-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .silent-payments h3 {
-            font-size: 16px;
         }
 
         .switch {
@@ -144,12 +138,6 @@
             transform: translateX(16px);
         }
 
-        .receive-section h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
         .qr-code {
             width: 200px;
             height: 200px;
@@ -173,12 +161,19 @@
 
         select {
             width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #3c3f6e;
-            border: 1px solid #fff;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background-color: #2b3551;
+            border: none;
             color: #fff;
             outline: none;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        select:focus {
+            border: 1px solid #57a6ff;
+            background-color: #1f2942;
         }
 
         .address {
@@ -190,38 +185,38 @@
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 14px;
             margin-top: 20px;
-            background-color: #4e52aa;
+            background-color: #3a7cfd;
             color: #fff;
-            border-radius: 5px;
+            border-radius: 10px;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         button:hover {
-            background-color: #3e3f99;
+            background-color: #285dcc;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         @media (max-width: 768px) {
-            .header, .content {
-                padding: 15px;
-            }
-
             .qr-code {
                 width: 180px;
                 height: 180px;
             }
-
-            .balance-info h2, .receive-section h2 {
-                font-size: 20px;
-            }
         }
 
         @media (max-width: 500px) {
-            .header, .content {
-                padding: 10px;
+            .container {
+                width: 90%;
+                padding: 20px;
             }
 
             .qr-code {
@@ -229,8 +224,8 @@
                 height: 150px;
             }
 
-            .balance-info h2, .receive-section h2 {
-                font-size: 18px;
+            h2 {
+                font-size: 24px;
             }
         }
     </style>
@@ -246,20 +241,18 @@
         </header>
 
         <div class="content">
-            <div class="balance-section">
+            <!-- <div class="balance-section">
                 <div class="balance-info">
                     <h2>NAM</h2>
                     <p>Confirmed Balance</p>
                     <span>0.0</span> NAM
-         
-                </div>
-                <div class="silent-payments">
-                
+                </div> -->
+                <!-- <div class="silent-payments">
                     <label class="switch">
                         <input type="checkbox">
                         <span class="slider"></span>
                     </label>
-                </div>
+                </div> -->
             </div>
 
             <div class="receive-section">
