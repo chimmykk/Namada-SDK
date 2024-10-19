@@ -1,0 +1,28 @@
+
+[view_keys.rilsso-spending]
+key = "zvknam1qvhcjahaqqqqpqyklh42xpv56yuuhvhxcchry5x6kqmxmxfh3nfycrse2p68h8fmc3e0599sarhty2m04phth7wkltluk6k4dj43a0jvwpypqrzxszp9rh6l5zvnz5uapv6jf0r0mhf0fxdv8hr8647tu73np4nhm6pksspcjjh2df8f87h8lcjkdvvfy08yesz9zterhfgxt83aydc3npfu4dxzm0yukp48trhptrk6572rt7eahyf70679qh37fetlk62s20aq5msp6pr78"
+birthday = 0
+
+[spend_keys]
+rilsso-spending = "unencrypted:zsknam1qvhcjahaqqqqpqyklh42xpv56yuuhvhxcchry5x6kqmxmxfh3nfycrse2p68h8fmcspsst7kn74xjw6mw8v2gzgx2n0qxye4m3dpfnnnl7z5e4m3rh5q3dltlcvl0uq4dktz9myyvafeq7vgxfhz30u903a75d2uj57k3wgpjjh2df8f87h8lcjkdvvfy08yesz9zterhfgxt83aydc3npfu4dxzm0yukp48trhptrk6572rt7eahyf70679qh37fetlk62s20aq5msqpcsvw<<0"
+
+[secret_keys]
+rilsso-public = "unencrypted:00784d5de44861dc2a0a82de549584c85d64149717cd8f3626fdafce63343db3f9"
+
+[public_keys]
+rilsso-public = "ED25519_PK_PREFIXtpknam1qzlpcmcmqzhtfvevgjs35jyhpdtt2zfmn4s02cf0xg2e0u4ke3wgv3cmrm8"
+
+[pkhs]
+84E120EE9A571AE8DAD1657EE8C39EDE4F1C0B07 = "rilsso-public"
+
+[payment_addrs]
+rilsso-public = "znam1c2cgsl65vt4g2g95t9ljvpqxvdywhah9mkl70s3x8nksx8j456gq38653pe4ukrq38rc7tjuhnz"
+
+[derivation_paths]
+rilsso-spending = "m/32'/877'/0'"
+rilsso-public = "m/44'/877'/0'/0'/0'"
+
+[addresses]
+rilsso-public = "tnam1qzzwzg8wnft346x669jha6xrnm0y78qtqu24g7fz"
+
+[address_vp_types]
