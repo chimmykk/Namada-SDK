@@ -49,6 +49,10 @@ use namada_sdk::tx::either::IntoEither;
 use eyre::Report;
 use either::Either;
 use namada_core::uint::I256;
+use masp_primitives::zip32::ExtendedFullViewingKey;
+use masp_primitives::sapling::ViewingKey;
+use std::io::Cursor;
+use namada_sdk::io::{display, display_line, edisplay_line};
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-cotton.d3c912fee7462"; // Chain ID
@@ -882,6 +886,7 @@ pub async fn query_and_print_masp_epoch(context: &impl Namada) -> MaspEpoch {
     println!("Last committed masp epoch: {}", epoch); 
     epoch
 }
+
 
 
 fn prompt_user(prompt: &str) -> String {

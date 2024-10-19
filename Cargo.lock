@@ -6238,6 +6238,7 @@ dependencies = [
  "eyre",
  "js-sys",
  "kdam",
+ "masp_primitives",
  "namada_core",
  "namada_governance",
  "namada_ibc",
