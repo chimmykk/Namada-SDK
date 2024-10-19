@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -167,15 +168,14 @@
         }
     </style>
 </head>
-<body>
 
+<body>
     <div class="container">
         <div class="header">
             <span>&larr;</span>
         </div>
 
         <div class="step-indicator">
-          
             <div class="active"></div>
             <div></div>
             <div></div>
@@ -196,14 +196,15 @@
 
         <div class="note">
             <p><strong>DO NOT share your seed phrase with ANYONE</strong><br>
-            Anyone with your seed phrase can have full control over your assets. Stay vigilant against phishing attacks at all times.</p>
+                Anyone with your seed phrase can have full control over your assets. Stay vigilant against phishing attacks at all times.</p>
             <p><strong>Back up the phrase safely</strong><br>
-            You will never be able to restore your account without your seed phrase.</p>
+                You will never be able to restore your account without your seed phrase.</p>
         </div>
+
         <a href="verifyword.html">
             <button class="next-button">Next</button>
         </a>
-    
+    </div>
 
     <script>
         const seedGrid = document.getElementById('seedGrid');
@@ -237,6 +238,6 @@
         // Generate 12-word seed inputs by default
         generateSeedInputs(12);
     </script>
-
 </body>
+
 </html>
