@@ -85,6 +85,10 @@
             font-size: 14px;
         }
 
+        .createwalletinput:focus {
+            outline: 2px solid #ffc800;
+        }
+
         .createwalletinput::placeholder {
             color: #555; /* Placeholder color */
         }
@@ -93,6 +97,11 @@
             cursor: pointer;
             color: #ffc800; /* Show/hide text color */
             margin-left: 10px;
+            transition: color 0.3s ease; /* Animation on hover */
+        }
+
+        .createwalletshowpassword:hover {
+            color: #c69f03; /* Change color on hover */
         }
 
         .createwalletbutton {
@@ -104,10 +113,29 @@
             cursor: pointer;
             width: 100%;
             font-size: 16px;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Animation */
+        }
+
+        /* Click (active) animation */
+        .createwalletbutton:active {
+            transform: scale(0.98); /* Shrinks button slightly on click */
+        }
+
+        /* Animation for click event */
+        .clicked {
+            animation: clickAnimation 0.5s forwards;
+        }
+
+        /* Keyframe animation for click event */
+        @keyframes clickAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); } /* Button grows slightly */
+            100% { transform: scale(1); } /* Button returns to original size */
         }
 
         .createwalletbutton:hover {
-            background-color: #e6b800; /* Button hover color */
+            background-color: #c69f03; /* Change button color on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
         }
 
         .createwalletback {
@@ -119,24 +147,30 @@
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Animation */
         }
 
         .createwalletback:hover {
             background-color: #555; /* Back button hover color */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
         }
 
         .checkbox-container {
             margin: 10px 0;
+            display: flex;
+            align-items: center; /* Center the checkbox vertically */
         }
 
         .checkbox-container input {
             margin-right: 10px;
+            accent-color: #ffc800; /* Set checkbox tick color */
         }
 
         #password-display {
             margin-top: 20px;
             color: #ffc800; /* Password display color */
         }
+
         .step-indicator {
             display: flex;
             justify-content: center;
@@ -152,9 +186,8 @@
         }
 
         .step-indicator div.active {
-            background-color: #ffc800;
+            background-color: #ffc800; /* Active step color */
         }
-
     </style>
 </head>
 <body class="createwalletbody">
@@ -201,7 +234,7 @@
                     <label for="understand" style="color: #ccc;">I agree and understand the terms and conditions.</label>
                 </div>
                 <a href="">
-                    <button type="button" class="createwalletbutton">Create a new wallet</button>
+                    <button type="button" class="createwalletbutton" onclick="this.classList.add('clicked');">Create a new wallet</button>
                 </a>
                 
                 <br>
