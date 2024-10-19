@@ -5,8 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Wallet</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #1e1e1e; /* Dark background */
+            font-family: Arial, sans-serif;
+            color: #fff; /* Light text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .import-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+        }
+
+        .form-box-import {
+            background-color: #2a2a2a; /* Darker box background */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .progress-bar-import {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .step-import {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-import span {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgb(44, 178, 7); /* Incomplete step color */
+            line-height: 30px;
+            font-weight: bold;
+        }
+
+        .step-import.completed-import span {
+            background-color: #4caf50; /* Green for completed steps */
+            color: white;
+        }
+
+        .step-import p {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #ccc; /* Lighter text color for step labels */
+        }
+
+        .input-box-import {
+            margin-bottom: 15px;
+        }
+
+        .phrase-input {
+            width: 85%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #000; /* Input background */
+            color: #fff; /* Input text color */
+            font-size: 14px;
+            margin-right: 10px; /* Space for visibility toggle */
+        }
+
+        .toggle-visibility-import {
+            cursor: pointer;
+            color: #ffc800; /* Visibility toggle color */
+        }
+
+        .confirm-import-button {
+            background-color: #ffc800; /* Button background */
+            color: #000; /* Button text color */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .confirm-import-button:hover {
+            background-color: #e6b800; /* Button hover color */
+        }
+
+        .dropdown {
+            margin-bottom: 15px;
+        }
+
+        .dropdown-select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #000; /* Dropdown background */
+            color: #fff; /* Dropdown text color */
+            font-size: 14px;
+        }
+
+        .dropdown-select option {
+            background-color: #2a2a2a; /* Option background color */
+            color: #fff; /* Option text color */
+        }
+    </style>
 </head>
-<body class="importwalletbody"> <!-- unique body class -->
+<body class="importwalletbody">
     <div class="import-container">
         <div class="form-box-import">
             <div class="progress-bar-import">
@@ -29,8 +142,6 @@
                         <option value="12">I have a 12-word phrase</option>
                     </select>
                 </div>
-                
-              
                 
                 <!-- Secret Recovery Phrase Input Fields -->
                 <div id="phrase-inputs" class="grid-container-import">
@@ -119,7 +230,5 @@
             generateInputFields(selectedValue); // Generate based on the selected number of fields
         });
     </script>
-    
-    
 </body>
 </html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Password</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <style>
+        /* Your existing CSS styles here */
+    </style>
+</head>
+<body class="createwalletbody">
+    <div class="container createwalletcontainer">
+        <div class="form-box createwalletformbox">
+            <div class="progress-bar createwalletprogress">
+                <!-- Your progress bar steps -->
+            </div>
+            <h1 class="createwallettitle">Create password</h1>
+            <p class="createwalletdescription">
+                This password will unlock your wallet only on this device. Your provider cannot recover this password.
+            </p>
+
+            <form id="password-form">
+                <!-- Wallet Name Input -->
+                <label for="wallet-name">Wallet Name</label>
+                <div class="input-box createwalletinputbox">
+                    <input class="createwalletinput" type="text" id="wallet-name" name="wallet-name" required>
+                </div>
+
+                <!-- New Password Input -->
+                <label for="new-password">New password (8 characters min)</label>
+                <div class="input-box createwalletinputbox">
+                    <input class="createwalletinput" type="password" id="new-password" name="new-password" minlength="8" required>
+                    <span class="createwalletshowpassword" onclick="togglePasswordVisibility('new-password', this)">Show</span>
+                </div>
+
+                <!-- Confirm Password Input -->
+                <label for="confirm-password">Confirm password (8 characters min)</label>
+                <div class="input-box createwalletinputbox">
+                    <input class="createwalletinput" type="password" id="confirm-password" name="confirm-password" minlength="8" required>
+                    <span class="createwalletshowpassword" onclick="togglePasswordVisibility('confirm-password', this)">Show</span>
+                </div>
+
+                <!-- Terms and Conditions Checkbox -->
+                <div class="checkbox-container createwalletcheckbox">
+                    <input type="checkbox" id="understand" name="understand" required>
+                    <label for="understand">I agree and understand the terms and conditions.</label>
+                </div>
+
+                <button type="submit" class="createwalletbutton">Create a new wallet</button>
+            </form>
+
+            <div id="password-display" class="createwalletpassworddisplay" style="margin-top: 20px;"></div>
+            <div id="result-message" class="createwalletresultmessage" style="margin-top: 20px; color: red;"></div>
+
+            <a href="index.html">
+                <button class="createwalletback">Go back</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Existing JavaScript to validate password -->
+    <script>
+        function validatePassword() {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return false;
+            }
+
+            if (newPassword.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return false;
+            }
+
+            return newPassword; // Return the valid password
+        }
+
+        function togglePasswordVisibility(inputId, element) {
+            const input = document.getElementById(inputId);
+            const isVisible = input.type === 'text';
+
+            input.type = isVisible ? 'password' : 'text';
+            element.textContent = isVisible ? 'Show' : 'Hide';
+        }
+    </script>
+
+    <!-- Tauri Script to handle password submission -->
+    <script type="module">
+        const { invoke } = window.__TAURI__.core; // Get the invoke function from Tauri
+
+        document.getElementById("password-form").onsubmit = async function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get wallet name and validate password
+            const walletName = document.getElementById('wallet-name').value;
+            const password = validatePassword();
+            if (!password) return;
+
+            // Use Tauri invoke to call the Rust function
+            try {
+                const response = await invoke('process_input', { input: `${walletName} - ${password}` });
+                document.getElementById("result-message").innerText = `Response from Rust: ${response}`;
+            } catch (error) {
+                console.error("Error invoking Rust command:", error);
+                document.getElementById("result-message").innerText = `Error: ${error.message}`;
+            }
+        };
+    </script>
+</body>
+</html>

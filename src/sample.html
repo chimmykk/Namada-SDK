@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Phrase Screen</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header span {
+            font-size: 24px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .step-indicator div {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: #444;
+            margin: 0 4px;
+        }
+
+        .step-indicator div.active {
+            background-color: #ffc800;
+        }
+
+        .seed-type {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .seed-type button {
+            background-color: #ffc800;
+            border: none;
+            color: #000;
+            font-size: 16px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .seed-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .seed-grid input {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            width: 70%;
+        }
+
+        .seed-grid input::placeholder {
+            color: #555;
+        }
+
+        .clipboard, .note {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .clipboard a {
+            color: #ffc800;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .note {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .note strong {
+            color: #ffc800;
+        }
+
+        .next-button {
+            background-color: #ffc800;
+            color: #000;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .next-button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .seed-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .seed-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .seed-type button {
+                font-size: 14px;
+                padding: 4px 10px;
+            }
+
+            .note {
+                font-size: 10px;
+            }
+
+            .next-button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <span>&larr;</span>
+        </div>
+
+        <div class="step-indicator">
+          
+            <div class="active"></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <h2 style="text-align: center;">New Seed Phrase</h2>
+
+        <div class="seed-type">
+            <button id="btn12Words" class="active">12 words</button>
+            <button id="btn24Words">24 words</button>
+        </div>
+
+        <div class="seed-grid" id="seedGrid"></div>
+
+        <div class="clipboard">
+            <a href="#">Copy to Clipboard</a>
+        </div>
+
+        <div class="note">
+            <p><strong>DO NOT share your seed phrase with ANYONE</strong><br>
+            Anyone with your seed phrase can have full control over your assets. Stay vigilant against phishing attacks at all times.</p>
+            <p><strong>Back up the phrase safely</strong><br>
+            You will never be able to restore your account without your seed phrase.</p>
+        </div>
+        <a href="verifyword.html">
+            <button class="next-button">Next</button>
+        </a>
+    
+
+    <script>
+        const seedGrid = document.getElementById('seedGrid');
+        const btn12Words = document.getElementById('btn12Words');
+        const btn24Words = document.getElementById('btn24Words');
+
+        function generateSeedInputs(numWords) {
+            seedGrid.innerHTML = ''; // Clear existing inputs
+            for (let i = 1; i <= numWords; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = i.toString();
+                input.enabled = true;  // Set enabled
+                seedGrid.appendChild(input);
+            }
+        }
+
+        // Event listeners for the buttons
+        btn12Words.addEventListener('click', () => {
+            btn12Words.classList.add('active');
+            btn24Words.classList.remove('active');
+            generateSeedInputs(12);
+        });
+
+        btn24Words.addEventListener('click', () => {
+            btn24Words.classList.add('active');
+            btn12Words.classList.remove('active');
+            generateSeedInputs(24);
+        });
+
+        // Generate 12-word seed inputs by default
+        generateSeedInputs(12);
+    </script>
+
+</body>
+</html>

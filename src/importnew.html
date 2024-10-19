@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Existing Keys</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px; /* Increased max-width for more space */
+            text-align: center;
+            color: #fff;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .title {
+            flex-grow: 1;
+            font-size: 1.5rem; /* Increased font size for title */
+            text-align: center;
+        }
+
+        .instructions {
+            font-size: 0.875rem;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            background-color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #fff;
+            cursor: pointer;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .tab.active {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        .grid-container {
+            display: grid;
+            gap: 15px; /* Increased gap for better spacing */
+            margin-bottom: 20px;
+        }
+
+        .grid-item {
+            padding: 15px; /* Increased padding for better input space */
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem; /* Adjusted font size */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .grid-item::placeholder {
+            color: #888;
+        }
+
+        .bip39-btn {
+            background: none;
+            border: none;
+            color: #ffd700;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .next-btn {
+            background-color: #ffd700;
+            border: none;
+            color: #000;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .single-input {
+            padding: 15px; /* Increased padding for better input space */
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-container-12 {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns for 12 words */
+            }
+            .grid-container-24 {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns for 24 words for smaller screens */
+            }
+        }
+
+        @media (min-width: 601px) {
+    .grid-container-12 {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for 12 words */
+    }
+    .grid-container-24 {
+        grid-template-columns: repeat(4, 1fr); /* 6 columns for 24 words in 4 rows and 6 columns */
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn">&larr;</button>
+            <div class="title">Import Existing Keys</div>
+        </div>
+        <p class="instructions">
+            • Enter your seed phrase in the right order without capitalization, punctuation symbols, or spaces.<br>
+            • Or copy and paste your entire phrase.
+        </p>
+        <div class="tabs">
+            <button class="tab active" onclick="showWords(12)">12 words</button>
+            <button class="tab" onclick="showWords(24)">24 words</button>
+            <button class="tab" onclick="showPrivateKey()">Private Key</button>
+        </div>
+        <div id="input-container">
+            <div class="grid-container grid-container-12" id="grid-12" style="display: grid;">
+                <!-- Loop to generate 12 input fields -->
+                <script>
+                    for (let i = 1; i <= 12; i++) {
+                        document.write(`<input type="text" class="grid-item" placeholder="${i}">`);
+                    }
+                </script>
+            </div>
+            <div class="grid-container grid-container-24" id="grid-24" style="display: none;">
+                <!-- Loop to generate 24 input fields -->
+                <script>
+                    for (let i = 1; i <= 24; i++) {
+                        document.write(`<input type="text" class="grid-item" placeholder="${i}">`);
+                    }
+                </script>
+            </div>
+            <input type="text" id="private-key-input" class="single-input" placeholder="Enter your private key" style="display: none;">
+        </div>
+        <button class="bip39-btn">Import with BIP39 Passphrase</button>
+        <button class="next-btn">Next</button>
+    </div>
+
+    <script>
+        function showWords(wordCount) {
+            document.getElementById('grid-12').style.display = wordCount === 12 ? 'grid' : 'none';
+            document.getElementById('grid-24').style.display = wordCount === 24 ? 'grid' : 'none';
+            document.getElementById('private-key-input').style.display = 'none';
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab:nth-child(${wordCount === 12 ? 1 : 2})`).classList.add('active');
+        }
+
+        function showPrivateKey() {
+            document.getElementById('grid-12').style.display = 'none';
+            document.getElementById('grid-24').style.display = 'none';
+            document.getElementById('private-key-input').style.display = 'block';
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector('.tab:nth-child(3)').classList.add('active');
+        }
+    </script>
+</body>
+</html>
