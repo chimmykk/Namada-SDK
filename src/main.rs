@@ -17,6 +17,7 @@ use namada_sdk::{
     key::SchemeType,
     rpc, // Importing RPC for account info
 };
+use tokio::runtime::Runtime;
 use namada_core::address::Address;
 use namada_sdk::masp::IndexerMaspClient;
 use namada_sdk::args;
@@ -37,9 +38,14 @@ use namada_sdk::masp::{MaspLocalTaskEnv, ShieldedSyncConfig};
 use namada_ibc::core::host::types::identifiers::ChannelId;
 use namada_sdk::TransferSource;
 use anyhow::Result;
+use namada_sdk::token;
+use std::error::Error as StdError; 
+use namada_sdk::account::Account;
+use namada_sdk::key::common;
+
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
-const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3"; // Chain ID
+const CHAIN_ID: &str = "housefire-cotton.d3c912fee7462"; // Chain ID
 const OWNER_ADDRESS: &str = "tnam1qze5x6au3egfnq7qp963c793cev5z5jvkcufnfhj"; // Just a placeholder to check if address is reveal pk or not
 
 #[tokio::main]
@@ -77,8 +83,15 @@ async fn main() {
             7 => check_if_revealed(&sdk).await, // New option to check if account is revealed
             8 => shielded_sync(&sdk).await.expect("Failed to sync shielded context"),
             9 => send_transparent_token(&sdk).await,
-            10=> send_ibc_token(&sdk).await,
+            10 => send_ibc_token(&sdk).await,
             11 => {
+                
+                match get_token_balance(&sdk).await {
+                    Ok(balance) => println!("Token Balance: {:?}", balance),
+                    Err(e) => eprintln!("Error fetching token balance: {}", e),
+                }
+            },
+            12 => {
                 println!("Exiting...");
                 break;
             },
@@ -86,7 +99,6 @@ async fn main() {
         }
     }
 }
-
 // Display menu options
 fn display_menu() {
     println!("\nNamada wallet example:");
@@ -100,7 +112,8 @@ fn display_menu() {
     println!("8. Shielded Sync"); // New option for shielded sync
     println!("9. Transparent Token Transfer"); // Added for transparent token transfer
     println!("10. IBC Token Transfer"); // Added IBC transfer
-    println!("11. Exit");
+    println!("11. Fetch balance"); // Added IBC transfer
+    println!("12. Exit");
 }
 
 // User input here
@@ -664,7 +677,7 @@ where
     }
 
 
-    let target_address = Address::from_str("tnam1qqzg5khvcfdgnjg4wghvxcnekxwu4kg5nuwjssjt")
+    let target_address = Address::from_str("tnam1qpu63hxasnmsq25juqfcql287mvkgjx3vuvgzktz")
         .expect("Invalid target address");
     let amount = InputAmount::from_str("10").expect("Invalid amount");
 
@@ -823,6 +836,34 @@ where
     }
 }
 
+
+pub async fn get_token_balance<C, U, V, I>(
+    _sdk: &NamadaImpl<C, U, V, I>,
+) -> Result<token::Amount, Box<dyn Error>>
+where
+    C: Client + MaybeSync + MaybeSend,
+    U: WalletIo + WalletStorage + MaybeSync + MaybeSend,
+    V: ShieldedUtils + MaybeSync + MaybeSend,
+    I: Io + MaybeSync + MaybeSend,
+{
+    // Hardcoded addresses
+    let token_address = Address::from_str("tnam1qy440ynh9fwrx8aewjvvmu38zxqgukgc259fzp6h")?;
+    let owner_address = Address::from_str("tnam1qqteapc3ycthpehxtqadv6nx2grr5gptzs2ptyvy")?;
+
+    // Hardcode the Tendermint address
+    let tendermint_addr = "https://rpc.knowable.run:443"; 
+
+    // Create a new HTTP client with the hardcoded Tendermint address
+    let client = HttpClient::new(
+        Url::from_str(tendermint_addr)
+            .map_err(|e| Box::new(e) as Box<dyn Error>)?,
+    )?;
+
+    let balance = rpc::get_token_balance(&client, &token_address, &owner_address, None).await
+        .map_err(|e| Box::new(e) as Box<dyn Error>)?;
+
+    Ok(balance)
+}
 
 
 fn prompt_user(prompt: &str) -> String {
