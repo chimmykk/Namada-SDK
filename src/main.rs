@@ -42,7 +42,13 @@ use namada_sdk::token;
 use std::error::Error as StdError; 
 use namada_sdk::account::Account;
 use namada_sdk::key::common;
-
+use namada_sdk::masp::shielded_wallet::ShieldedApi;
+use namada_core::address::MASP;
+use namada_core::masp::MaspEpoch;
+use namada_sdk::tx::either::IntoEither;
+use eyre::Report;
+use either::Either;
+use namada_core::uint::I256;
 
 const RPC_URL: &str = "https://rpc.knowable.run:443"; // RPC URL
 const CHAIN_ID: &str = "housefire-cotton.d3c912fee7462"; // Chain ID
@@ -92,6 +98,10 @@ async fn main() {
                 }
             },
             12 => {
+                let epoch = query_and_print_masp_epoch(&sdk).await; // Capture the returned epoch
+                println!("Fetched masp epoch: {:?}", epoch); // Do something with epoch
+            },
+            13 => {
                 println!("Exiting...");
                 break;
             },
@@ -112,8 +122,9 @@ fn display_menu() {
     println!("8. Shielded Sync"); // New option for shielded sync
     println!("9. Transparent Token Transfer"); // Added for transparent token transfer
     println!("10. IBC Token Transfer"); // Added IBC transfer
-    println!("11. Fetch balance"); // Added IBC transfer
-    println!("12. Exit");
+    println!("11. Fetch balance"); 
+    println!("12. Fetch epoch"); // fetch masp epoch
+    println!("13. Exit");
 }
 
 // User input here
@@ -863,6 +874,13 @@ where
         .map_err(|e| Box::new(e) as Box<dyn Error>)?;
 
     Ok(balance)
+}
+
+
+pub async fn query_and_print_masp_epoch(context: &impl Namada) -> MaspEpoch {
+    let epoch = rpc::query_masp_epoch(context.client()).await.unwrap();
+    println!("Last committed masp epoch: {}", epoch); 
+    epoch
 }
 
 

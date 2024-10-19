@@ -6234,6 +6234,8 @@ name = "wallet-example"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "either",
+ "eyre",
  "js-sys",
  "kdam",
  "namada_core",
