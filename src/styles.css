@@ -476,7 +476,7 @@ form {
 .primary-button:hover, .secondary-button:hover {
   background-color: #c69f03;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
-  border: 2px solid #000105; /* Blue border on hover */
+  outline: 2px solid #000105; /* Blue border on hover */
 }
 
 /* Click (active) animation */

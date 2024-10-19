@@ -110,7 +110,19 @@
         /* Click (active) animation */
         .seed-type button:active,
         .next-button:active {
-            transform: translateY(0); /* Reset position on click */
+            transform: scale(0.98); /* Shrinks button slightly on click */
+        }
+
+        /* Animation for click event */
+        .clicked {
+            animation: clickAnimation 0.5s forwards;
+        }
+
+        /* Keyframe animation for click event */
+        @keyframes clickAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); } /* Button grows slightly */
+            100% { transform: scale(1); } /* Button returns to original size */
         }
 
         .seed-grid {
@@ -253,15 +265,17 @@
 
         // Event listeners for the buttons
         btn12Words.addEventListener('click', () => {
-            btn12Words.classList.add('active');
+            btn12Words.classList.add('active', 'clicked');
             btn24Words.classList.remove('active');
             generateSeedInputs(12);
+            setTimeout(() => btn12Words.classList.remove('clicked'), 500); // Remove the clicked class after animation
         });
 
         btn24Words.addEventListener('click', () => {
-            btn24Words.classList.add('active');
+            btn24Words.classList.add('active', 'clicked');
             btn12Words.classList.remove('active');
             generateSeedInputs(24);
+            setTimeout(() => btn24Words.classList.remove('clicked'), 500); // Remove the clicked class after animation
         });
 
         // Generate 12-word seed inputs by default
