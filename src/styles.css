@@ -452,13 +452,14 @@ form {
   color: white;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for box-shadow */
   width: 100%;
 }
 
 .confirm-import-button:hover {
   background-color: #357ABD;
 }
+
 /* Button Styles */
 .primary-button, .secondary-button {
   padding: 15px 30px;
@@ -468,14 +469,13 @@ form {
   color: black;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for box-shadow */
 }
 
-/* Hover animation with blue border */
+/* Shadow effect on hover */
 .primary-button:hover, .secondary-button:hover {
   background-color: #c69f03;
-  transform: translateY(-5px); /* Lifts button slightly */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
   border: 2px solid #000105; /* Blue border on hover */
 }
 

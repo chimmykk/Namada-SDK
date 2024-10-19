@@ -73,7 +73,7 @@
             border-radius: 5px;
             margin: 0 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Changed to transform */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Changed to box-shadow */
             position: relative; /* Added for stability */
             outline: 2px solid transparent; /* Outline for hover */
         }
@@ -82,7 +82,7 @@
         .seed-type button:hover {
             background-color: #c69f03; /* Change background on hover */
             outline: 2px solid #000; /* Use outline instead of border */
-            transform: translateY(-2px); /* Lift the button slightly without changing layout */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
         }
 
         /* Next button styles */
@@ -96,7 +96,7 @@
             font-size: 16px;
             margin-top: 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Changed to transform */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Changed to box-shadow */
             outline: 2px solid transparent; /* Outline for hover */
         }
 
@@ -104,7 +104,7 @@
         .next-button:hover {
             background-color: #c69f03; /* Change background on hover */
             outline: 2px solid #000; /* Use outline instead of border */
-            transform: translateY(-2px); /* Lift the button slightly without changing layout */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
         }
 
         /* Click (active) animation */
@@ -147,11 +147,11 @@
             font-size: 14px;
             cursor: pointer;
         }
-        .clipboard a:hover {
-            color: #c69f03; 
-            text-decoration: underline; 
-        }
 
+        .clipboard a:hover {
+            color: #c69f03;
+            text-decoration: underline;
+        }
 
         .note {
             background-color: #333;
