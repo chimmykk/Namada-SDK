@@ -35,6 +35,7 @@ async fn main() {
 
     let wallet = FsWalletUtils::new("./sdk-wallet".into());
     let shielded_mut = FsShieldedUtils::new("./masp".into());
+    // here get the fetch directory and fetch it from the dir, 
     let std_io = StdIo;
 
     let sdk = NamadaImpl::new(http_client, wallet, shielded_mut, std_io)
