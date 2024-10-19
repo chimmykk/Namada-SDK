@@ -464,8 +464,8 @@ form {
   padding: 15px 30px;
   border: none;
   border-radius: 8px;
-  background-color: #0f0f0f98;
-  color: white;
+  background-color: #ffc800;
+  color: black;
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
@@ -473,10 +473,10 @@ form {
 
 /* Hover animation with blue border */
 .primary-button:hover, .secondary-button:hover {
-  background-color: #201f1f98;
+  background-color: #c69f03;
   transform: translateY(-5px); /* Lifts button slightly */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Shadow effect */
-  border: 2px solid #2841c0; /* Blue border on hover */
+  border: 2px solid #000105; /* Blue border on hover */
 }
 
 /* Click (active) animation */
