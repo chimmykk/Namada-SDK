@@ -495,3 +495,4 @@ form {
   50% { transform: scale(1.1); } /* Button grows slightly */
   100% { transform: scale(1); } /* Button returns to original size */
 
+}
