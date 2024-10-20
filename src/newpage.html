@@ -12,7 +12,7 @@
     }
 
     body {
-      background-color: #121212;
+      background-color: #1e1e1e;
       font-family: Arial, sans-serif;
       color: white;
       display: flex;
@@ -22,7 +22,7 @@
     }
 
     .container {
-      background-color: #1E1E1E;
+      background-color: #2a2a2a;
       padding: 40px; /* Increased padding */
       border-radius: 12px;
       width: 400px; /* Increased width */
@@ -103,12 +103,7 @@
       border-radius: 8px;
       font-size: 16px;
       transition: background-color 0.3s ease, transform 0.3s ease;
-      opacity: 0.6; /* Disabled state */
       cursor: pointer; /* Set cursor for both states */
-    }
-
-    .next-button.enabled {
-      opacity: 1; /* Enabled state */
     }
 
     .next-button:hover {
@@ -163,27 +158,18 @@
     </div>
 
     <div style="margin-top: auto;"> <!-- Push the button to the bottom -->
-      <button class="next-button" id="next-btn" disabled>Next</button>
+      <button class="next-button" id="next-btn">Next</button> <!-- Always enabled -->
     </div>
   </div>
 
   <script>
-    // Example of enabling the button on input (you can customize this logic)
-    const inputField = document.getElementById('keys-name');
-    const nextButton = document.getElementById('next-btn');
-
-    inputField.addEventListener('input', () => {
-      nextButton.disabled = !inputField.value.trim();
-      nextButton.classList.toggle('enabled', !nextButton.disabled);
-    });
-
     // Back button functionality
     document.querySelector('.back-btn').addEventListener('click', () => {
       window.location.href = 'createwallet.html'; // Navigate to createwallet.html
     });
 
     // Next button functionality
-    nextButton.addEventListener('click', () => {
+    document.getElementById('next-btn').addEventListener('click', () => {
       window.location.href = 'walletlist.html'; // Navigate to walletlist.html
     });
   </script>
