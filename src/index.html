@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NamaZoro</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
+            background-color: #1e1e1e; /* Light background color */
+        }
+
+        .container {
+            padding: 20px; /* Padding for the container */
+            border-radius: 10px; /* Rounded corners */
+            max-width: 400px; /* Max width for the container */
+            margin: auto; /* Center the container */
+            text-align: center; /* Center text within the container */
+            background-color: #2a2a2a; /* Background color for the container */
+            border: 2px solid #4b4b4d; /* Green border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+        .logo {
+            border-radius: 10px; /* Rounded corners */
+            margin-bottom: 20px; /* Space below the logo */
+        }
+
+        .primary-button,
+        .secondary-button {
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 15px; /* Padding for buttons */
+            background-color: #ffc800; /* Background color */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+            margin: 5px; /* Space between buttons */
+            border: 1px solid #0f0f0f; /* Green border for buttons */
+        }
+
+        
+    .primary-button:hover,
+    .secondary-button:hover {
+        background-color:#ffc800; /* Change background on hover */
+        color: black; /* Keep text color unchanged */
+    }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -12,7 +56,7 @@
             <img src="https://play-lh.googleusercontent.com/VRqo1bQjwHpkYU3ywbL7CXaT1A56_t_3wPioG_GiajSnGtn6aTTzB69My4oOLBHvnw" alt="Cake Wallet Logo" class="logo">
         </div>
         <h1>Welcome to Zoro</h1>
-        <p>Keep Your Crypto Safe: Privacy Meets Security with Zoro!!</p>
+        <p>Keep Your Crypto Safe: Privacy Meets Security with Zoro!</p>
         <div class="button-container">
             <a href="sample.html">
                 <button class="primary-button" id="createButton">Create New Wallet</button>
@@ -23,7 +67,7 @@
         </div>
     </div>
 
-    <!--  JS for additional click animations -->
+    <!-- JS for additional click animations -->
     <script>
         const createButton = document.getElementById('createButton');
         const restoreButton = document.getElementById('restoreButton');
@@ -38,3 +82,4 @@
     </script>
 </body>
 </html>
+
