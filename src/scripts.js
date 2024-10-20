@@ -20,6 +20,7 @@ document.getElementById('password-form').addEventListener('submit', function(eve
     alert('Your random phrase: ' + randomWords.join(' '));
 });
 
+
 // Function to generate random words
 function generateRandomWords(wordCount) {
     const words = 'abcdefghijklmnopqrstuvwxyz';
