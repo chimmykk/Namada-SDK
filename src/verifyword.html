@@ -97,14 +97,27 @@
         }
 
         .next-button {
-            background-color: #444;
-            color: #999;
+            background-color: #ffc800; /* Yellow color */
+            color: #000; /* Black text */
             padding: 15px;
             border: none;
             border-radius: 10px;
             width: 100%;
             font-size: 16px;
-            cursor: not-allowed;
+            cursor: pointer; /* Set cursor to pointer */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Add transitions for hover and click */
+        }
+
+        /* Hover effect for the next button */
+        .next-button:hover {
+            background-color: #c69f03;
+            outline: 2px solid #000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Click effect for the next button */
+        .next-button:active {
+            transform: scale(0.95); /* Shrink slightly on click */
         }
 
         /* Responsive Design */
@@ -134,9 +147,10 @@
 
         <div class="step-indicator">
             <div class="active" onclick="window.location.href='sample.html';"></div> <!-- First dot colored and navigates -->
-            <div class="active" onclick="window.location.href='verifyword,html';"></div> <!-- Second dot colored and navigates -->
+            <div class="active" onclick="window.location.href='verifyword.html';"></div> <!-- Second dot colored and navigates -->
             <div onclick="window.location.href='createwallet.html';"></div> <!-- Third dot navigates -->
             <div onclick="window.location.href='finalstep.html';"></div> <!-- Fourth dot navigates -->
+            <div onclick="window.location.href='walletlist.html';"></div> <!-- Fifth dot navigates to walletlist.html -->
         </div>
 
         <h2>Verify your seed phrase</h2>
@@ -152,7 +166,7 @@
             <input type="text" id="word5">
         </div>
 
-        <a href="createwallet.html">
+        <a href="createwallet.html"> 
             <button class="next-button">Next</button>
         </a>
 

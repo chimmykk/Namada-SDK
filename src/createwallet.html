@@ -213,7 +213,8 @@
                 <div class="active" onclick="window.location.href='sample.html';"></div>
                 <div class="active" onclick="window.location.href='verifyword.html';"></div>
                 <div class="active" onclick="window.location.href='createwallet.html';"></div> <!-- Updated -->
-                <div onclick="goToStep(4)"></div>
+                <div onclick="window.location.href='newpage.html';"></div> <!-- Fourth dot -->
+                <div onclick="window.location.href='walletlist.html';"></div> <!-- Fifth dot -->
             </div>
             <div class="progress-bar createwalletprogress">
                 <div class="step createwalletstep completed active">
@@ -233,23 +234,20 @@
             <p class="createwalletdescription">
                 This password will unlock your wallet only on this device. Your provider cannot recover this password.
             </p>
-            <form id="password-form" hx-on="submit: event.preventDefault(); validatePassword()">
-                <label for="new-password">New password (8 characters min)</label>
-                <div class="input-box createwalletinputbox">
-                    <input class="createwalletinput" type="password" id="new-password" name="new-password" minlength="8" required>
+            <form>
+                <div class="input-box">
+                    <input type="password" id="new-password" class="createwalletinput" placeholder="New password" required>
                     <span class="createwalletshowpassword" onclick="togglePasswordVisibility('new-password', this)">Show</span>
                 </div>
-                
-                <label for="confirm-password">Confirm password (8 characters min)</label>
-                <div class="input-box createwalletinputbox">
-                    <input class="createwalletinput" type="password" id="confirm-password" name="confirm-password" minlength="8" required>
+                <div class="input-box">
+                    <input type="password" id="confirm-password" class="createwalletinput" placeholder="Confirm password" required oninput="validatePassword()">
                     <span class="createwalletshowpassword" onclick="togglePasswordVisibility('confirm-password', this)">Show</span>
                 </div>
                 <div class="checkbox-container createwalletcheckbox">
                     <input type="checkbox" id="understand" name="understand" required>
                     <label for="understand" style="color: #ccc;">I agree and understand the terms and conditions.</label>
                 </div>
-                <a href="">
+                <a href="newpage.html">
                     <button type="button" class="createwalletbutton" onclick="this.classList.add('clicked');">Create a new wallet</button>
                 </a>
                 

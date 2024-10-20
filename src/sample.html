@@ -228,6 +228,7 @@
             <div id="dot2"></div>
             <div id="dot3"></div>
             <div id="dot4"></div>
+            <div id="dot5"></div> <!-- New dot for fifth step -->
         </div>
 
         <h2 style="text-align: center;">New Seed Phrase</h2>
@@ -265,6 +266,7 @@
         const dot2 = document.getElementById('dot2');
         const dot3 = document.getElementById('dot3');
         const dot4 = document.getElementById('dot4');
+        const dot5 = document.getElementById('dot5'); // New dot
 
         // Function to generate input fields
         function generateSeedInputs(numWords) {
@@ -311,7 +313,11 @@
         });
 
         dot4.addEventListener('click', () => {
-            window.location.href = 'finish.html'; // Redirect to finish (Step 4)
+            window.location.href = 'newpage.html'; // Redirect to newpage.html (Step 4)
+        });
+
+        dot5.addEventListener('click', () => {
+            window.location.href = 'walletlist.html'; // Redirect to finish (Step 5)
         });
 
         // Generate 12-word seed inputs by default
