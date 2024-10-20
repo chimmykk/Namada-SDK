@@ -36,6 +36,13 @@
             font-size: 24px;
             color: #ccc;
             cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        }
+
+        /* Back button hover effect */
+        .header span:hover {
+            color: #ffc800;
+            transform: translateX(-5px); /* Move the button left when hovered */
         }
 
         .step-indicator {
@@ -50,6 +57,7 @@
             border-radius: 50%;
             background-color: #444;
             margin: 0 4px;
+            cursor: pointer; /* Pointer cursor for clickable dots */
         }
 
         .step-indicator div.active {
@@ -121,14 +129,14 @@
 
     <div class="container">
         <div class="header">
-            <span>&larr;</span>
+            <span id="backButton">&larr;</span> <!-- Back button with ID -->
         </div>
 
         <div class="step-indicator">
-            <div class="active"></div>
-            <div class="active"></div>
-            <div class="active"></div>
-            <div></div>
+            <div class="active" onclick="window.location.href='sample.html';"></div> <!-- First dot colored and navigates -->
+            <div class="active" onclick="window.location.href='verifyword,html';"></div> <!-- Second dot colored and navigates -->
+            <div onclick="window.location.href='createwallet.html';"></div> <!-- Third dot navigates -->
+            <div onclick="window.location.href='finalstep.html';"></div> <!-- Fourth dot navigates -->
         </div>
 
         <h2>Verify your seed phrase</h2>
@@ -147,6 +155,17 @@
         <a href="createwallet.html">
             <button class="next-button">Next</button>
         </a>
+
+    </div>
+
+    <script>
+        const backButton = document.getElementById('backButton'); // Get back button by ID
+
+        // Add click event listener to redirect to sample.html
+        backButton.addEventListener('click', function() {
+            window.location.href = 'sample.html'; // Redirect to sample.html
+        });
+    </script>
 
 </body>
 </html>
