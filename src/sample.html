@@ -57,7 +57,7 @@
             border-radius: 50%;
             background-color: #444;
             margin: 0 4px;
-            cursor: pointer;
+            cursor: pointer; /* Change cursor to pointer */
         }
 
         .step-indicator div.active {
@@ -99,12 +99,18 @@
             width: 100%;
             font-size: 16px;
             margin-top: 20px;
-            cursor: pointer;
+            cursor: not-allowed; /* Initially not allowed */
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             outline: 2px solid transparent;
+            opacity: 0.5; /* Make button look disabled */
         }
 
-        .next-button:hover {
+        .next-button.active {
+            cursor: pointer;
+            opacity: 1; /* Make button look active */
+        }
+
+        .next-button:hover.active {
             background-color: #c69f03;
             outline: 2px solid #000;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -250,9 +256,7 @@
             <p><strong>Back up the phrase safely</strong><br> You will never be able to restore your account without your seed phrase.</p>
         </div>
 
-        <a href="verifyword.html">
-            <button class="next-button">Next</button>
-        </a>
+        <button class="next-button" id="nextButton" disabled>Next</button>
     </div>
 
     <script>
@@ -260,6 +264,7 @@
         const btn12Words = document.getElementById('btn12Words');
         const btn24Words = document.getElementById('btn24Words');
         const backButton = document.getElementById('backButton');
+        const nextButton = document.getElementById('nextButton');
 
         // Dots
         const dot1 = document.getElementById('dot1');
@@ -275,7 +280,37 @@
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.placeholder = i.toString();
+                input.addEventListener('input', checkInputs); // Check inputs on input
                 seedGrid.appendChild(input);
+            }
+            checkInputs(); // Check inputs when generated
+        }
+
+        // Check if all inputs are filled
+        function checkInputs() {
+            const inputs = seedGrid.getElementsByTagName('input');
+            let allFilled = true;
+            for (let input of inputs) {
+                if (!input.value) {
+                    allFilled = false;
+                    break;
+                }
+            }
+            toggleNextButton(allFilled);
+        }
+
+        // Toggle Next button state
+        function toggleNextButton(isEnabled) {
+            if (isEnabled) {
+                nextButton.classList.add('active');
+                nextButton.disabled = false;
+                nextButton.style.cursor = 'pointer';
+                nextButton.style.opacity = 1; // Make button look active
+            } else {
+                nextButton.classList.remove('active');
+                nextButton.disabled = true;
+                nextButton.style.cursor = 'not-allowed';
+                nextButton.style.opacity = 0.5; // Make button look disabled
             }
         }
 
@@ -301,23 +336,33 @@
 
         // Event listeners for dots
         dot1.addEventListener('click', () => {
-            window.location.href = 'sample.html'; // This is the current page (Step 1)
+            if (nextButton.classList.contains('active')) {
+                window.location.href = 'sample.html'; // This is the current page (Step 1)
+            }
         });
 
         dot2.addEventListener('click', () => {
-            window.location.href = 'verifyword.html'; // Redirect to verify word (Step 2)
+            if (nextButton.classList.contains('active')) {
+                window.location.href = 'verifyword.html'; // Redirect to verify word (Step 2)
+            }
         });
 
         dot3.addEventListener('click', () => {
-            window.location.href = 'createwallet.html'; // Redirect to confirm seed (Step 3)
+            if (nextButton.classList.contains('active')) {
+                window.location.href = 'createwallet.html'; // Redirect to confirm seed (Step 3)
+            }
         });
 
         dot4.addEventListener('click', () => {
-            window.location.href = 'newpage.html'; // Redirect to newpage.html (Step 4)
+            if (nextButton.classList.contains('active')) {
+                window.location.href = 'newpage.html'; // Redirect to newpage.html (Step 4)
+            }
         });
 
         dot5.addEventListener('click', () => {
-            window.location.href = 'walletlist.html'; // Redirect to finish (Step 5)
+            if (nextButton.classList.contains('active')) {
+                window.location.href = 'walletlist.html'; // Redirect to finish (Step 5)
+            }
         });
 
         // Generate 12-word seed inputs by default
