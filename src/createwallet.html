@@ -29,6 +29,7 @@
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
             width: 90%;
             max-width: 400px;
+            position: relative; /* Added for absolute positioning of back button */
         }
 
         .progress-bar {
@@ -43,6 +44,7 @@
             flex: 1;
             text-align: center;
             position: relative;
+            cursor: pointer; /* Indicate that the steps are clickable */
         }
 
         .step span {
@@ -85,6 +87,10 @@
             font-size: 14px;
         }
 
+        .createwalletinput:focus {
+            outline: 2px solid #ffc800;
+        }
+
         .createwalletinput::placeholder {
             color: #555; /* Placeholder color */
         }
@@ -93,6 +99,11 @@
             cursor: pointer;
             color: #ffc800; /* Show/hide text color */
             margin-left: 10px;
+            transition: color 0.3s ease; /* Animation on hover */
+        }
+
+        .createwalletshowpassword:hover {
+            color: #c69f03; /* Change color on hover */
         }
 
         .createwalletbutton {
@@ -104,39 +115,70 @@
             cursor: pointer;
             width: 100%;
             font-size: 16px;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Animation */
+        }
+
+        /* Click (active) animation */
+        .createwalletbutton:active {
+            transform: scale(0.98); /* Shrinks button slightly on click */
+        }
+
+        /* Animation for click event */
+        .clicked {
+            animation: clickAnimation 0.5s forwards;
+        }
+
+        /* Keyframe animation for click event */
+        @keyframes clickAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); } /* Button grows slightly */
+            100% { transform: scale(1); } /* Button returns to original size */
         }
 
         .createwalletbutton:hover {
-            background-color: #e6b800; /* Button hover color */
+            background-color: #c69f03;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            outline: 2px solid #000;
         }
 
-        .createwalletback {
-            margin-top: 10px;
-            background-color: #444; /* Back button background */
-            color: #fff; /* Back button text color */
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
+        .back-button {
+            position: absolute; /* Positioning to top left of form box */
+            top: 20px; /* Distance from top */
+            left: 20px; /* Distance from left */
+            text-decoration: none; /* Remove underline from link */
+            display: flex; /* Align the icon and text properly */
+            align-items: center; /* Center vertically */
+        }
+
+        .back-button span {
+            font-size: 24px;
+            color: #ccc;
             cursor: pointer;
-            width: 100%;
+            transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
         }
 
-        .createwalletback:hover {
-            background-color: #555; /* Back button hover color */
+        /* Back button hover effect */
+        .back-button span:hover {
+            color: #ffc800;
+            transform: translateX(-5px); /* Move the button left when hovered */
         }
 
         .checkbox-container {
             margin: 10px 0;
+            display: flex;
+            align-items: center; /* Center the checkbox vertically */
         }
 
         .checkbox-container input {
             margin-right: 10px;
+            accent-color: #ffc800; /* Set checkbox tick color */
         }
 
         #password-display {
             margin-top: 20px;
             color: #ffc800; /* Password display color */
         }
+
         .step-indicator {
             display: flex;
             justify-content: center;
@@ -147,24 +189,31 @@
             height: 10px;
             width: 10px;
             border-radius: 50%;
-            background-color: #444;
+            background-color: #444; /* Default color for inactive dots */
             margin: 0 4px;
+            cursor: pointer; /* Change cursor to indicate clickability */
+        }
+
+        .step-indicator div.completed {
+            background-color: #4caf50; /* Color for completed steps */
         }
 
         .step-indicator div.active {
-            background-color: #ffc800;
+            background-color: #ffc800; /* Active step color */
         }
-
     </style>
 </head>
 <body class="createwalletbody">
     <div class="container createwalletcontainer">
         <div class="form-box createwalletformbox">
+            <a href="verifyword.html" class="back-button">
+                <span>&larr;</span>
+            </a>
             <div class="step-indicator">
-                <div class="active"></div>
-                <div class="active"></div>
-                <div></div>
-                <div></div>
+                <div class="active" onclick="window.location.href='sample.html';"></div>
+                <div class="active" onclick="window.location.href='verifyword.html';"></div>
+                <div class="active" onclick="window.location.href='createwallet.html';"></div> <!-- Updated -->
+                <div onclick="goToStep(4)"></div>
             </div>
             <div class="progress-bar createwalletprogress">
                 <div class="step createwalletstep completed active">
@@ -201,47 +250,39 @@
                     <label for="understand" style="color: #ccc;">I agree and understand the terms and conditions.</label>
                 </div>
                 <a href="">
-                    <button type="button" class="createwalletbutton">Create a new wallet</button>
+                    <button type="button" class="createwalletbutton" onclick="this.classList.add('clicked');">Create a new wallet</button>
                 </a>
                 
                 <br>
             </form>
             
-            <a href="index.html">
-                <button class="createwalletback">Go back</button>
-            </a>
-
             <div id="password-display" class="createwalletpassworddisplay" style="margin-top: 20px;"></div>
         </div>
     </div>
-
     <script>
-        function validatePassword() {
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-
-            if (newPassword !== confirmPassword) {
-                alert('Passwords do not match. Please try again.');
-                return;
-            }
-
-            if (newPassword.length < 8) {
-                alert('Password must be at least 8 characters long.');
-                return;
-            }
-
-            // Display the entered passwords
-            const passwordDisplay = document.getElementById('password-display');
-            passwordDisplay.innerHTML = `<strong>Your password:</strong> ${newPassword}`;
+        function togglePasswordVisibility(passwordFieldId, element) {
+            const passwordField = document.getElementById(passwordFieldId);
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
+            element.textContent = type === "password" ? "Show" : "Hide"; // Toggle text
         }
 
-        // Function to toggle password visibility
-        function togglePasswordVisibility(inputId, element) {
-            const input = document.getElementById(inputId);
-            const isVisible = input.type === 'text';
+        function validatePassword() {
+            const password = document.getElementById("new-password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const display = document.getElementById("password-display");
 
-            input.type = isVisible ? 'password' : 'text';
-            element.textContent = isVisible ? 'Show' : 'Hide';
+            if (password !== confirmPassword) {
+                display.textContent = "Passwords do not match!";
+                display.style.color = "red";
+            } else {
+                display.textContent = "Passwords match!";
+                display.style.color = "green";
+            }
+        }
+
+        function goToStep(step) {
+            // Handle navigation for other steps if necessary
         }
     </script>
 </body>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,6 +37,12 @@
             font-size: 24px;
             color: #ccc;
             cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header span:hover {
+            color: #ffc800;
+            transform: translateX(-5px);
         }
 
         .step-indicator {
@@ -50,6 +57,7 @@
             border-radius: 50%;
             background-color: #444;
             margin: 0 4px;
+            cursor: pointer;
         }
 
         .step-indicator div.active {
@@ -71,6 +79,58 @@
             border-radius: 5px;
             margin: 0 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            outline: 2px solid transparent;
+        }
+
+        .seed-type button:hover {
+            background-color: #c69f03;
+            outline: 2px solid #000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .next-button {
+            background-color: #ffc800;
+            color: #000;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            outline: 2px solid transparent;
+        }
+
+        .next-button:hover {
+            background-color: #c69f03;
+            outline: 2px solid #000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .seed-type button:active,
+        .next-button:active {
+            transform: scale(0.98);
+        }
+
+        .clicked {
+            animation: clickAnimation 0.5s forwards;
+        }
+
+        @keyframes clickAnimation {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         .seed-grid {
@@ -95,7 +155,8 @@
             color: #555;
         }
 
-        .clipboard, .note {
+        .clipboard,
+        .note {
             text-align: center;
             margin-top: 15px;
         }
@@ -105,6 +166,11 @@
             text-decoration: none;
             font-size: 14px;
             cursor: pointer;
+        }
+
+        .clipboard a:hover {
+            color: #c69f03;
+            text-decoration: underline;
         }
 
         .note {
@@ -119,23 +185,6 @@
             color: #ffc800;
         }
 
-        .next-button {
-            background-color: #ffc800;
-            color: #000;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            width: 100%;
-            font-size: 16px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        .next-button:hover {
-            background-color: #e6b800;
-        }
-
-        /* Responsive Design */
         @media screen and (max-width: 768px) {
             .container {
                 width: 95%;
@@ -167,18 +216,18 @@
         }
     </style>
 </head>
-<body>
 
+<body>
     <div class="container">
         <div class="header">
-            <span>&larr;</span>
+            <span id="backButton">&larr;</span>
         </div>
 
         <div class="step-indicator">
-          
-            <div class="active"></div>
-            <div></div>
-            <div></div>
+            <div id="dot1" class="active"></div>
+            <div id="dot2"></div>
+            <div id="dot3"></div>
+            <div id="dot4"></div>
         </div>
 
         <h2 style="text-align: center;">New Seed Phrase</h2>
@@ -195,48 +244,79 @@
         </div>
 
         <div class="note">
-            <p><strong>DO NOT share your seed phrase with ANYONE</strong><br>
-            Anyone with your seed phrase can have full control over your assets. Stay vigilant against phishing attacks at all times.</p>
-            <p><strong>Back up the phrase safely</strong><br>
-            You will never be able to restore your account without your seed phrase.</p>
+            <p><strong>DO NOT share your seed phrase with ANYONE</strong><br> Anyone with your seed phrase can have full
+                control over your assets. Stay vigilant against phishing attacks at all times.</p>
+            <p><strong>Back up the phrase safely</strong><br> You will never be able to restore your account without your seed phrase.</p>
         </div>
+
         <a href="verifyword.html">
             <button class="next-button">Next</button>
         </a>
-    
+    </div>
 
     <script>
         const seedGrid = document.getElementById('seedGrid');
         const btn12Words = document.getElementById('btn12Words');
         const btn24Words = document.getElementById('btn24Words');
+        const backButton = document.getElementById('backButton');
 
+        // Dots
+        const dot1 = document.getElementById('dot1');
+        const dot2 = document.getElementById('dot2');
+        const dot3 = document.getElementById('dot3');
+        const dot4 = document.getElementById('dot4');
+
+        // Function to generate input fields
         function generateSeedInputs(numWords) {
             seedGrid.innerHTML = ''; // Clear existing inputs
             for (let i = 1; i <= numWords; i++) {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.placeholder = i.toString();
-                input.enabled = true;  // Set enabled
                 seedGrid.appendChild(input);
             }
         }
 
-        // Event listeners for the buttons
+        // Event listener for the back button
+        backButton.addEventListener('click', () => {
+            window.location.href = 'index.html'; // Redirect to index.html
+        });
+
+        // Event listeners for the seed-type buttons
         btn12Words.addEventListener('click', () => {
-            btn12Words.classList.add('active');
+            btn12Words.classList.add('active', 'clicked');
             btn24Words.classList.remove('active');
             generateSeedInputs(12);
+            setTimeout(() => btn12Words.classList.remove('clicked'), 500); // Remove the clicked class after animation
         });
 
         btn24Words.addEventListener('click', () => {
-            btn24Words.classList.add('active');
+            btn24Words.classList.add('active', 'clicked');
             btn12Words.classList.remove('active');
             generateSeedInputs(24);
+            setTimeout(() => btn24Words.classList.remove('clicked'), 500); // Remove the clicked class after animation
+        });
+
+        // Event listeners for dots
+        dot1.addEventListener('click', () => {
+            window.location.href = 'sample.html'; // This is the current page (Step 1)
+        });
+
+        dot2.addEventListener('click', () => {
+            window.location.href = 'verifyword.html'; // Redirect to verify word (Step 2)
+        });
+
+        dot3.addEventListener('click', () => {
+            window.location.href = 'createwallet.html'; // Redirect to confirm seed (Step 3)
+        });
+
+        dot4.addEventListener('click', () => {
+            window.location.href = 'finish.html'; // Redirect to finish (Step 4)
         });
 
         // Generate 12-word seed inputs by default
         generateSeedInputs(12);
     </script>
-
 </body>
+
 </html>
