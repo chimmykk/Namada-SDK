@@ -452,7 +452,7 @@ form {
   color: white;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for box-shadow */
   width: 100%;
 }
 
@@ -460,3 +460,38 @@ form {
   background-color: #357ABD;
 }
 
+/* Button Styles */
+.primary-button, .secondary-button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffc800;
+  color: black;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for box-shadow */
+}
+
+/* Shadow effect on hover */
+.primary-button:hover, .secondary-button:hover {
+  background-color: #c69f03;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
+  outline: 2px solid #000105; /* Blue border on hover */
+}
+
+/* Click (active) animation */
+.primary-button:active, .secondary-button:active {
+  transform: scale(0.98); /* Shrinks button slightly on click */
+}
+
+/* Animation for click event */
+.clicked {
+  animation: clickAnimation 0.5s forwards;
+}
+
+/* Keyframe animation for click event */
+@keyframes clickAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); } /* Button grows slightly */
+  100% { transform: scale(1); } /* Button returns to original size */
+}
