@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Transaction UI</title>
+    <title>Send Token UI</title>
     <style>
         * {
             margin: 0;
@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
         body {
-            background-color: #0d1122;
+            background-color: #1e1e1e;
             font-family: 'Poppins', Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -20,11 +20,11 @@
             color: white;
         }
         .container {
-            background: linear-gradient(145deg, #1a233a, #1c2847);
+            background:  #1e1e1e;
             padding: 40px;
             border-radius: 20px;
             width: 380px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 25px #ffc800;
             transition: transform 0.3s ease-in-out;
         }
         .container:hover {
@@ -56,7 +56,7 @@
             background-color: #1f2942;
         }
         button {
-            background-color: #3a7cfd;
+            background-color: #ffc800;
             cursor: pointer;
             font-weight: bold;
             text-transform: uppercase;
@@ -90,7 +90,7 @@
         .synchronized {
             font-size: 12px;
             text-align: right;
-            color: #57a6ff;
+            color: #14d60b;
             margin-bottom: 10px;
         }
         .estimate-fee {
@@ -110,26 +110,27 @@
 
 <div class="container">
     <div class="synchronized">● SYNCHRONIZED</div>
-    <h2>Send</h2>
+    <h2>Send Token</h2>
     
     <input type="text" placeholder="Recipient Address">
     
     <div class="flex">
-        <input type="number" class="half-input" placeholder="BTC: 0.0000">
+        <input type="number" class="half-input" placeholder="NAM: 0.0000">
         <input type="number" class="half-input" placeholder="USD: 0.00">
     </div>
 
-    <div class="small-text">Available Balance: 0.0 BTC</div>
+    <div class="small-text">Available Balance: 0.0 NAM</div>
 
     <input type="text" placeholder="Note (optional)">
     
     <div class="estimate-fee">
         <div class="small-text">Estimated fee:</div>
-        <div class="small-text">0.0 BTC | 0.00 USD</div>
+        <div class="small-text">0.0 NAM | 0.00 USD</div>
     </div>
     
     <div class="flex">
         <select>
+            <p> Transfer Type</p>
             <option value="" disabled selected>Select Transfer Type</option>
             <option value="ibc">IBC</option>
             <option value="shielded">Shielded</option>
