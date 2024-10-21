@@ -23,16 +23,16 @@
 
     .container {
       background-color: #2a2a2a;
-      padding: 40px; /* Increased padding */
+      padding: 40px;
       border-radius: 12px;
-      width: 400px; /* Increased width */
-      height: 450px; /* Increased height */
+      width: 400px;
+      height: 450px;
       text-align: center;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-      position: relative; /* For positioning the back button */
+      position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* Space between elements */
+      justify-content: space-between;
     }
 
     .progress-dots {
@@ -47,24 +47,24 @@
       margin: 0 5px;
       border-radius: 50%;
       transition: background-color 0.3s ease;
-      background-color: #ccc; /* Default color for unfilled dots */
-      cursor: pointer; /* Indicate that the dots are clickable */
+      background-color: #ccc;
+      cursor: pointer; /* Allow cursor pointer for all dots */
     }
 
     .dot.filled {
-      background-color: #ffc800; /* Color for filled dots */
+      background-color: #ffc800;
     }
 
     h2 {
-      margin: 20px 0; /* Added margin for spacing */
-      font-size: 22px; /* Increased font size */
+      margin: 20px 0;
+      font-size: 22px;
       font-weight: 600;
     }
 
     .input-field {
-      margin: 40px auto; /* Adjusted margin to move down */
-      text-align: left; /* Align label and input left */
-      width: 100%; /* Ensure it takes full width */
+      margin: 40px auto;
+      text-align: left;
+      width: 100%;
     }
 
     label {
@@ -75,35 +75,43 @@
     }
 
     input[type="text"] {
-      width: 100%;
-      padding: 12px; /* Increased padding for input */
-      background-color: #333;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px; /* Increased font size */
-      transition: background-color 0.3s ease;
+        width: 100%;
+        padding: 12px;
+        background-color: #000;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
     }
 
     input[type="text"]::placeholder {
-      color: #777;
+        color: #777;
     }
 
     input[type="text"]:focus {
-      outline: none;
-      background-color: #444;
+        outline: none;
+        background-color: #111;
     }
 
     .next-button {
       width: 100%;
-      padding: 12px; /* Increased padding for button */
-      background-color: #ffc800;
-      color: black;
+      padding: 12px;
+      background-color: #c69f03; /* Default background for disabled button */
+      color: black; /* Default color for disabled button */
       border: none;
       border-radius: 8px;
       font-size: 16px;
       transition: background-color 0.3s ease, transform 0.3s ease;
-      cursor: pointer; /* Set cursor for both states */
+      cursor: not-allowed; /* Change cursor to indicate it's disabled */
+      opacity: 0.6; /* Make it look disabled */
+    }
+
+    .next-button.enabled {
+      background-color: #ffc800; /* Color when enabled */
+      color: black; /* Text color when enabled */
+      cursor: pointer; /* Change cursor to pointer when enabled */
+      opacity: 1; /* Full opacity when enabled */
     }
 
     .next-button:hover {
@@ -113,7 +121,7 @@
     }
 
     .next-button:active {
-      transform: scale(0.95); /* Shrinks button slightly on click */
+      transform: scale(0.95);
     }
 
     .back-btn {
@@ -123,7 +131,7 @@
       background: none;
       border: none;
       color: #fff;
-      font-size: 20px; /* Increased font size */
+      font-size: 20px;
       cursor: pointer;
       transition: color 0.3s ease, transform 0.3s ease;
     }
@@ -131,6 +139,13 @@
     .back-btn:hover {
       color: #ffc800;
       transform: translateX(-5px);
+    }
+
+    /* Error message style */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
     }
 
     @media (max-width: 400px) {
@@ -142,35 +157,63 @@
 </head>
 <body>
   <div class="container">
-    <button class="back-btn">&larr;</button> <!-- Back button -->
+    <button class="back-btn">&larr;</button>
     <div class="progress-dots">
       <span class="dot filled" onclick="window.location.href='sample.html';"></span>
       <span class="dot filled" onclick="window.location.href='verifywallet.html';"></span>
       <span class="dot filled" onclick="window.location.href='createwallet.html';"></span>
-      <span class="dot filled" onclick="window.location.href='newpage.html';"></span>
-      <span class="dot" onclick="window.location.href='walletlist.html';"></span> <!-- Fifth dot not filled -->
+      <span class="dot filled"></span> <!-- Current step dot -->
+      <span class="dot"></span> <!-- Last dot for the next step -->
     </div>
     <h2>Create Your Account</h2>
 
     <div class="input-field">
       <label for="keys-name">Keys Name</label>
       <input type="text" id="keys-name" placeholder="e.g. Namada Shielded Wallet">
+      <div id="error-message" class="error-message" style="display: none;"></div> <!-- Error message div -->
     </div>
 
-    <div style="margin-top: auto;"> <!-- Push the button to the bottom -->
-      <button class="next-button" id="next-btn">Next</button> <!-- Always enabled -->
+    <div style="margin-top: auto;">
+      <button class="next-button" id="next-btn" disabled>Next</button> <!-- Initially disabled -->
     </div>
   </div>
 
   <script>
     // Back button functionality
     document.querySelector('.back-btn').addEventListener('click', () => {
-      window.location.href = 'createwallet.html'; // Navigate to createwallet.html
+      window.location.href = 'createwallet.html';
+    });
+
+    // Input field to enable/disable the Next button
+    document.getElementById('keys-name').addEventListener('input', () => {
+      const keysNameInput = document.getElementById('keys-name');
+      const nextButton = document.getElementById('next-btn');
+      const errorMessageDiv = document.getElementById('error-message');
+      
+      if (keysNameInput.value.trim() === "") {
+        nextButton.disabled = true; // Disable button
+        nextButton.classList.remove('enabled'); // Remove enabled class
+        errorMessageDiv.style.display = "none"; // Hide error message
+      } else {
+        nextButton.disabled = false; // Enable button
+        nextButton.classList.add('enabled'); // Add enabled class
+        errorMessageDiv.style.display = "none"; // Hide error message
+      }
     });
 
     // Next button functionality
     document.getElementById('next-btn').addEventListener('click', () => {
-      window.location.href = 'walletlist.html'; // Navigate to walletlist.html
+      const keysNameInput = document.getElementById('keys-name');
+      const errorMessageDiv = document.getElementById('error-message');
+      const keysName = keysNameInput.value.trim();
+
+      if (keysName === "") {
+        errorMessageDiv.textContent = "Please enter a Keys Name."; // Show error message
+        errorMessageDiv.style.display = "block"; // Make the error message visible
+      } else {
+        errorMessageDiv.style.display = "none"; // Hide error message
+        window.location.href = 'walletlist.html'; // Navigate to walletlist.html
+      }
     });
   </script>
 </body>

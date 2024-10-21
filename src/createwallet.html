@@ -3,285 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Password</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <title>Import Existing Keys</title>
     <style>
-        body {
-            background-color: #1e1e1e; /* Dark background */
-            font-family: Arial, sans-serif;
-            color: #fff; /* Light text color */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
-        .container {
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-color: #121212;
         }
 
-        .form-box {
-            background-color: #2a2a2a; /* Darker box background */
-            border-radius: 15px;
+        .container {
+            background-color: #1e1e1e;
             padding: 20px;
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
             width: 90%;
-            max-width: 400px;
-            position: relative; /* Added for absolute positioning of back button */
-        }
-
-        .progress-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 0 20px;
-        }
-
-        .step {
-            flex: 1;
+            max-width: 600px;
             text-align: center;
-            position: relative;
-            cursor: pointer; /* Indicate that the steps are clickable */
+            color: #fff;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .step span {
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
             display: inline-block;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: rgb(44, 178, 7);
-            line-height: 30px;
-            font-weight: bold;
         }
 
-        .step.completed span {
-            background-color: #4caf50;
-            color: white;
+        .back-btn:hover {
+            color: #ffc800;
+            transform: translateX(-5px);
         }
 
-        .step.active span {
-            background-color: #ff9800;
-            color: white;
+        .title {
+            flex-grow: 1;
+            font-size: 1.5rem;
+            text-align: center;
         }
 
-        .step p {
-            margin-top: 5px;
-            font-size: 14px;
-            color: #ccc; /* Lighter text color for step labels */
+        .instructions {
+            font-size: 0.875rem;
+            margin-bottom: 20px;
         }
 
-        .input-box {
-            margin-bottom: 15px;
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
         }
 
-        .createwalletinput {
-            width: 95%;
-            padding: 10px;
+        .tab {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
-            background-color: #000; /* Input background */
-            color: #fff; /* Input text color */
-            font-size: 14px;
-        }
-
-        .createwalletinput:focus {
-            outline: 2px solid #ffc800;
-        }
-
-        .createwalletinput::placeholder {
-            color: #555; /* Placeholder color */
-        }
-
-        .createwalletshowpassword {
+            border-radius: 20px;
             cursor: pointer;
-            color: #ffc800; /* Show/hide text color */
-            margin-left: 10px;
-            transition: color 0.3s ease; /* Animation on hover */
+            flex: 1;
+            margin: 0 5px;
+            position: relative;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .createwalletshowpassword:hover {
-            color: #c69f03; /* Change color on hover */
+        .tab.active {
+            background-color: #ffc800;
+            color: #000;
         }
 
-        .createwalletbutton {
-            background-color: #ffc800; /* Button background */
-            color: #000; /* Button text color */
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Animation */
-        }
-
-        /* Click (active) animation */
-        .createwalletbutton:active {
-            transform: scale(0.98); /* Shrinks button slightly on click */
-        }
-
-        /* Animation for click event */
-        .clicked {
-            animation: clickAnimation 0.5s forwards;
-        }
-
-        /* Keyframe animation for click event */
-        @keyframes clickAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); } /* Button grows slightly */
-            100% { transform: scale(1); } /* Button returns to original size */
-        }
-
-        .createwalletbutton:hover {
+        .tab:hover {
             background-color: #c69f03;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             outline: 2px solid #000;
         }
 
-        .back-button {
-            position: absolute; /* Positioning to top left of form box */
-            top: 20px; /* Distance from top */
-            left: 20px; /* Distance from left */
-            text-decoration: none; /* Remove underline from link */
-            display: flex; /* Align the icon and text properly */
-            align-items: center; /* Center vertically */
+        .grid-container {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .back-button span {
-            font-size: 24px;
-            color: #ccc;
+        .grid-item {
+            padding: 15px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
             cursor: pointer;
-            transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+            position: relative;
         }
 
-        /* Back button hover effect */
-        .back-button span:hover {
+        .bip39-btn {
+            background: none;
+            border: none;
             color: #ffc800;
-            transform: translateX(-5px); /* Move the button left when hovered */
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            display: inline-block;
+            text-decoration: none;
+            transition: color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .checkbox-container {
-            margin: 10px 0;
-            display: flex;
-            align-items: center; /* Center the checkbox vertically */
+        .bip39-btn:hover {
+            color: #c69f00;
+            text-decoration: underline;
         }
 
-        .checkbox-container input {
-            margin-right: 10px;
-            accent-color: #ffc800; /* Set checkbox tick color */
+        .next-btn {
+            background-color: #ffc800;
+            color: #000;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        #password-display {
-            margin-top: 20px;
-            color: #ffc800; /* Password display color */
+        .next-btn:hover {
+            background-color: #c69f03;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            outline: 2px solid #000;
         }
 
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
+        .next-btn:disabled {
+            background-color: #c69f03;
+            cursor: not-allowed;
         }
 
-        .step-indicator div {
-            height: 10px;
-            width: 10px;
-            border-radius: 50%;
-            background-color: #444; /* Default color for inactive dots */
-            margin: 0 4px;
-            cursor: pointer; /* Change cursor to indicate clickability */
+        .single-input {
+            padding: 15px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
-        .step-indicator div.completed {
-            background-color: #4caf50; /* Color for completed steps */
-        }
+        @media (max-width: 600px) {
+            .grid-container-12 {
+                grid-template-columns: repeat(3, 1fr);
+            }
 
-        .step-indicator div.active {
-            background-color: #ffc800; /* Active step color */
-        }
-    </style>
-</head>
-<body class="createwalletbody">
-    <div class="container createwalletcontainer">
-        <div class="form-box createwalletformbox">
-            <a href="verifyword.html" class="back-button">
-                <span>&larr;</span>
-            </a>
-            <div class="step-indicator">
-                <div class="active" onclick="window.location.href='sample.html';"></div>
-                <div class="active" onclick="window.location.href='verifyword.html';"></div>
-                <div class="active" onclick="window.location.href='createwallet.html';"></div> <!-- Updated -->
-                <div onclick="window.location.href='newpage.html';"></div> <!-- Fourth dot -->
-                <div onclick="window.location.href='walletlist.html';"></div> <!-- Fifth dot -->
-            </div>
-            <div class="progress-bar createwalletprogress">
-                <div class="step createwalletstep completed active">
-                    <span>1</span>
-                    <p>Create password</p>
-                </div>
-                <div class="step createwalletstep completed">
-                    <span>2</span>
-                    <p>Secure wallet</p>
-                </div>
-                <div class="step createwalletstep">
-                    <span>3</span>
-                    <p>Confirm phrase</p>
-                </div>
-            </div>
-            <h1 class="createwallettitle">Create Password</h1>
-            <p class="createwalletdescription">
-                This password will unlock your wallet only on this device. Your provider cannot recover this password.
-            </p>
-            <form>
-                <div class="input-box">
-                    <input type="password" id="new-password" class="createwalletinput" placeholder="New password" required>
-                    <span class="createwalletshowpassword" onclick="togglePasswordVisibility('new-password', this)">Show</span>
-                </div>
-                <div class="input-box">
-                    <input type="password" id="confirm-password" class="createwalletinput" placeholder="Confirm password" required oninput="validatePassword()">
-                    <span class="createwalletshowpassword" onclick="togglePasswordVisibility('confirm-password', this)">Show</span>
-                </div>
-                <div class="checkbox-container createwalletcheckbox">
-                    <input type="checkbox" id="understand" name="understand" required>
-                    <label for="understand" style="color: #ccc;">I agree and understand the terms and conditions.</label>
-                </div>
-                <a href="newpage.html">
-                    <button type="button" class="createwalletbutton" onclick="this.classList.add('clicked');">Create a new wallet</button>
-                </a>
-                
-                <br>
-            </form>
-            
-            <div id="password-display" class="createwalletpassworddisplay" style="margin-top: 20px;"></div>
-        </div>
-    </div>
-    <script>
-        function togglePasswordVisibility(passwordFieldId, element) {
-            const passwordField = document.getElementById(passwordFieldId);
-            const type = passwordField.type === "password" ? "text" : "password";
-            passwordField.type = type;
-            element.textContent = type === "password" ? "Show" : "Hide"; // Toggle text
-        }
-
-        function validatePassword() {
-            const password = document.getElementById("new-password").value;
-            const confirmPassword = document.getElementById("confirm-password").value;
-            const display = document.getElementById("password-display");
-
-            if (password !== confirmPassword) {
-                display.textContent = "Passwords do not match!";
-                display.style.color = "red";
-            } else {
-                display.textContent = "Passwords match!";
-                display.style.color = "green";
+            .grid-container-24 {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        function goToStep(step) {
-            // Handle navigation for other steps if necessary
+        @media (min-width: 601px) {
+            .grid-container-12 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .grid-container-24 {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="window.location.href='index.html'">&larr;</button> <!-- Navigate to index.html -->
+            <div class="title">Import Existing Keys</div>
+        </div>
+        <p class="instructions">
+            • Enter your seed phrase in the right order without capitalization, punctuation symbols, or spaces.<br>
+            • Or copy and paste your entire phrase.
+        </p>
+        <div class="tabs">
+            <button class="tab active" onclick="showWords(12)">12 words</button>
+            <button class="tab" onclick="showWords(24)">24 words</button>
+            <button class="tab" onclick="showPrivateKey()">Private Key</button>
+        </div>
+        <div id="input-container">
+            <div class="grid-container grid-container-12" id="grid-12" style="display: grid;">
+                <!-- Loop to generate 12 input fields -->
+                <script>
+                    for (let i = 1; i <= 12; i++) {
+                        document.write(`<div class="grid-item"><input type="password" class="grid-input" id="input-${i}" placeholder="${i}" maxlength="20" oninput="validateInputs()" onmouseover="showInput(${i})" onmouseout="hideInput(${i})"></div>`);
+                    }
+                </script>
+            </div>
+            <div class="grid-container grid-container-24" id="grid-24" style="display: none;">
+                <!-- Loop to generate 24 input fields -->
+                <script>
+                    for (let i = 1; i <= 24; i++) {
+                        document.write(`<div class="grid-item"><input type="password" class="grid-input" id="input-${i}" placeholder="${i}" maxlength="20" oninput="validateInputs()" onmouseover="showInput(${i})" onmouseout="hideInput(${i})"></div>`);
+                    }
+                </script>
+            </div>
+            <input type="text" id="private-key-input" class="single-input" placeholder="Enter your private key" style="display: none;" oninput="validatePrivateKey()">
+        </div>
+        <button class="bip39-btn">Import with BIP39 Passphrase</button>
+        <button class="next-btn" id="next-btn" disabled>Next</button>
+    </div>
+
+    <script>
+        // Show words based on selection
+        function showWords(wordCount) {
+            document.getElementById('grid-12').style.display = wordCount === 12 ? 'grid' : 'none';
+            document.getElementById('grid-24').style.display = wordCount === 24 ? 'grid' : 'none';
+            document.getElementById('private-key-input').style.display = 'none';
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab:nth-child(${wordCount === 12 ? 1 : 2})`).classList.add('active');
+
+            validateInputs(); // Validate fields whenever tab changes
+        }
+
+        // Show private key input field
+        function showPrivateKey() {
+            document.getElementById('grid-12').style.display = 'none';
+            document.getElementById('grid-24').style.display = 'none';
+            document.getElementById('private-key-input').style.display = 'block';
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector('.tab:nth-child(3)').classList.add('active');
+
+            validatePrivateKey(); // Validate private key when this tab is active
+        }
+
+        // Validate private key format (simple validation for 64-character hex string)
+        function validatePrivateKey() {
+            const privateKeyInput = document.getElementById('private-key-input').value.trim();
+            const privateKeyPattern = /^[a-fA-F0-9]{64}$/; // Hexadecimal format
+            const isValid = privateKeyPattern.test(privateKeyInput);
+            document.getElementById('next-btn').disabled = !isValid;
+        }
+
+        // Validate seed phrase inputs (checks if all inputs in the selected tab are filled)
+        function validateInputs() {
+            const activeGrid = document.querySelector('.grid-container[style*="grid"]');
+            const inputs = activeGrid.querySelectorAll('.grid-input');
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+
+            document.getElementById('next-btn').disabled = !allFilled;
+        }
+
+        // Show the input text on mouse over
+        function showInput(index) {
+            const input = document.getElementById(`input-${index}`);
+            input.type = 'text'; // Change input type to text to show value
+        }
+
+        // Hide the input text on mouse out
+        function hideInput(index) {
+            const input = document.getElementById(`input-${index}`);
+            input.type = 'password'; // Change input type back to password
+        }
+
+        // Paste event handler for splitting seed phrase across inputs
+        document.getElementById('input-container').addEventListener('paste', (e) => {
+            const pastedData = e.clipboardData.getData('text');
+            const words = pastedData.split(/\s+/); // Split by spaces or new lines
+            const activeGrid = document.querySelector('.grid-container[style*="grid"]'); // Active grid
+
+            if (activeGrid) {
+                const inputs = activeGrid.querySelectorAll('.grid-item input'); // Select the input elements
+                words.slice(0, inputs.length).forEach((word, index) => {
+                    inputs[index].value = word;
+                    inputs[index].setAttribute('data-word', word); // Store word in custom data attribute
+                });
+            }
+
+            validateInputs(); // Validate after paste
+            e.preventDefault(); // Prevent the default paste action
+        });
     </script>
 </body>
 </html>

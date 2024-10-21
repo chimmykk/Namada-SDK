@@ -110,10 +110,9 @@
             font-size: 1rem;
             width: 100%;
             box-sizing: border-box;
-        }
-
-        .grid-item::placeholder {
-            color: #888;
+            position: relative;
+            cursor: pointer;
+            font-size: 1rem; /* Added for consistency */
         }
 
         .bip39-btn {
@@ -149,6 +148,11 @@
             background-color: #c69f03;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             outline: 2px solid #000;
+        }
+
+        .next-btn:disabled {
+            background-color: #c69f03;
+            cursor: not-allowed;
         }
 
         .single-input {
@@ -221,7 +225,7 @@
                 <!-- Loop to generate 12 input fields -->
                 <script>
                     for (let i = 1; i <= 12; i++) {
-                        document.write(`<input type="text" class="grid-item" placeholder="${i}">`);
+                        document.write(`<input type="password" class="grid-item" id="input-12-${i}" placeholder="${i}" maxlength="20" oninput="validateInputs()" onmouseover="this.type='text'" onmouseout="this.type='password'" onpaste="pasteWords(event, 12)">`);
                     }
                 </script>
             </div>
@@ -229,17 +233,18 @@
                 <!-- Loop to generate 24 input fields -->
                 <script>
                     for (let i = 1; i <= 24; i++) {
-                        document.write(`<input type="text" class="grid-item" placeholder="${i}">`);
+                        document.write(`<input type="password" class="grid-item" id="input-24-${i}" placeholder="${i}" maxlength="20" oninput="validateInputs()" onmouseover="this.type='text'" onmouseout="this.type='password'" onpaste="pasteWords(event, 24)">`);
                     }
                 </script>
             </div>
-            <input type="text" id="private-key-input" class="single-input" placeholder="Enter your private key" style="display: none;">
+            <input type="text" id="private-key-input" class="single-input" placeholder="Enter your private key" style="display: none;" oninput="validatePrivateKey()">
         </div>
         <button class="bip39-btn">Import with BIP39 Passphrase</button>
-        <button class="next-btn">Next</button>
+        <button class="next-btn" id="next-btn" disabled>Next</button>
     </div>
 
     <script>
+        // Show words based on selection
         function showWords(wordCount) {
             document.getElementById('grid-12').style.display = wordCount === 12 ? 'grid' : 'none';
             document.getElementById('grid-24').style.display = wordCount === 24 ? 'grid' : 'none';
@@ -249,8 +254,11 @@
                 tab.classList.remove('active');
             });
             document.querySelector(`.tab:nth-child(${wordCount === 12 ? 1 : 2})`).classList.add('active');
+
+            validateInputs(); // Validate inputs whenever tab changes
         }
 
+        // Show private key input
         function showPrivateKey() {
             document.getElementById('grid-12').style.display = 'none';
             document.getElementById('grid-24').style.display = 'none';
@@ -260,6 +268,43 @@
                 tab.classList.remove('active');
             });
             document.querySelector('.tab:nth-child(3)').classList.add('active');
+
+            validatePrivateKey(); // Validate private key whenever tab changes
+        }
+
+        // Validate inputs for seed phrase
+        function validateInputs() {
+            const inputs = document.querySelectorAll('.grid-item');
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+            document.getElementById('next-btn').disabled = !allFilled;
+        }
+
+        // Validate private key
+        function validatePrivateKey() {
+            const privateKeyInput = document.getElementById('private-key-input');
+            document.getElementById('next-btn').disabled = privateKeyInput.value.trim() === '';
+        }
+
+        // Handle pasting words into input fields
+        function pasteWords(event, wordCount) {
+            event.preventDefault(); // Prevent the default paste action
+
+            // Get the pasted data
+            const clipboardData = event.clipboardData || window.clipboardData;
+            const pastedData = clipboardData.getData('Text');
+            const words = pastedData.split(' ').filter(word => word); // Split the pasted text into words and filter out empty entries
+
+            // Get the input fields for the selected word count
+            const inputs = document.querySelectorAll(`.grid-container-${wordCount} .grid-item`);
+
+            // Distribute words across the input fields for the current word count
+            words.forEach((word, index) => {
+                if (index < inputs.length) {
+                    inputs[index].value = word; // Fill in each input field with the corresponding word
+                }
+            });
+
+            validateInputs(); // Re-validate inputs after pasting
         }
     </script>
 </body>

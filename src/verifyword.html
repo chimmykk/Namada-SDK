@@ -36,13 +36,12 @@
             font-size: 24px;
             color: #ccc;
             cursor: pointer;
-            transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
-        /* Back button hover effect */
         .header span:hover {
             color: #ffc800;
-            transform: translateX(-5px); /* Move the button left when hovered */
+            transform: translateX(-5px);
         }
 
         .step-indicator {
@@ -57,7 +56,7 @@
             border-radius: 50%;
             background-color: #444;
             margin: 0 4px;
-            cursor: pointer; /* Pointer cursor for clickable dots */
+            cursor: pointer;
         }
 
         .step-indicator div.active {
@@ -97,30 +96,34 @@
         }
 
         .next-button {
-            background-color: #ffc800; /* Yellow color */
-            color: #000; /* Black text */
+            background-color: #ffc800;
+            color: #000;
             padding: 15px;
             border: none;
             border-radius: 10px;
             width: 100%;
             font-size: 16px;
-            cursor: pointer; /* Set cursor to pointer */
-            transition: background-color 0.3s ease, transform 0.3s ease; /* Add transitions for hover and click */
+            cursor: not-allowed; /* Initially not allowed */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            outline: 2px solid transparent;
+            opacity: 0.5; /* Make button look disabled */
         }
 
-        /* Hover effect for the next button */
-        .next-button:hover {
+        .next-button.enabled {
+            cursor: pointer; /* Change cursor when enabled */
+            opacity: 1; /* Make button look active */
+        }
+
+        .next-button:hover.enabled {
             background-color: #c69f03;
             outline: 2px solid #000;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Click effect for the next button */
-        .next-button:active {
-            transform: scale(0.95); /* Shrink slightly on click */
+        .next-button:active.enabled {
+            transform: scale(0.95);
         }
 
-        /* Responsive Design */
         @media screen and (max-width: 768px) {
             .container {
                 width: 95%;
@@ -142,43 +145,101 @@
 
     <div class="container">
         <div class="header">
-            <span id="backButton">&larr;</span> <!-- Back button with ID -->
+            <span id="backButton">&larr;</span>
         </div>
 
         <div class="step-indicator">
-            <div class="active" onclick="window.location.href='sample.html';"></div> <!-- First dot colored and navigates -->
-            <div class="active" onclick="window.location.href='verifyword.html';"></div> <!-- Second dot colored and navigates -->
-            <div onclick="window.location.href='createwallet.html';"></div> <!-- Third dot navigates -->
-            <div onclick="window.location.href='finalstep.html';"></div> <!-- Fourth dot navigates -->
-            <div onclick="window.location.href='walletlist.html';"></div> <!-- Fifth dot navigates to walletlist.html -->
+            <div class="active" onclick="navigateTo('sample.html');"></div> <!-- Navigate back -->
+            <div class="active" onclick="navigateTo('verifyword.html');"></div> <!-- Navigate back -->
+            <div class="inactive"></div> <!-- No click action for future steps -->
+            <div class="inactive"></div> <!-- No click action for future steps -->
+            <div class="inactive"></div> <!-- No click action for future steps -->
         </div>
 
         <h2>Verify your seed phrase</h2>
         <p class="description">Fill out the words according to their numbers</p>
 
-        <div class="input-group">
-            <label for="word2">Word #2</label>
-            <input type="text" id="word2">
-        </div>
+        <!-- Input fields for randomized word positions -->
+        <div id="inputFields"></div>
 
-        <div class="input-group">
-            <label for="word5">Word #5</label>
-            <input type="text" id="word5">
-        </div>
-
-        <a href="createwallet.html"> 
-            <button class="next-button">Next</button>
-        </a>
+        <button class="next-button" id="nextButton" disabled>Next</button> <!-- Next button is disabled initially -->
 
     </div>
 
     <script>
-        const backButton = document.getElementById('backButton'); // Get back button by ID
+        const backButton = document.getElementById('backButton');
+        const nextButton = document.getElementById('nextButton');
+
+        // Function to navigate
+        function navigateTo(page) {
+            window.location.href = page; // Redirect to the specified page
+        }
+
+        // Function to generate random word positions
+        function generateRandomWords() {
+            const totalWords = 12;
+            const selectedWords = new Set();
+
+            while (selectedWords.size < 2) {
+                const randomIndex = Math.floor(Math.random() * totalWords) + 1; // Random number between 1 and 12
+                selectedWords.add(randomIndex);
+            }
+
+            return Array.from(selectedWords);
+        }
+
+        // Function to create input fields for the random words
+        function createInputFields() {
+            const randomWords = generateRandomWords();
+            const inputFieldsContainer = document.getElementById('inputFields');
+            inputFieldsContainer.innerHTML = ''; // Clear previous fields
+
+            randomWords.forEach(word => {
+                const inputGroup = document.createElement('div');
+                inputGroup.classList.add('input-group');
+
+                const label = document.createElement('label');
+                label.setAttribute('for', `word${word}`);
+                label.innerText = `Word #${word}`;
+
+                const input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('id', `word${word}`);
+                input.addEventListener('input', checkInputs); // Add input event listener
+
+                inputGroup.appendChild(label);
+                inputGroup.appendChild(input);
+                inputFieldsContainer.appendChild(inputGroup);
+            });
+        }
+
+        // Function to check if the input fields are filled
+        function checkInputs() {
+            const inputs = document.querySelectorAll('.input-group input');
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+            if (allFilled) {
+                nextButton.classList.add('enabled'); // Add enabled class if all inputs are filled
+                nextButton.disabled = false; // Enable button
+            } else {
+                nextButton.classList.remove('enabled'); // Remove enabled class if any input is empty
+                nextButton.disabled = true; // Disable button
+            }
+        }
 
         // Add click event listener to redirect to sample.html
         backButton.addEventListener('click', function() {
             window.location.href = 'sample.html'; // Redirect to sample.html
         });
+
+        // Add click event listener for Next button
+        nextButton.addEventListener('click', () => {
+            if (!nextButton.disabled) {
+                window.location.href = 'createwallet.html'; // Redirect to create wallet page
+            }
+        });
+
+        // Generate random input fields on page load
+        createInputFields();
     </script>
 
 </body>
