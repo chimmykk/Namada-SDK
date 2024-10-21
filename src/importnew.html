@@ -221,7 +221,7 @@
                 <!-- Loop to generate 12 input fields -->
                 <script>
                     for (let i = 1; i <= 12; i++) {
-                        document.write(`<input type="text" class="grid-item" placeholder="${i}">`);
+                        document.write(`<input type="text" class="grid-item" id="input-${i}" placeholder="${i}" maxlength="20">`);
                     }
                 </script>
             </div>
@@ -229,7 +229,7 @@
                 <!-- Loop to generate 24 input fields -->
                 <script>
                     for (let i = 1; i <= 24; i++) {
-                        document.write(`<input type="text" class="grid-item" placeholder="${i}">`);
+                        document.write(`<input type="text" class="grid-item" id="input-${i}" placeholder="${i}" maxlength="20">`);
                     }
                 </script>
             </div>
@@ -240,6 +240,7 @@
     </div>
 
     <script>
+        // Display the correct number of input fields based on tab selection
         function showWords(wordCount) {
             document.getElementById('grid-12').style.display = wordCount === 12 ? 'grid' : 'none';
             document.getElementById('grid-24').style.display = wordCount === 24 ? 'grid' : 'none';
@@ -251,6 +252,7 @@
             document.querySelector(`.tab:nth-child(${wordCount === 12 ? 1 : 2})`).classList.add('active');
         }
 
+        // Display the private key input field
         function showPrivateKey() {
             document.getElementById('grid-12').style.display = 'none';
             document.getElementById('grid-24').style.display = 'none';
@@ -261,6 +263,23 @@
             });
             document.querySelector('.tab:nth-child(3)').classList.add('active');
         }
+
+        // Paste event handler for splitting seed phrase across inputs
+        document.getElementById('input-container').addEventListener('paste', (e) => {
+            const pastedData = e.clipboardData.getData('text');
+            const words = pastedData.split(/\s+/); // Split by spaces or new lines
+            const activeGrid = document.querySelector('.grid-container[style*="grid"]'); // Active grid
+
+            if (activeGrid) {
+                const inputs = activeGrid.querySelectorAll('.grid-item');
+                words.slice(0, inputs.length).forEach((word, index) => {
+                    inputs[index].value = word;
+                });
+            }
+
+            // Prevent the default paste action
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
