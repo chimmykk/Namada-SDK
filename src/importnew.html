@@ -151,6 +151,11 @@
             outline: 2px solid #000;
         }
 
+        .next-btn:disabled {
+            background-color: #c69f03;
+            cursor: not-allowed;
+        }
+
         .single-input {
             padding: 15px;
             background-color: #333;
@@ -221,7 +226,7 @@
                 <!-- Loop to generate 12 input fields -->
                 <script>
                     for (let i = 1; i <= 12; i++) {
-                        document.write(`<input type="text" class="grid-item" id="input-${i}" placeholder="${i}" maxlength="20">`);
+                        document.write(`<input type="text" class="grid-item" id="input-${i}" placeholder="${i}" maxlength="20" oninput="validateInputs()">`);
                     }
                 </script>
             </div>
@@ -229,18 +234,18 @@
                 <!-- Loop to generate 24 input fields -->
                 <script>
                     for (let i = 1; i <= 24; i++) {
-                        document.write(`<input type="text" class="grid-item" id="input-${i}" placeholder="${i}" maxlength="20">`);
+                        document.write(`<input type="text" class="grid-item" id="input-${i}" placeholder="${i}" maxlength="20" oninput="validateInputs()">`);
                     }
                 </script>
             </div>
-            <input type="text" id="private-key-input" class="single-input" placeholder="Enter your private key" style="display: none;">
+            <input type="text" id="private-key-input" class="single-input" placeholder="Enter your private key" style="display: none;" oninput="validatePrivateKey()">
         </div>
         <button class="bip39-btn">Import with BIP39 Passphrase</button>
-        <button class="next-btn">Next</button>
+        <button class="next-btn" id="next-btn" disabled>Next</button>
     </div>
 
     <script>
-        // Display the correct number of input fields based on tab selection
+        // Show words based on selection
         function showWords(wordCount) {
             document.getElementById('grid-12').style.display = wordCount === 12 ? 'grid' : 'none';
             document.getElementById('grid-24').style.display = wordCount === 24 ? 'grid' : 'none';
@@ -250,9 +255,11 @@
                 tab.classList.remove('active');
             });
             document.querySelector(`.tab:nth-child(${wordCount === 12 ? 1 : 2})`).classList.add('active');
+
+            validateInputs(); // Validate fields whenever tab changes
         }
 
-        // Display the private key input field
+        // Show private key input field
         function showPrivateKey() {
             document.getElementById('grid-12').style.display = 'none';
             document.getElementById('grid-24').style.display = 'none';
@@ -262,6 +269,25 @@
                 tab.classList.remove('active');
             });
             document.querySelector('.tab:nth-child(3)').classList.add('active');
+
+            validatePrivateKey(); // Validate private key when this tab is active
+        }
+
+        // Validate private key format (simple validation for 64-character hex string)
+        function validatePrivateKey() {
+            const privateKeyInput = document.getElementById('private-key-input').value.trim();
+            const privateKeyPattern = /^[a-fA-F0-9]{64}$/; // Hexadecimal format
+            const isValid = privateKeyPattern.test(privateKeyInput);
+            document.getElementById('next-btn').disabled = !isValid;
+        }
+
+        // Validate seed phrase inputs (checks if all inputs in the selected tab are filled)
+        function validateInputs() {
+            const activeGrid = document.querySelector('.grid-container[style*="grid"]');
+            const inputs = activeGrid.querySelectorAll('.grid-item');
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+
+            document.getElementById('next-btn').disabled = !allFilled;
         }
 
         // Paste event handler for splitting seed phrase across inputs
@@ -277,8 +303,8 @@
                 });
             }
 
-            // Prevent the default paste action
-            e.preventDefault();
+            validateInputs(); // Validate after paste
+            e.preventDefault(); // Prevent the default paste action
         });
     </script>
 </body>
