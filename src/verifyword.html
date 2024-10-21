@@ -149,11 +149,11 @@
         </div>
 
         <div class="step-indicator">
-            <div class="active" onclick="window.location.href='sample.html';"></div>
-            <div class="active" onclick="window.location.href='verifyword.html';"></div>
-            <div onclick="window.location.href='createwallet.html';"></div>
-            <div onclick="window.location.href='finalstep.html';"></div>
-            <div onclick="window.location.href='walletlist.html';"></div>
+            <div class="active" onclick="navigateTo('sample.html');"></div> <!-- Navigate back -->
+            <div class="active" onclick="navigateTo('verifyword.html');"></div> <!-- Navigate back -->
+            <div class="inactive"></div> <!-- No click action for future steps -->
+            <div class="inactive"></div> <!-- No click action for future steps -->
+            <div class="inactive"></div> <!-- No click action for future steps -->
         </div>
 
         <h2>Verify your seed phrase</h2>
@@ -177,6 +177,11 @@
         const backButton = document.getElementById('backButton');
         const nextButton = document.getElementById('nextButton');
         const wordInputs = document.querySelectorAll('.input-group input'); // Get all input fields
+
+        // Function to navigate
+        function navigateTo(page) {
+            window.location.href = page; // Redirect to the specified page
+        }
 
         // Function to check if the input fields are filled
         function checkInputs() {
