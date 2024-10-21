@@ -159,15 +159,8 @@
         <h2>Verify your seed phrase</h2>
         <p class="description">Fill out the words according to their numbers</p>
 
-        <div class="input-group">
-            <label for="word2">Word #2</label>
-            <input type="text" id="word2">
-        </div>
-
-        <div class="input-group">
-            <label for="word5">Word #5</label>
-            <input type="text" id="word5">
-        </div>
+        <!-- Input fields for randomized word positions -->
+        <div id="inputFields"></div>
 
         <button class="next-button" id="nextButton" disabled>Next</button> <!-- Next button is disabled initially -->
 
@@ -176,16 +169,54 @@
     <script>
         const backButton = document.getElementById('backButton');
         const nextButton = document.getElementById('nextButton');
-        const wordInputs = document.querySelectorAll('.input-group input'); // Get all input fields
 
         // Function to navigate
         function navigateTo(page) {
             window.location.href = page; // Redirect to the specified page
         }
 
+        // Function to generate random word positions
+        function generateRandomWords() {
+            const totalWords = 12;
+            const selectedWords = new Set();
+
+            while (selectedWords.size < 2) {
+                const randomIndex = Math.floor(Math.random() * totalWords) + 1; // Random number between 1 and 12
+                selectedWords.add(randomIndex);
+            }
+
+            return Array.from(selectedWords);
+        }
+
+        // Function to create input fields for the random words
+        function createInputFields() {
+            const randomWords = generateRandomWords();
+            const inputFieldsContainer = document.getElementById('inputFields');
+            inputFieldsContainer.innerHTML = ''; // Clear previous fields
+
+            randomWords.forEach(word => {
+                const inputGroup = document.createElement('div');
+                inputGroup.classList.add('input-group');
+
+                const label = document.createElement('label');
+                label.setAttribute('for', `word${word}`);
+                label.innerText = `Word #${word}`;
+
+                const input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('id', `word${word}`);
+                input.addEventListener('input', checkInputs); // Add input event listener
+
+                inputGroup.appendChild(label);
+                inputGroup.appendChild(input);
+                inputFieldsContainer.appendChild(inputGroup);
+            });
+        }
+
         // Function to check if the input fields are filled
         function checkInputs() {
-            const allFilled = Array.from(wordInputs).every(input => input.value.trim() !== '');
+            const inputs = document.querySelectorAll('.input-group input');
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
             if (allFilled) {
                 nextButton.classList.add('enabled'); // Add enabled class if all inputs are filled
                 nextButton.disabled = false; // Enable button
@@ -194,11 +225,6 @@
                 nextButton.disabled = true; // Disable button
             }
         }
-
-        // Add input event listeners to check input changes
-        wordInputs.forEach(input => {
-            input.addEventListener('input', checkInputs);
-        });
 
         // Add click event listener to redirect to sample.html
         backButton.addEventListener('click', function() {
@@ -211,6 +237,9 @@
                 window.location.href = 'createwallet.html'; // Redirect to create wallet page
             }
         });
+
+        // Generate random input fields on page load
+        createInputFields();
     </script>
 
 </body>
