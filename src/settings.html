@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,12 +15,13 @@
       display: flex;
       height: 100vh;
       justify-content: center; /* Centering the main content vertically */
-      align-items: center; /* Centering the main content horizontally */
+      align-items: flex-start; /* Align items to the top */
       background-color: #1e1e1e;
+      padding-top: 20px; /* Add some padding at the top */
     }
     .settings-box {
       display: flex;
-      width:50%;
+      width: 80%; /* Changed to a responsive width */
       max-width: 1200px; /* Maximum width for the settings box */
       border-radius: 15px;
       overflow: hidden;
@@ -40,17 +41,22 @@
       padding: 10px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s; /* Add transition for color */
     }
-    /* Updated hover effect for all sidebar items */
     .sidebar-item:hover {
       background-color: #ffc800; /* Hover effect for all items */
+      color: black; /* Set text color to black on hover */
+    }
+    .active {
+      background-color: #ffc800; /* Highlight for active item */
+      color: black; /* Set text color to black for the active item */
+      font-weight: bold; /* Optional: Make it bold */
     }
     .main-content {
       flex-grow: 1;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start; /* Align items to the top */
       background-color: #1e1e1e; /* Main panel background */
       padding: 20px;
     }
@@ -61,6 +67,8 @@
       box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
       width: 100%; /* Make settings view take full width */
       max-width: 600px; /* Set a maximum width */
+      max-height: 90vh; /* Limit height for scrolling */
+      overflow-y: auto; /* Allow vertical scrolling */
     }
     .header {
       display: flex;
@@ -69,7 +77,8 @@
       padding-bottom: 20px;
     }
     .header h1 {
-      font-size: 20px;
+      font-size: 24px; /* Increased font size for header */
+      margin: 0; /* Remove default margin */
     }
     .sync-status {
       font-size: 12px;
@@ -78,20 +87,24 @@
       border-radius: 10px;
     }
     .section-title {
-      font-size: 18px;
+      font-size: 20px; /* Increased font size for section titles */
       padding: 10px 0;
+      color: #ffc800; /* Change text color to yellow */
+      border-bottom: 1px solid #555; /* Add underline to section titles */
+      margin-bottom: 15px; /* Space below section title */
     }
     .setting-group {
       background-color: #2a2a2a;
       padding: 20px;
       border-radius: 8px;
       margin-bottom: 15px;
+      border: 1px solid #555; /* Border around the setting group */
     }
     .setting {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px; /* Space between settings */
     }
     .toggle-switch {
       position: relative;
@@ -123,18 +136,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-    .toggle-option {
-      background-color: #3f86f7;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-    }
-    .toggle-option.disabled {
-      background-color: #394264;
-    }
-    .toggle-option.tor {
-      background-color: #555;
+      font-size: 16px; /* Increased font size for labels */
     }
   </style>
 </head>
@@ -143,14 +145,9 @@
     <div class="settings-box">
       <!-- Sidebar Menu -->
       <div class="sidebar">
-        <div class="sidebar-item" onclick="showSettings('connection')">Connection and sync</div>
-        <div class="sidebar-item" onclick="showSettings('wallets')">Wallets</div>
-        <div class="sidebar-item" onclick="showSettings('addressBook')">Address book</div>
-        <div class="sidebar-item" onclick="showSettings('security')">Security and backup</div>
-        <div class="sidebar-item" onclick="showSettings('privacy')">Privacy</div>
-        <div class="sidebar-item" onclick="showSettings('display')">Display settings</div>
-        <div class="sidebar-item" onclick="showSettings('other')">Other settings</div>
-        <div class="sidebar-item" onclick="showSettings('support')">Support</div>
+        <div class="sidebar-item" onclick="window.location.href='dashboard.html'">Wallet</div> <!-- Updated to redirect to dashboard.html -->
+        <div class="sidebar-item" onclick="showSettings('support')">Help and Support</div>
+        <div class="sidebar-item active">Settings</div> <!-- Removed onclick from Settings -->
       </div>
       <!-- Main Content -->
       <div class="main-content">
@@ -160,20 +157,25 @@
             <div class="sync-status" style="color: black;">SYNCHRONIZED</div>
           </div>
           <div class="setting-group" id="settingsContent">
-            <!-- Dynamic content will be rendered here -->
-            <p>Select a setting from the left to view options here.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-    function showSettings(setting) {
-      const settingsContent = document.getElementById('settingsContent');
-      let content = '';
-      switch(setting) {
-        case 'connection':
-          content = `
+            <div class="section-title">Wallet Settings</div>
+            <div class="setting">
+              <div class="toggle-label">
+                <span>Enable Wallet Backup</span>
+                <div class="toggle-switch" id="backupToggle" onclick="toggleSwitch(this)"></div>
+              </div>
+            </div>
+            <div class="setting">
+              <div class="toggle-label">
+                <span>Enable Multi-Signature</span>
+                <div class="toggle-switch" id="multiSigToggle" onclick="toggleSwitch(this)"></div>
+              </div>
+            </div>
+            <div class="setting">
+              <div class="toggle-label">
+                <span>Show Wallet Balance</span>
+                <div class="toggle-switch" id="balanceToggle" onclick="toggleSwitch(this)"></div>
+              </div>
+            </div>
             <div class="section-title">Connection Settings</div>
             <div class="setting">
               <div class="toggle-label">
@@ -187,32 +189,6 @@
                 <div class="toggle-switch" id="proxyToggle" onclick="toggleSwitch(this)"></div>
               </div>
             </div>
-          `;
-          break;
-        case 'wallets':
-          content = `
-            <div class="section-title">Wallet Settings</div>
-            <div class="setting">
-              <div class="toggle-label">
-                <span>Enable Wallet Backup</span>
-                <div class="toggle-switch" id="backupToggle" onclick="toggleSwitch(this)"></div>
-              </div>
-            </div>
-          `;
-          break;
-        case 'addressBook':
-          content = `
-            <div class="section-title">Address Book Settings</div>
-            <div class="setting">
-              <div class="toggle-label">
-                <span>Show Contacts</span>
-                <div class="toggle-switch" id="contactsToggle" onclick="toggleSwitch(this)"></div>
-              </div>
-            </div>
-          `;
-          break;
-        case 'security':
-          content = `
             <div class="section-title">Security Settings</div>
             <div class="setting">
               <div class="toggle-label">
@@ -220,10 +196,6 @@
                 <div class="toggle-switch" id="twoFAToggle" onclick="toggleSwitch(this)"></div>
               </div>
             </div>
-          `;
-          break;
-        case 'privacy':
-          content = `
             <div class="section-title">Privacy Settings</div>
             <div class="setting">
               <div class="toggle-label">
@@ -231,10 +203,6 @@
                 <div class="toggle-switch" id="anonymousToggle" onclick="toggleSwitch(this)"></div>
               </div>
             </div>
-          `;
-          break;
-        case 'display':
-          content = `
             <div class="section-title">Display Settings</div>
             <div class="setting">
               <div class="toggle-label">
@@ -242,10 +210,6 @@
                 <div class="toggle-switch" id="darkModeToggle" onclick="toggleSwitch(this)"></div>
               </div>
             </div>
-          `;
-          break;
-        case 'other':
-          content = `
             <div class="section-title">Other Settings</div>
             <div class="setting">
               <div class="toggle-label">
@@ -253,21 +217,19 @@
                 <div class="toggle-switch" id="notificationsToggle" onclick="toggleSwitch(this)"></div>
               </div>
             </div>
-          `;
-          break;
-        case 'support':
-          content = `
-            <div class="section-title">Support Settings</div>
-            <p>If you need help, contact support at support@example.com</p>
-          `;
-          break;
-        default:
-          content = '<p>Select a setting from the left to view options here.</p>';
-      }
-      settingsContent.innerHTML = content;
-    }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
     function toggleSwitch(element) {
       element.classList.toggle('active');
+    }
+
+    function showSettings(setting) {
+      // You can add functionality here if needed for sidebar interactions
     }
   </script>
 </body>
