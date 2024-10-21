@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e; /* Dark background */
+      color: #fff; /* Light text color */
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+      justify-content: center; /* Centering the main content vertically */
+      align-items: center; /* Centering the main content horizontally */
+      background-color: #1e1e1e;
+    }
+    .settings-box {
+      display: flex;
+      width: 50%;
+      max-width: 1200px; /* Maximum width for the settings box */
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+      background-color: #2a2a2a; /* Background for the entire settings box */
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #1e1e1e; /* Darker sidebar */
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar-item {
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s; /* Add transition for color */
+    }
+    /* Updated hover effect for all sidebar items */
+    .sidebar-item:hover {
+      background-color: #ffc800; /* Hover effect for all items */
+      color: black; /* Set text color to black on hover */
+    }
+    .active {
+      background-color: #ffc800; /* Highlight for active item */
+      color: black; /* Set text color to black for the active item */
+      font-weight: bold; /* Optional: Make it bold */
+    }
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #1e1e1e; /* Main panel background */
+      padding: 20px;
+    }
+    .settings-view {
+      background-color: #2a2a2a; /* Darker box background */
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+      width: 100%; /* Make settings view take full width */
+      max-width: 600px; /* Set a maximum width */
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+    }
+    .header h1 {
+      font-size: 20px;
+    }
+    .sync-status {
+      font-size: 12px;
+      background-color: #ffc800;
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+    .crypto-balance {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #3a3a3a; /* Slightly lighter background for balance section */
+    }
+    .balance-header {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .balance-amount {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .btn {
+      background-color: #ffc800;
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.2s;
+      flex: 1 1 45%; /* Make buttons responsive */
+    }
+    .btn:hover {
+      background-color: #c69f03;
+      transform: translateY(-2px);
+    }
+    .btn:active {
+      transform: scale(0.95);
+    }
+    @media screen and (max-width: 768px) {
+      .btn {
+        flex: 1 1 100%; /* Stack buttons on smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="settings-box">
+      <!-- Sidebar Menu -->
+      <div class="sidebar">
+        <div class="sidebar-item active" onclick="showSettings('wallet')">Wallet</div> <!-- Highlighted item -->
+        <div class="sidebar-item" onclick="showSettings('support')">Help and Support</div>
+        <div class="sidebar-item" onclick="showSettings('settings')">Settings</div>
+      </div>
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="settings-view" id="settingsView">
+          <div class="header">
+            <h1>My Account</h1> <!-- Updated to "My Account" -->
+            <div class="sync-status" style="color: black;">SYNCHRONIZED</div>
+          </div>
+          <!-- Crypto Balance Section -->
+          <div class="crypto-balance">
+            <div class="balance-header">Available Balance</div>
+            <div class="balance-amount">0.00 NAM</div> <!-- Example balance -->
+          </div>
+          <div class="actions">
+            <button class="btn">Receive</button>
+            <button class="btn">Send</button>
+            <button class="btn">Buy</button>
+            <button class="btn">Sell</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showSettings(setting) {
+      // You can add functionality here if needed for sidebar interactions
+    }
+  </script>
+</body>
+</html>
