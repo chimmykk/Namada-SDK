@@ -64,7 +64,7 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #285dcc;
+            background-color: #cc9b00; /* Changed hover color to match the theme */
         }
         .small-text {
             font-size: 14px;
@@ -129,8 +129,8 @@
     </div>
     
     <div class="flex">
-        <select>
-            <p> Transfer Type</p>
+        <label for="transfer-type" class="small-text">Transfer Type</label>
+        <select id="transfer-type">
             <option value="" disabled selected>Select Transfer Type</option>
             <option value="ibc">IBC</option>
             <option value="shielded">Shielded</option>

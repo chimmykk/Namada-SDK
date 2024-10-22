@@ -140,257 +140,195 @@
 }
 
 .address-type {
-            margin-top: 20px;
-            text-align: center;
-        }
+  margin-top: 20px;
+  text-align: center;
+}
 
-        select {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 10px;
-            background-color: #1e1e1e;
-            border: none;
-            color: #fff;
-            outline: none;
-            box-shadow: 0 1px 2px #ffc800;
-            transition: border-color 0.3s ease-in-out;
-        }
+select {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background-color: #1e1e1e;
+  border: none;
+  color: #fff;
+  outline: none;
+  box-shadow: 0 1px 2px #ffc800;
+  transition: border-color 0.3s ease-in-out;
+}
 
-        select:focus {
-            border: 1px solid #57a6ff;
-            background-color: #1f2942;
-        }
+select:focus {
+  border: 1px solid #57a6ff;
+  background-color: #1f2942;
+}
 
-        .address {
-            margin-top: 20px;
-            word-wrap: break-word;
-            font-size: 14px;
-            text-align: center;
-        }
+.address {
+  margin-top: 20px;
+  word-wrap: break-word;
+  font-size: 14px;
+  text-align: center;
+}
 
-        .balance-section,
-        .receive-section {
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+.balance-section,
+.receive-section {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
 
+.buttonreceive {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background-color: #ffc800;
+  color: #1e1e1e;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-        .buttonreceive {
-            width: 100%;
-            padding: 14px;
-            margin-top: 20px;
-            background-color: #ffc800;
-            color: #1e1e1e;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+.container:hover {
+  transform: translateY(-5px);
+}
 
-        .container:hover {
-            transform: translateY(-5px);
-        }
+.silent-payments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-        .icon {
-            font-size: 24px;
-            color: #ffbf00;
-        }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
 
-        .username {
-            margin-left: 10px;
-            font-size: 20px;
-        }
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
 
-        .status {
-            color: #57a6ff;
-            font-size: 12px;
-        }
+input:checked + .slider {
+  background-color: #4e52aa;
+}
 
-        h2 {
-            font-size: 28px;
-            margin-bottom: 25px;
-            text-align: center;
-            color: #f0f4f8;
-        }
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
 
-        .balance-section,
-        .receive-section {
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+.qr-code {
+  width: 200px;
+  height: 200px;
+  background-color: #fff;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
 
-        .balance-info h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
+.qr-code img {
+  width: 90%;
+  height: auto;
+}
 
-        .balance-info span {
-            font-size: 20px;
-            font-weight: bold;
-        }
+.small-text {
+  font-size: 14px;
+  color: #8894b4;
+}
 
-        .silent-payments {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 24px;
-        }
+.half-input {
+  width: 48%;
+}
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+.optional {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #6e82a5;
+  cursor: pointer;
+  text-align: right;
+}
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
+.optional:hover {
+  text-decoration: underline;
+}
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-        }
+.synchronized {
+  font-size: 12px;
+  text-align: right;
+  color: #14d60b;
+  margin-bottom: 10px;
+}
 
-        input:checked + .slider {
-            background-color: #4e52aa;
-        }
+.estimate-fee {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
 
-        input:checked + .slider:before {
-            transform: translateX(16px);
-        }
+.estimate-fee .small-text {
+  color: #a7b3d1;
+}
 
-        .qr-code {
-            width: 200px;
-            height: 200px;
-            background-color: #fff;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-        }
+@media (max-width: 768px) {
+  .qr-code {
+    width: 180px;
+    height: 180px;
+  }
+}
 
-        .qr-code img {
-            width: 90%;
-            height: auto;
-        }
+@media (max-width: 500px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
 
-        .address-type {
-            margin-top: 20px;
-            text-align: center;
-        }
+  .qr-code {
+    width: 150px;
+    height: 150px;
+  }
 
-        select {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 10px;
-            background-color: #1e1e1e;
-            border: none;
-            color: #fff;
-            outline: none;
-            box-shadow: 0 1px 2px #ffc800;
-            transition: border-color 0.3s ease-in-out;
-        }
+  h2 {
+    font-size: 24px;
+  }
+}
 
-        select:focus {
-            border: 1px solid #57a6ff;
-            background-color: #1f2942;
-        }
-
-        .address {
-            margin-top: 20px;
-            word-wrap: break-word;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .buttonreceive{
-            width: 100%;
-            padding: 14px;
-            margin-top: 20px;
-            background-color: #ffc800;
-            color: #1e1e1e;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        button:hover {
-            background-color: #285dcc;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        @media (max-width: 768px) {
-            .qr-code {
-                width: 180px;
-                height: 180px;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .container {
-                width: 90%;
-                padding: 20px;
-            }
-
-            .qr-code {
-                width: 150px;
-                height: 150px;
-            }
-
-            h2 {
-                font-size: 24px;
-            }
-        }
    
   </style>
 </head>
@@ -442,7 +380,7 @@
             <div class="actions">
 <button class="btn" onclick="loadReceiveToken()">Receive</button>
 
-              <button class="btn" onclick="window.location.href='sendtoken.html'">Send</button>
+              <button class="btn" onclick="loadSendToken()">Send</button>
               <button class="btn">Buy</button>
               <button class="btn">Sell</button>
             </div>
@@ -537,6 +475,45 @@
   `;
 }
 
+function loadSendToken() {
+  const settingsContent = document.getElementById('settingsContent');
+  settingsContent.innerHTML = `
+    <div class="send-token-section">
+      <div class="synchronized">● SYNCHRONIZED</div>
+      <h2>Send Token</h2>
+      
+      <input type="text" placeholder="Recipient Address">
+      
+      <div class="flex">
+          <input type="number" class="half-input" placeholder="NAM: 0.0000">
+          <input type="number" class="half-input" placeholder="USD: 0.00">
+      </div>
+
+      <div class="small-text">Available Balance: 0.0 NAM</div>
+
+      <input type="text" placeholder="Note (optional)">
+      
+      <div class="estimate-fee">
+          <div class="small-text">Estimated fee:</div>
+          <div class="small-text">0.0 NAM | 0.00 USD</div>
+      </div>
+      
+      <div class="flex">
+          <label for="transfer-type" class="small-text">Transfer Type</label>
+          <select id="transfer-type">
+              <option value="" disabled selected>Select Transfer Type</option>
+              <option value="ibc">IBC</option>
+              <option value="shielded">Shielded</option>
+              <option value="transparent">Transparent</option>
+          </select>
+      </div>
+      
+      <div class="optional">Coin control (optional)</div>
+      
+      <button>Send</button>
+    </div>
+  `;
+}
 
   function updateAddress() {
     const addressDisplay = document.getElementById('address-display');
