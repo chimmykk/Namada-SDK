@@ -306,6 +306,107 @@ input:checked + .slider:before {
   color: #a7b3d1;
 }
 
+.send-token-section {
+    background-color: #2a2a2a; /* Main section color */
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Remove the inner box styles, if any were set here. */
+.send-token-section h2 {
+    font-size: 20px;
+    color: #ffc800;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Input fields styling */
+.send-token-section input[type="text"], 
+.send-token-section input[type="number"] {
+    width: calc(100% - 28px); /* Adjusting for padding */
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+    border: none;
+    color: #fff;
+    box-shadow: 0 1px 2px #ffc800;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.send-token-section input[type="text"]:focus, 
+.send-token-section input[type="number"]:focus {
+    border: 1px solid #57a6ff;
+}
+
+/* Flex container for inputs */
+.send-token-section .flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Adjust half-input for proper spacing */
+.send-token-section .half-input {
+    width: 48%; /* Adjust width to fit within the section */
+    padding: 14px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+    border: none;
+    color: #fff;
+    box-shadow: 0 1px 2px #ffc800;
+    outline: none;
+}
+
+/* Remove inner background for button */
+.send-token-section button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background-color: #ffc800; /* Button color */
+    color: #1e1e1e; /* Text color */
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+.send-token-section button:hover {
+    background-color: #c69f03;
+}
+
+.send-token-section .optional {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6e82a5;
+    cursor: pointer;
+    text-align: right;
+}
+
+.send-token-section .optional:hover {
+    text-decoration: underline;
+}
+
+.send-token-section .estimate-fee {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.send-token-section .estimate-fee .small-text {
+    color: #a7b3d1;
+}
+
+
+
+
 @media (max-width: 768px) {
   .qr-code {
     width: 180px;
@@ -479,39 +580,40 @@ function loadSendToken() {
   const settingsContent = document.getElementById('settingsContent');
   settingsContent.innerHTML = `
     <div class="send-token-section">
-      <div class="synchronized">● SYNCHRONIZED</div>
-      <h2>Send Token</h2>
-      
-      <input type="text" placeholder="Recipient Address">
-      
-      <div class="flex">
-          <input type="number" class="half-input" placeholder="NAM: 0.0000">
-          <input type="number" class="half-input" placeholder="USD: 0.00">
-      </div>
-
-      <div class="small-text">Available Balance: 0.0 NAM</div>
-
-      <input type="text" placeholder="Note (optional)">
-      
-      <div class="estimate-fee">
-          <div class="small-text">Estimated fee:</div>
-          <div class="small-text">0.0 NAM | 0.00 USD</div>
-      </div>
-      
-      <div class="flex">
-          <label for="transfer-type" class="small-text">Transfer Type</label>
-          <select id="transfer-type">
-              <option value="" disabled selected>Select Transfer Type</option>
-              <option value="ibc">IBC</option>
-              <option value="shielded">Shielded</option>
-              <option value="transparent">Transparent</option>
-          </select>
-      </div>
-      
-      <div class="optional">Coin control (optional)</div>
-      
-      <button>Send</button>
+    <div class="synchronized">● SYNCHRONIZED</div>
+    <h2>Send Token</h2>
+    
+    <input type="text" placeholder="Recipient Address">
+    
+    <div class="flex">
+        <input type="number" class="half-input" placeholder="NAM: 0.0000">
+        <input type="number" class="half-input" placeholder="USD: 0.00">
     </div>
+
+    <div class="small-text">Available Balance: 0.0 NAM</div>
+
+    <input type="text" placeholder="Note (optional)">
+    
+    <div class="estimate-fee">
+        <div class="small-text">Estimated fee:</div>
+        <div class="small-text">0.0 NAM | 0.00 USD</div>
+    </div>
+    
+    <div class="flex">
+        <label for="transfer-type" class="small-text">Transfer Type</label>
+        <select id="transfer-type">
+            <option value="" disabled selected>Select Transfer Type</option>
+            <option value="ibc">IBC</option>
+            <option value="shielded">Shielded</option>
+            <option value="transparent">Transparent</option>
+        </select>
+    </div>
+    
+    <div class="optional">Coin control (optional)</div>
+    
+    <button>Send</button>
+</div>
+
   `;
 }
 
