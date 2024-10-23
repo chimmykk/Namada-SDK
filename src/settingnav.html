@@ -306,6 +306,165 @@ input:checked + .slider:before {
   color: #a7b3d1;
 }
 
+.send-token-section {
+    background-color: #2a2a2a; /* Main section color */
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Remove the inner box styles, if any were set here. */
+.send-token-section h2 {
+    font-size: 20px;
+    color: #ffc800;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Input fields styling */
+.send-token-section input[type="text"], 
+.send-token-section input[type="number"] {
+    width: calc(100% - 28px); /* Adjusting for padding */
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+    border: none;
+    color: #fff;
+    box-shadow: 0 1px 2px #ffc800;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.send-token-section input[type="text"]:focus, 
+.send-token-section input[type="number"]:focus {
+    border: 1px solid #57a6ff;
+}
+
+/* Flex container for inputs */
+.send-token-section .flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Adjust half-input for proper spacing */
+.send-token-section .half-input {
+    width: 48%; /* Adjust width to fit within the section */
+    padding: 14px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+    border: none;
+    color: #fff;
+    box-shadow: 0 1px 2px #ffc800;
+    outline: none;
+}
+
+/* Remove inner background for button */
+.send-token-section button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background-color: #ffc800; /* Button color */
+    color: #1e1e1e; /* Text color */
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+.send-token-section button:hover {
+    background-color: #c69f03;
+}
+
+.send-token-section .optional {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6e82a5;
+    cursor: pointer;
+    text-align: right;
+}
+
+.send-token-section .optional:hover {
+    text-decoration: underline;
+}
+
+.send-token-section .estimate-fee {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.send-token-section .estimate-fee .small-text {
+    color: #a7b3d1;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: #2a2a2a; /* Dark background for the button */
+    color: white; /* Button text color */
+    border: none; /* No border for a cleaner look */
+    padding: 12px 24px; /* Increased padding for better touch targets */
+    font-size: 18px; /* Slightly smaller font for a more elegant look */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+/* Button hover effect */
+.dropdown-button:hover {
+    background-color: #3b3b3b; /* Slightly lighter on hover */
+}
+
+.dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute; /* Positioned relative to the dropdown */
+    color: white; /* Text color */
+    background-color: #2a2a2a; /* Consistent with button background */
+    min-width: 160px; /* Minimum width */
+    border-radius: 8px; /* Rounded corners for the dropdown */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Softer shadow for depth */
+    z-index: 1; /* Keeps it on top of other elements */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+    opacity: 0; /* Initially invisible */
+    transform: translateY(-10px); /* Start slightly above for animation */
+}
+
+/* Show the dropdown content on hover */
+.dropdown:hover .dropdown-content {
+    display: block; /* Show the dropdown */
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Return to original position */
+}
+
+/* Dropdown item styles */
+.dropdown-content a {
+    color: white; /* White text for contrast */
+    padding: 12px 16px; /* Padding for clickable items */
+    text-decoration: none; /* No underline */
+    display: block; /* Full width items */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+    border-radius: 8px; /* Rounded corners for items */
+}
+
+/* Hover effect for dropdown items */
+.dropdown-content a:hover {
+    background-color: #444; /* Darker background on hover */
+}
+
+
+
+
+
+
 @media (max-width: 768px) {
   .qr-code {
     width: 180px;
@@ -343,8 +502,6 @@ input:checked + .slider:before {
         <div class="sidebar-item" onclick="showSettings('addressBook')">Address book</div>
         <div class="sidebar-item" onclick="showSettings('security')">Security and backup</div>
         <div class="sidebar-item" onclick="showSettings('privacy')">Privacy</div>
-        <div class="sidebar-item" onclick="showSettings('display')">Display settings</div>
-        <div class="sidebar-item" onclick="showSettings('other')">Other settings</div>
         <div class="sidebar-item" onclick="showSettings('support')">Support</div>
       </div>
 
@@ -363,94 +520,243 @@ input:checked + .slider:before {
 
   <script>
     function showSettings(setting) {
+        const settingsContent = document.getElementById('settingsContent');
+        let content = '';
+
+        switch(setting) {
+            case 'wallets':
+                content = `
+                    <div class="header">
+                        <div class="dropdown">
+                            <button class="dropdown-button" id="accountButton">My Account <span>&#9662;</span></button>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="changeAccount('My Account 1')">My Account 1</a>
+                                <a href="#" onclick="changeAccount('My Account 2')">My Account 2</a>
+                                <a href="#" onclick="changeAccount('My Account')">My Account</a>
+                            </div>
+                        </div>
+                        <div class="sync-status" style="color: black;">SYNCHRONIZED</div>
+                    </div>
+                    <div class="crypto-balance">
+                        <div class="balance-header">Available Balance</div>
+                        <div class="balance-amount">0.00 NAM</div> <!-- Example balance -->
+                    </div>
+                    <div class="wallet-address">
+                        <div class="address-container">
+                            <span id="walletAddress">0x5cf6D...839fb</span>
+                            <img src="https://img.icons8.com/ios-glyphs/30/clipboard.png" class="copy-icon" onclick="copyToClipboard('walletAddress')" alt="Copy Address" />
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn" onclick="loadReceiveToken()">Receive</button>
+                        <button class="btn" onclick="loadSendToken()">Send</button>
+                        <button class="btn">Buy</button>
+                        <button class="btn">Sell</button>
+                    </div>
+                `;
+                break;
+            case 'connection':
+                content = `
+                    <div class="section-title">Connection Settings</div>
+                    <div class="setting">
+                        <div class="toggle-label">
+                            <span>Enable Sync</span>
+                            <div class="toggle-switch" id="syncToggle" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+                    <div class="setting">
+                        <div class="toggle-label">
+                            <span>Use Proxy</span>
+                            <div class="toggle-switch" id="proxyToggle" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+                `;
+                break;
+            case 'addressBook':
+                content = `
+                    <div class="section-title">Address Book</div>
+                    <p>Manage your saved addresses for quick access.</p>
+                `;
+                break;
+            case 'security':
+                content = `
+                    <div class="section-title">Security and Backup</div>
+                    <p>Setup 2-factor authentication, backup options, and secure your account.</p>
+                `;
+                break;
+            case 'privacy':
+                content = `
+                    <div class="section-title">Privacy Settings</div>
+                    <p>Manage privacy controls, including data sharing and visibility settings.</p>
+                `;
+                break;
+            case 'display':
+                content = `
+                    <div class="section-title">Display Settings</div>
+                    <p>Adjust your interface theme, font size, and color preferences.</p>
+                `;
+                break;
+            case 'other':
+                content = `
+                    <div class="section-title">Other Settings</div>
+                    <p>Configure miscellaneous settings, such as notifications and app behavior.</p>
+                `;
+                break;
+            case 'support':
+                content = `
+                    <div class="section-title">Support</div>
+                    <p>Contact support or access help resources.</p>
+                `;
+                break;
+            default:
+                content = `<p>Select a setting from the left to view options here.</p>`;
+                break;
+        }
+
+        settingsContent.innerHTML = content;
+    }
+
+    function changeAccount(accountName) {
+        const accountButton = document.getElementById('accountButton');
+        accountButton.innerHTML = accountName + ' <span>&#9662;</span>'; // Update button text
+    }
+
+    function toggleSwitch(element) {
+        element.classList.toggle('active');
+    }
+
+    function copyToClipboard(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Address copied to clipboard!');
+        }).catch(err => {
+            alert('Failed to copy address: ', err);
+        });
+    }
+</script>
+
+<script>
+  function showSettings(setting) {
       const settingsContent = document.getElementById('settingsContent');
       let content = '';
 
       switch(setting) {
-        case 'wallets':
-          content = `
-            <div class="header">
-              <h1>My Account</h1>
-              <div class="sync-status" style="color: black;">SYNCHRONIZED</div>
-            </div>
-            <div class="crypto-balance">
-              <div class="balance-header">Available Balance</div>
-              <div class="balance-amount">0.00 NAM</div> <!-- Example balance -->
-            </div>
-            <div class="actions">
-<button class="btn" onclick="loadReceiveToken()">Receive</button>
+          case 'wallets':
+              content = `
+                  <div class="header">
+                      <div class="dropdown">
+                          <button class="dropdown-button" id="accountButton">My Account <span>&#9662;</span></button>
+                          <div class="dropdown-content">
+                              <a href="#" onclick="changeAccount('My Account 1')">My Account 1</a>
+                              <a href="#" onclick="changeAccount('My Account 2')">My Account 2</a>
+                              <a href="#" onclick="changeAccount('My Account')">My Account</a>
+                          </div>
+                      </div>
+                      <div class="sync-status" style="color: black;">SYNCHRONIZED</div>
+                  </div>
 
-              <button class="btn" onclick="loadSendToken()">Send</button>
-              <button class="btn">Buy</button>
-              <button class="btn">Sell</button>
-            </div>
-          `;
-          break;
-        case 'connection':
-          content = `
-            <div class="section-title">Connection Settings</div>
-            <div class="setting">
-              <div class="toggle-label">
-                <span>Enable Sync</span>
-                <div class="toggle-switch" id="syncToggle" onclick="toggleSwitch(this)"></div>
-              </div>
-            </div>
-            <div class="setting">
-              <div class="toggle-label">
-                <span>Use Proxy</span>
-                <div class="toggle-switch" id="proxyToggle" onclick="toggleSwitch(this)"></div>
-              </div>
-            </div>
-          `;
-          break;
-        case 'addressBook':
-          content = `
-            <div class="section-title">Address Book</div>
-            <p>Manage your saved addresses for quick access.</p>
-          `;
-          break;
-        case 'security':
-          content = `
-            <div class="section-title">Security and Backup</div>
-            <p>Setup 2-factor authentication, backup options, and secure your account.</p>
-          `;
-          break;
-        case 'privacy':
-          content = `
-            <div class="section-title">Privacy Settings</div>
-            <p>Manage privacy controls, including data sharing and visibility settings.</p>
-          `;
-          break;
-        case 'display':
-          content = `
-            <div class="section-title">Display Settings</div>
-            <p>Adjust your interface theme, font size, and color preferences.</p>
-          `;
-          break;
-        case 'other':
-          content = `
-            <div class="section-title">Other Settings</div>
-            <p>Configure miscellaneous settings, such as notifications and app behavior.</p>
-          `;
-          break;
-        case 'support':
-          content = `
-            <div class="section-title">Support</div>
-            <p>Contact support or access help resources.</p>
-          `;
-          break;
-        default:
-          content = `<p>Select a setting from the left to view options here.</p>`;
-          break;
+                  <!-- Copy Address Feature -->
+                  <div class="wallet-address">
+                      <div class="address-container">
+                          <span id="walletAddress">0x5cf6D...839fb</span>
+                          <button class="copy-btn" onclick="copyToClipboard('walletAddress')">Copy Address</button>
+                      </div>
+                  </div>
+
+                  <div class="crypto-balance">
+                      <div class="balance-header">Available Balance</div>
+                      <div class="balance-amount">0.00 NAM</div> <!-- Example balance -->
+                  </div>
+                  <div class="actions">
+                      <button class="btn" onclick="loadReceiveToken()">Receive</button>
+                      <button class="btn" onclick="loadSendToken()">Send</button>
+                      <button class="btn">Buy</button>
+                      <button class="btn">Sell</button>
+                  </div>
+              `;
+              break;
+          case 'connection':
+              content = `
+                  <div class="section-title">Connection Settings</div>
+                  <div class="setting">
+                      <div class="toggle-label">
+                          <span>Enable Sync</span>
+                          <div class="toggle-switch" id="syncToggle" onclick="toggleSwitch(this)"></div>
+                      </div>
+                  </div>
+                  <div class="setting">
+                      <div class="toggle-label">
+                          <span>Use Proxy</span>
+                          <div class="toggle-switch" id="proxyToggle" onclick="toggleSwitch(this)"></div>
+                      </div>
+                  </div>
+              `;
+              break;
+          case 'addressBook':
+              content = `
+                  <div class="section-title">Address Book</div>
+                  <p>Manage your saved addresses for quick access.</p>
+              `;
+              break;
+          case 'security':
+              content = `
+                  <div class="section-title">Security and Backup</div>
+                  <p>Setup 2-factor authentication, backup options, and secure your account.</p>
+              `;
+              break;
+          case 'privacy':
+              content = `
+                  <div class="section-title">Privacy Settings</div>
+                  <p>Manage privacy controls, including data sharing and visibility settings.</p>
+              `;
+              break;
+          case 'display':
+              content = `
+                  <div class="section-title">Display Settings</div>
+                  <p>Adjust your interface theme, font size, and color preferences.</p>
+              `;
+              break;
+          case 'other':
+              content = `
+                  <div class="section-title">Other Settings</div>
+                  <p>Configure miscellaneous settings, such as notifications and app behavior.</p>
+              `;
+              break;
+          case 'support':
+              content = `
+                  <div class="section-title">Support</div>
+                  <p>Contact support or access help resources.</p>
+              `;
+              break;
+          default:
+              content = `<p>Select a setting from the left to view options here.</p>`;
+              break;
       }
 
       settingsContent.innerHTML = content;
-    }
+  }
 
-    function toggleSwitch(element) {
+  function changeAccount(accountName) {
+      const accountButton = document.getElementById('accountButton');
+      accountButton.innerHTML = accountName + ' <span>&#9662;</span>'; // Update button text
+  }
+
+  function toggleSwitch(element) {
       element.classList.toggle('active');
-}
-  </script>
+  }
+
+  function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+          alert('Address copied to clipboard!');
+      }).catch(err => {
+          alert('Failed to copy address: ', err);
+      });
+  }
+</script>
+
+
+
 <script>
  function loadReceiveToken() {
   const settingsContent = document.getElementById('settingsContent');
@@ -479,39 +785,40 @@ function loadSendToken() {
   const settingsContent = document.getElementById('settingsContent');
   settingsContent.innerHTML = `
     <div class="send-token-section">
-      <div class="synchronized">● SYNCHRONIZED</div>
-      <h2>Send Token</h2>
-      
-      <input type="text" placeholder="Recipient Address">
-      
-      <div class="flex">
-          <input type="number" class="half-input" placeholder="NAM: 0.0000">
-          <input type="number" class="half-input" placeholder="USD: 0.00">
-      </div>
-
-      <div class="small-text">Available Balance: 0.0 NAM</div>
-
-      <input type="text" placeholder="Note (optional)">
-      
-      <div class="estimate-fee">
-          <div class="small-text">Estimated fee:</div>
-          <div class="small-text">0.0 NAM | 0.00 USD</div>
-      </div>
-      
-      <div class="flex">
-          <label for="transfer-type" class="small-text">Transfer Type</label>
-          <select id="transfer-type">
-              <option value="" disabled selected>Select Transfer Type</option>
-              <option value="ibc">IBC</option>
-              <option value="shielded">Shielded</option>
-              <option value="transparent">Transparent</option>
-          </select>
-      </div>
-      
-      <div class="optional">Coin control (optional)</div>
-      
-      <button>Send</button>
+    <div class="synchronized">● SYNCHRONIZED</div>
+    <h2>Send Token</h2>
+    
+    <input type="text" placeholder="Recipient Address">
+    
+    <div class="flex">
+        <input type="number" class="half-input" placeholder="NAM: 0.0000">
+        <input type="number" class="half-input" placeholder="USD: 0.00">
     </div>
+
+    <div class="small-text">Available Balance: 0.0 NAM</div>
+
+    <input type="text" placeholder="Note (optional)">
+    
+    <div class="estimate-fee">
+        <div class="small-text">Estimated fee:</div>
+        <div class="small-text">0.0 NAM | 0.00 USD</div>
+    </div>
+    
+    <div class="flex">
+        <label for="transfer-type" class="small-text">Transfer Type</label>
+        <select id="transfer-type">
+            <option value="" disabled selected>Select Transfer Type</option>
+            <option value="ibc">IBC</option>
+            <option value="shielded">Shielded</option>
+            <option value="transparent">Transparent</option>
+        </select>
+    </div>
+    
+    <div class="optional">Coin control (optional)</div>
+    
+    <button>Send</button>
+</div>
+
   `;
 }
 
