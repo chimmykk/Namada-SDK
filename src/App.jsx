@@ -21,8 +21,8 @@ function App() {
         </p>
 
         <div className="flex flex-col mt-[20px] font-medium">
-          <Button title="Create New Wallet" />
-          <Button title="Restore Wallet" />
+          <Button title="Create New Wallet" link={"/create-new-wallet"} />
+          <Button title="Restore Wallet" link={"/restore-wallet"} />
         </div>
       </div>
     </div>

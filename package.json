@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-native-web": "^0.19.13",
     "react-router": "^6.27.0",
+    "react-router-dom": "^6.27.0",
     "react-router-native": "^6.27.0",
     "router": "^2.0.0"
   },
