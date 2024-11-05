@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Button2 from "../components/ui/button2";
 import BackButton from "../components/ui/backButton";
 import StepIndicator from "../components/ui/step-indicator";
 import Input from "../components/ui/input";

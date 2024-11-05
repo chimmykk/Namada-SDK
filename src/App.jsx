@@ -4,7 +4,7 @@ import Button from "./components/ui/button";
 
 function App() {
   return (
-    <div className="bg-[#1e1e1e] flex justify-center items-center h-screen leading-[1.5]">
+    <div className="bg-[#1e1e1e] flex justify-center items-center  leading-[1.5]">
       <div className="p-[20px] rounded-[10px] max-w-[400px] margin-auto text-center bg-[#2a2a2a] border-2 border-[#4b4b4d] flex justify-center flex-col items-center">
         <div className="h-full mb-[10px] p-[1.5em]">
           <img
@@ -16,6 +16,7 @@ function App() {
         <h1 className="text-[1.5em] mb-[10px] text-white text-center font-bold">
           Welcome to Zoro
         </h1>
+
         <p className="mt-[10px] leading-5">
           Keep Your Cryto Safe: Privacy Meets Security with Zoro!
         </p>
