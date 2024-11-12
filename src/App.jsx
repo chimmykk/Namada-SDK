@@ -1,4 +1,3 @@
-import { Image } from "@tauri-apps/api/image";
 import "./App.css";
 import Button from "./components/ui/button";
 

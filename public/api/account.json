@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Account 1",
+    "address": "0x5cf6...39fb",
+    "balance": 14.74
+  },
+  {
+    "name": "Account 2",
+    "address": "0x4a67...348a",
+    "balance": 0.0
+  }
+]

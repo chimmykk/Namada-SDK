@@ -27,7 +27,7 @@ const RestoreWallet = () => {
   };
 
   return (
-    <div className="flex justify-between max-w-[600px] flex-col bg-[#1e1e1e] p-[20px] rounded-lg w-[80%] gap-[20px]">
+    <div className="flex justify-between max-w-[600px] flex-col bg-[#1e1e1e] p-[20px] rounded-lg w-[80%] gap-[20px] relative">
       <div className="flex">
         <BackButton />
         <p className="font-normal m-auto text-[1.5rem]">Import Existing Keys</p>

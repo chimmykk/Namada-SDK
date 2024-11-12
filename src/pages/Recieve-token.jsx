@@ -1,0 +1,89 @@
+import { useState, useRef } from "react";
+
+const RecieveToken = () => {
+  const [addressType, setAddressType] = useState("Segwit");
+  const addressRef = useRef(null);
+
+  // Change the Address Type
+  const addressTypeHandler = (e) => {
+    const value = e.target.value;
+    setAddressType(value);
+  };
+
+  // Copy the Address
+  function CopyAddressHandler() {
+    const textValue = addressRef.current.textContent;
+
+    if (textValue)
+      navigator.clipboard
+        .writeText(textValue)
+        .then(alert("Address copied to clipboard"))
+        .catch((err) => console.log(err));
+  }
+
+  return (
+    <div
+      className="bg-primary p-[40px] rounded-lg w-[400px] shadow-custom-shadow hover:translate-y-[-5px]"
+      style={{ transition: "all 0.3s ease-in-out" }}
+    >
+      <header className="flex justify-between items-center mb-[20px]">
+        <div className="flex items-center">
+          <span className="text-[24px] text-[#ffbf00]">🪙</span>
+          <span className="ml-[20px] font-[20px]">fghj</span>
+        </div>
+        <p className="text-[#57a6ff] text-[12px]">SYNCHRONIZED</p>
+      </header>
+
+      <div className="bg-primary p-[20px] rounded-lg mb-[20px] flex flex-col items-center">
+        <h2 className="text-[28px] mb-[25px] text-center text-[#f0f4f8] font-medium">
+          Receive
+        </h2>
+
+        <div className="w-[200px] h-[200px] bg-[#fff] flex items-center justify-center rounded-lg">
+          <img
+            className="w-[90%]"
+            src={
+              addressType == "Segwit"
+                ? "https://api.qrserver.com/v1/create-qr-code/?data=bitcoin:bc1qf6zfy4we300vjx3fn0dnwwtjg33f0uvha8c4de&size=150x150"
+                : "https://api.qrserver.com/v1/create-qr-code/?data=bitcoin:zs1p4vexampleaddressshieldedzksnarks&size=150x150"
+            }
+          />
+        </div>
+      </div>
+
+      <div className="mt-20px text-center">
+        <label>Address Type:</label>
+        <select
+          onChange={(e) => addressTypeHandler(e)}
+          className="w-full rounded-md my-[10px] bg-[#1e1e1e] text-white p-3 focus:outline focus:outline-1 focus:outline-[#57a6ff] focus:bg-[#1f2942]"
+          style={{
+            boxShadow: "0 1px 2px #ffc800",
+            transition: "all 0.3s ease-in-out",
+          }}
+        >
+          <option value={"Segwit"}>Transparent (Segwit)</option>
+          <option value={"ZK"}>Shielded (ZK)</option>
+        </select>
+      </div>
+
+      <p
+        ref={addressRef}
+        className="mt-[20px] break-words text-[14px] text-center"
+      >
+        {addressType == "Segwit"
+          ? "bc1qf6zfy4we300vjx3fn0dnwwtjg33f0uvha8c4de"
+          : "zs1p4vexampleaddressshieldedzksnarks"}
+      </p>
+
+      <button
+        onClick={CopyAddressHandler}
+        className="w-full rounded-md bg-secondary text-[#1e1e1e] font-medium cursor-pointer tracking-wide p-[14px] mt-[20px] hover:bg-[#285dcc]"
+        style={{ transition: "all 0.3s ease-in-out" }}
+      >
+        COPY ADDRESS
+      </button>
+    </div>
+  );
+};
+
+export default RecieveToken;

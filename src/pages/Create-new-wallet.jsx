@@ -18,11 +18,11 @@ const CreateNewWallet = () => {
 
   return (
     <div
-      className="bg-[#2a2a2a] w-[full] max-w-[400px] rounded-[15px] p-[20px] flex flex-col gap-2 items-center justify-center"
+      className="bg-[#2a2a2a] w-[full] max-w-[400px] relative rounded-[15px] p-[20px] flex flex-col gap-2 items-center justify-center"
       style={{ boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.5)" }}
     >
       <BackButton />
-      <StepIndicator />
+      <StepIndicator activeNumber={1} />
       <h2 className="font-bold"> New Seed Phrase</h2>
 
       <div className="flex gap-2">
