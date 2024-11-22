@@ -13,13 +13,13 @@ const Toggle = ({ getValue, id }) => {
       onClick={activeHandler}
       className={`${
         active ? "bg-secondary" : "bg-[#555]"
-      } relative rounded-full h-[24px] w-[50px] cursor-pointer`}
+      } relative rounded-full h-[2rem] w-[4.2rem] cursor-pointer`}
       style={{ transition: "all 0.3s ease" }}
     >
       <span
         className={`${
-          active ? "right-0 outline outline-1 outline-black" : "left-0"
-        } bg-white rounded-full h-[24px] w-[24px] block absolute cursor-pointer`}
+          active ? "right-0 outline outline-1" : "left-0"
+        } bg-white rounded-full h-[2rem] w-[2rem] block absolute cursor-pointer`}
         style={{ transition: "all 0.3s ease" }}
       />
     </div>

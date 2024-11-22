@@ -16,25 +16,27 @@ function AddressBook() {
     return (
       <div
         key={item.name}
-        className="flex justify-between items-center p-[12px] bg-[#1e1e1e] my-[5px] text-white rounded-md gap-3"
-        style={{ boxShadow: "0 4px 10px rgba(0, 0, 0, 0.15)" }}
+        className="flex justify-between items-center p-[1.2rem] bg-[#1e1e1e] my-[0.5rem] text-white rounded-md gap-3 xxsm:flex-wrap xxsm:justify-start"
+        style={{ boxShadow: "0 0.4rem 1rem rgba(0, 0, 0, 0.15)" }}
       >
         <span>{item.name}</span>
-        <span className="text-left text-[#8e8e8e]">{item.address}</span>
+        <span className="text-left text-[#8e8e8e] xxsm:m-auto">
+          {item.address}
+        </span>
         <button
           onClick={() => {
             navigator.clipboard
               .writeText(item.address)
               .then(alert("Copied address"));
           }}
-          className="bg-[#3a6ea5] py-[8px] px-[12px] rounded-md text-[14px] hover:bg-[#5084c2]"
+          className="bg-[#3a6ea5] py-[0.8rem] px-[1.2rem] rounded-md text-[1.4rem] hover:bg-[#5084c2]"
           style={{ transition: "all 0.3s ease" }}
         >
           Copy
         </button>
 
         <button
-          className="bg-[#a53a3a] py-[8px] px-[12px] rounded-md text-[14px] hover:bg-[#c25252]"
+          className="bg-[#a53a3a] py-[0.8rem] px-[1.2rem] rounded-md text-[1.4rem] hover:bg-[#c25252]"
           style={{ transition: "all 0.3s ease" }}
         >
           Delete
@@ -45,15 +47,17 @@ function AddressBook() {
 
   return (
     <div>
-      <h1 className="text-[24px] font-bold mb-[10px] text-[#e0e0e0]">
+      <h1 className="text-[2.4rem] font-bold mb-[1rem] text-[#e0e0e0] w-fit">
         Address Book
       </h1>
-      <p className="">Manage your saved addresses for quick access.</p>
+      <p className="text-[#c7c7c7]">
+        Manage your saved addresses for quick access.
+      </p>
 
-      <div className="flex flex-col mt-[15px]">{accoutList}</div>
+      <div className="flex flex-col mt-[1.5rem]">{accoutList}</div>
 
       <button
-        className="bg-[#3a6ea5] px-[18px] p-[10px] rounded-md font-bold mt-[20px] hover:bg-[#5084c2]"
+        className="bg-[#3a6ea5] px-[1.8rem] p-[1rem] rounded-md font-bold mt-[2rem] hover:bg-[#5084c2]"
         style={{ transition: "all 0.3s ease" }}
       >
         + Add New Address

@@ -8,13 +8,13 @@ const StepIndicator = ({ activeNumber }) => {
       ? stepIndicator.push(
           <div
             key={i}
-            className="bg-[#ffc800] h-[10px] w-[10px] rounded-full cursor-pointer"
+            className="bg-[#ffc800] h-[1rem] w-[1rem] rounded-full cursor-pointer"
           ></div>
         )
       : stepIndicator.push(
           <div
             key={i}
-            className="bg-[#444444] h-[10px] w-[10px] rounded-full cursor-pointer"
+            className="bg-[#444444] h-[1rem] w-[1rem] rounded-full cursor-pointer"
           ></div>
         );
   }

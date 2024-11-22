@@ -1,8 +1,4 @@
 import { useState } from "react";
-import ConnectionAndSync from "./Connection-and-sync";
-import Wallet from "../../pages/settings-nav/wallets/wallet-main";
-import AddressBook from "./Address-book";
-import SecurityAndBackup from "./Security-and-backup";
 import SettingNav from "./Setting-nav";
 
 function SettingMain({ children }) {
@@ -14,11 +10,11 @@ function SettingMain({ children }) {
   };
 
   return (
-    <div className="flex w-auto max-w-[1200px] rounded-lg overflow-hidden shadow-custom-shadow bg-[#2a2a2a]">
+    <div className="flex w-auto max-w-[120rem] rounded-lg overflow-hidden shadow-custom-shadow bg-[#2a2a2a] xxsm:w-[90%]">
       <SettingNav />
 
-      <div className="flex justify-center items-center p-[20px] min-w-[450px]">
-        <div className="bg-[#2a2a2a] rounded-md p-[20px] shadow-custom-shadow w-full">
+      <div className="flex justify-start items-center p-[2rem] xsm:min-w-[45rem] xxsm:w-full xxsm:p-[1rem]">
+        <div className="bg-[#2a2a2a] rounded-md p-[2rem] shadow-custom-shadow w-fit xxsm:w-full xxsm:p-[1rem]">
           {children}
         </div>
       </div>

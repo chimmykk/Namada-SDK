@@ -1,7 +1,7 @@
 const Input2 = ({ placeholder }) => {
   return (
     <input
-      className="p-[10px] bg-[#333]  border-2 rounded-lg border-[#555] text-center text-white w-full box-border text-[1rem] cursor-pointer"
+      className="p-[1.2rem] xxsm:p-[1rem] bg-[#333]  border-2 rounded-lg border-[#555] text-center text-white w-full box-border cursor-pointer"
       placeholder={placeholder}
       type="password"
       onMouseOver={(e) => (e.target.type = "text")}

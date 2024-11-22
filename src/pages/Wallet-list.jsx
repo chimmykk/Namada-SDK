@@ -17,70 +17,68 @@ const WalletList = () => {
   };
 
   return (
-    <div className="max-w-[400px]  p-[20px] bg-primary rounded-lg shadow-custom-shadow relative">
-      <BackButton link={"/new-page"} />
-      <h2 className="text-center font-medium text-[22px] mt-[20px]">
-        Namada Keys Created
-      </h2>
-      <p className="text-center text-[#ccc]">
-        Here are the accounts generated from your keys
-      </p>
-
-      <div className="flex justify-center my-[20px]">
+    <div className="max-w-[40rem]  p-[2rem] bg-primary rounded-lg shadow-custom-shadow relative xxsm:w-[90%]">
+      <div className="flex justify-center my-[2rem]">
         <StepIndicator activeNumber={5} />
       </div>
 
+      <BackButton link={"/new-page"} />
+      <h2 className="text-center font-medium text-[2.4rem] mt-[2rem]">
+        Namada Keys Created
+      </h2>
+      <p className="text-center text-[#aaa] mb-[2rem]">
+        Here are the accounts generated from your keys
+      </p>
+
       <div>
         <div className="relative">
-          <label className="block mb-[5px] text-[#ccc] text-[14px]">
+          <label className="block mb-[0.5rem] text-[#ccc] text-[1.4rem]">
             Your Transparent Address
           </label>
           <input
             readOnly
             value={"tnam1qrtshzyauy...k8mz9j"}
-            className="w-full p-[10px] text-[14px] text-black bg-secondary rounded-lg"
+            className="w-full p-[1rem] text-[1.4rem] text-black bg-secondary rounded-lg"
           ></input>
 
           <img
             onClick={() => copyHandler(transparentAddress)}
             width="30"
             height="30"
-            className="cursor-pointer absolute top-0 right-3 translate-y-[50%]"
-            style={{ marginTop: "15px" }}
+            className="cursor-pointer absolute top-0 right-3 translate-y-[50%] mt-[1.5rem]"
             src="https://img.icons8.com/ios-glyphs/30/clipboard.png"
             alt="clipboard"
           />
         </div>
 
-        <div className="relative mt-[20px]">
-          <label className="block mb-[5px] text-[#ccc] text-[14px]">
+        <div className="relative mt-[2rem]">
+          <label className="block mb-[.5rem] text-[#ccc] text-[1.4rem]">
             Public Key
           </label>
           <input
             readOnly
             value={"tpknam1qzzv9svn9lrke...n8l6fz"}
-            className="w-full p-[10px] text-[14px] text-black bg-secondary rounded-lg"
+            className="w-full p-[1rem] text-[1.4rem] text-black bg-secondary rounded-lg"
           ></input>
 
           <img
             onClick={() => copyHandler(publicKey)}
             width="30"
             height="30"
-            className="cursor-pointer absolute top-0 right-3 translate-y-[50%]"
-            style={{ marginTop: "15px" }}
+            className="cursor-pointer absolute top-0 right-3 translate-y-[50%] mt-[1.5rem]"
             src="https://img.icons8.com/ios-glyphs/30/clipboard.png"
             alt="clipboard"
           />
         </div>
 
-        <div className="relative mt-[20px] mb-[40px]">
-          <label className="block mb-[5px] text-[#ccc] text-[14px]">
+        <div className="relative mt-[2rem] mb-[4rem]">
+          <label className="block mb-[.5rem] text-[#ccc] text-[1.4rem]">
             Your Shielded Address
           </label>
           <input
             readOnly
             value={"znam1p2wvuaz27r7g20r...mhjwu"}
-            className="w-full p-[10px] text-[14px] text-black bg-secondary rounded-lg"
+            className="w-full p-[1rem] text-[1.4rem] text-black bg-secondary rounded-lg"
             name="ShieldedAddress"
           ></input>
 
@@ -88,8 +86,7 @@ const WalletList = () => {
             onClick={() => copyHandler(shieldedAddress)}
             width="30"
             height="30"
-            className="cursor-pointer absolute top-0 right-3 translate-y-[50%]"
-            style={{ marginTop: "15px" }}
+            className="cursor-pointer absolute top-0 right-3 translate-y-[50%] mt-[1.5rem]"
             src="https://img.icons8.com/ios-glyphs/30/clipboard.png"
             alt="clipboard"
           />

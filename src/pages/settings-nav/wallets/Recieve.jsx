@@ -24,11 +24,11 @@ const Receive = () => {
 
   return (
     <>
-      <div className="bg-primary p-[20px] rounded-lg mb-[10px] flex flex-col items-center relative w-full">
-        <h2 className="text-[24px] mb-[20px] text-left text-[#f0f4f8] font-medium w-full">
+      <div className="bg-primary p-[2rem] rounded-lg mb-[1rem] flex flex-col items-center relative w-full">
+        <h2 className="text-[2.4rem] mb-[2rem] text-left text-[#f0f4f8] font-medium w-full">
           Receive
         </h2>
-        <div className="w-[150px] h-[150px] p-2 bg-[#fff] flex items-center justify-center rounded-lg ">
+        <div className="w-[15rem] h-[15rem] p-2 bg-[#fff] flex items-center justify-center rounded-lg ">
           <img
             className="w-full"
             src={
@@ -40,24 +40,28 @@ const Receive = () => {
         </div>
       </div>
 
-      <div className="mt-[10px] text-center">
+      <div className="mt-[1rem] text-center">
         <label>Address Type:</label>
         <select
           onChange={(e) => addressTypeHandler(e)}
-          className="w-full rounded-md my-[10px] bg-[#1e1e1e] text-white p-3 focus:outline focus:outline-1 focus:outline-[#57a6ff] focus:bg-[#1f2942]"
+          className="w-full rounded-md my-[1rem] bg-[#1e1e1e] text-white p-3 focus:outline focus:outline-1 focus:outline-[#57a6ff] focus:bg-[#1f2942]"
           style={{
-            boxShadow: "0 1px 2px #ffc800",
+            boxShadow: "0 .1rem .2rem #ffc800",
             transition: "all 0.3s ease-in-out",
           }}
         >
-          <option value={"Segwit"}>Transparent (Segwit)</option>
-          <option value={"ZK"}>Shielded (ZK)</option>
+          <option className="w-28" value={"Segwit"}>
+            Transparent (Segwit)
+          </option>
+          <option className="w-28" value={"ZK"}>
+            Shielded (ZK)
+          </option>
         </select>
       </div>
 
       <p
         ref={addressRef}
-        className="mt-[20px] break-words text-[12px] text-center"
+        className="mt-[2rem] break-words text-[1.2rem] text-center xxsm:w-[20rem] w-[90%]"
       >
         {addressType == "Segwit"
           ? "bc1qf6zfy4we300vjx3fn0dnwwtjg33f0uvha8c4de"
@@ -66,7 +70,7 @@ const Receive = () => {
 
       <button
         onClick={CopyAddressHandler}
-        className="w-full rounded-md bg-secondary text-[#1e1e1e] font-medium cursor-pointer tracking-wide p-[10px] mt-[20px] hover:bg-[#285dcc]"
+        className="w-full rounded-md bg-secondary text-[#1e1e1e] font-medium cursor-pointer tracking-wide p-[1rem] mt-[2rem] hover:bg-[#285dcc]"
         style={{ transition: "all 0.3s ease-in-out" }}
       >
         COPY ADDRESS

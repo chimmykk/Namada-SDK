@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const AccountList = ({ activeAccount }) => {
+const AccountList = ({ activeAccount, showAccountHandler }) => {
   const [active, setActive] = useState();
   const [account, setAccount] = useState([]);
 
@@ -22,10 +22,13 @@ const AccountList = ({ activeAccount }) => {
     return (
       <div
         key={item.name}
-        onClick={() => clickHandler(item)}
+        onClick={() => {
+          clickHandler(item);
+          showAccountHandler(false);
+        }}
         className={`${
           active === item.name ? "outline outline-1" : ""
-        } grid grid-cols-2 w-[250px] py-[5px] bg-primary hover:bg-[#444] p-3 gap-0 rounded-md`}
+        } grid grid-cols-2 w-[25rem] py-[.5rem] bg-primary hover:bg-[#444] p-3 gap-0 rounded-md xxsm:w-[23rem]`}
       >
         <span className="">{item.name}</span>
         <p className="row-span-2  self-center justify-self-end font-bold">
@@ -37,7 +40,7 @@ const AccountList = ({ activeAccount }) => {
   });
 
   return (
-    <div className="bg-[#333] p-4 absolute flex flex-col gap-2 top-[50px] left-0 rounded-lg">
+    <div className="bg-[#333] p-4 absolute flex flex-col gap-2 top-[5rem] left-0 rounded-lg xxsm:w-fit ">
       {accountDisplay}
 
       <div className="w-full p-2 hover:bg-primary rounded-md">

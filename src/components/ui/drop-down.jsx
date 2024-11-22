@@ -7,7 +7,7 @@ const DropDown = ({ select }) => {
     <div className="w-full">
       <select
         onChange={(e) => selectedHandler(e)}
-        className="w-full p-[10px] rounded-md bg-[#000] text-white text-[14px]"
+        className="w-full p-[1rem] rounded-md bg-[#000] text-white text-[1.4rem]"
       >
         <option value={24} className="bg-primary">
           I have a 24-word phrase

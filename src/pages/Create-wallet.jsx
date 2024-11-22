@@ -41,62 +41,62 @@ const CreateWallet = () => {
 
   return (
     <div
-      className="bg-[#2a2a2a] rounded-[15px] p-[20px] w-[90%] max-w-[400px] relative flex flex-col items-center gap-4"
-      style={{ boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.5)" }}
+      className="bg-[#2a2a2a] rounded-[1rem] p-[2rem] w-[90%] max-w-[40rem] relative flex flex-col items-center gap-4"
+      style={{ boxShadow: "0px 1rem 2rem rgba(0, 0, 0, 0.5)" }}
     >
-      <BackButton />
+      <BackButton link={"/"} />
 
       <div className="flex justify-center">
         <StepIndicator activeNumber={3} />
       </div>
 
-      <div className="flex gap-10">
+      <div className="flex gap-10 mt-10">
         <aside className="flex flex-col justify-center items-center">
-          <button className="bg-[#ff9800] text-white w-[40px] h-[40px] line-clamp-[30px] rounded-full cursor-pointer">
+          <button className="bg-[#ff9800] text-white w-[4rem] h-[4rem] line-clamp-[3rem] rounded-full cursor-pointer">
             1
           </button>
-          <span className="cursor-pointer mt-[5px] text-[10px]">
+          <span className="cursor-pointer mt-[0.5rem] text-[1.2rem] text-center">
             Create password
           </span>
         </aside>
 
         <aside className="flex flex-col justify-center items-center">
-          <button className="bg-[#4caf50] text-white w-[40px] h-[40px] line-clamp-[30px] rounded-full cursor-pointer">
+          <button className="bg-[#4caf50] text-white w-[4rem] h-[4rem] line-clamp-[3rem] rounded-full cursor-pointer">
             2
           </button>
-          <span className="cursor-pointer mt-[5px] text-[10px]">
+          <span className="cursor-pointer mt-[0.5rem] text-[1.2rem] text-center">
             Secure wallet
           </span>
         </aside>
 
         <aside className="flex flex-col justify-center items-center">
-          <button className="bg-[#2cb207] text-white w-[40px] h-[40px] line-clamp-[30px] rounded-full cursor-pointer">
+          <button className="bg-[#2cb207] text-white w-[4rem] h-[4rem] line-clamp-[3rem] rounded-full cursor-pointer">
             3
           </button>
-          <span className="cursor-pointer mt-[5px] text-[10px]">
+          <span className="cursor-pointer mt-[0.5rem] text-[1.2rem] text-center">
             Confirm phrase
           </span>
         </aside>
       </div>
 
-      <h1 className="text-[1.5rem] font-medium mt-[20px]"> Create Password</h1>
+      <h1 className="text-[1.5rem] font-medium mt-[2rem]"> Create Password</h1>
 
-      <p className="text-center text-[13px]">
+      <p className="text-center text-[1.3rem]">
         This password will unlock your wallet only on this device. Your provider
         cannot recover this password.
       </p>
 
-      <form className="w-full flex flex-col gap-2" onSubmit={onSubmitPassword}>
+      <form className="w-full flex flex-col gap-6" onSubmit={onSubmitPassword}>
         <div className="relative">
           <input
-            className="w-full focus:outline focus:outline-2 focus:outline-[#ffc800] p-[15px] bg-[#000] rounded-md text-[12px] relative"
+            className="w-full focus:outline focus:outline-2 focus:outline-[#ffc800] p-[1.5rem] bg-[#000] rounded-md text-[1.2rem] relative"
             placeholder="New password"
             type={newPasswordShow ? "text" : "password"}
             onChange={(e) => setNewPasswordInput(e.target.value)}
             name="newPassword"
           ></input>
           <span
-            className="text-[12px] text-[#ffc800] cursor-pointer absolute right-4 translate-y-[50%] bottom-[50%]"
+            className="text-[1.4rem] text-[#ffc800] cursor-pointer absolute right-4 translate-y-[50%] bottom-[50%]"
             onClick={() => setNewPasswordShow(!newPasswordShow)}
           >
             Show
@@ -105,7 +105,7 @@ const CreateWallet = () => {
 
         <div className="relative">
           <input
-            className="w-full focus:outline focus:outline-2 focus:outline-[#ffc800] p-[15px] bg-[#000] rounded-md text-[12px] relative"
+            className="w-full focus:outline focus:outline-2 focus:outline-[#ffc800] p-[1.5rem] bg-[#000] rounded-md text-[1.2rem] relative"
             placeholder="Confirm password"
             type={confirmPasswordShow ? "text" : "password"}
             onChange={(e) => setConfirmPasswordInput(e.target.value)}
@@ -113,23 +113,23 @@ const CreateWallet = () => {
           ></input>
 
           <span
-            className="text-[12px] text-[#ffc800] cursor-pointer absolute right-4 translate-y-[50%] bottom-[50%]"
+            className="text-[1.2rem] text-[#ffc800] cursor-pointer absolute right-4 translate-y-[50%] bottom-[50%]"
             onClick={() => setConfirmPasswordShow(!confirmPasswordShow)}
           >
             Show
           </span>
         </div>
 
-        <div className="flex gap-2 mt-[10px]">
+        <div className="flex gap-2 mt-[1rem]">
           <input type="checkbox" className=""></input>
-          <span className="text-[12px]">
+          <span className="text-[1rem] md:text-[1.2rem]">
             I agree and understand the terms and conditions
           </span>
         </div>
 
         <button
           type="submit"
-          className="bg-[#ffc800] text-black rounded-md p-[10px] cursor-pointer"
+          className="bg-[#ffc800] text-black rounded-md p-[1rem] cursor-pointer"
         >
           Create a new wallet
         </button>
@@ -140,7 +140,7 @@ const CreateWallet = () => {
       - If password is match newPasswordInput and confirmPasswordInput, display "password match!" else "password do not match!"*/}
       {passwordMessage && (
         <p
-          className="text-[12px]"
+          className="text-[1.2rem]"
           style={{ color: `${passwordMessage.color}` }}
         >
           {passwordMessage.message}

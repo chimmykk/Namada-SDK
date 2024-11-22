@@ -17,37 +17,37 @@ const VerifyWord = () => {
 
   return (
     <div
-      className="w-full max-w-[400px] bg-[#2a2a2a] rounded-lg p-[20px] relative"
-      style={{ boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.5)" }}
+      className="w-full max-w-[40rem] bg-[#2a2a2a] rounded-lg p-[2rem] relative xxsm:w-[90%]"
+      style={{ boxShadow: "0rem 1rem 2rem rgba(0, 0, 0, 0.5)" }}
     >
       <BackButton />
 
-      <div className="my-[15px] w-full flex justify-center">
+      <div className="my-[1.5rem] w-full flex justify-center">
         <StepIndicator activeNumber={2} />
       </div>
 
-      <h2 className="text-white text-[1.4rem] text-center font-medium">
+      <h2 className="text-white text-[1.8rem] text-center font-medium">
         Verify your seed phrase
       </h2>
 
-      <p className="text-[14px] my-[20px] text-center text-[#ccc]">
+      <p className="text-[1.4rem] my-[2rem] text-center text-[#ccc]">
         Fill out the words according to their numbers
       </p>
 
-      <section>
-        <label className="text-[14px] mb-[5px] block">Word #8</label>
+      <section className="flex flex-col gap-2">
+        <label className="text-[1.4rem] mb-[0.5rem] block">Word #8</label>
         <input
           onChange={(e) => setInputWordEight(e.target.value)}
-          className="w-full bg-black text-white rounded-md p-[10px]"
+          className="w-full bg-black text-white rounded-md p-[1rem]"
         ></input>
 
-        <label className="text-[14px] mt-[10px] block ">Word #1</label>
+        <label className="text-[1.4rem] mt-[1rem] block ">Word #1</label>
         <input
           onChange={(e) => setInputWordOne(e.target.value)}
-          className="w-full bg-black text-white rounded-md p-[10px]"
+          className="w-full bg-black text-white rounded-md p-[1rem]"
         ></input>
 
-        <div className="mt-[20px]">
+        <div className="mt-[4rem]">
           <ButtonNotAllow title={"Next"} allow={buttonAllow} />
         </div>
       </section>

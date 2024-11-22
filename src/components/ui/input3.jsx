@@ -12,7 +12,7 @@ const Input3 = ({ placeholder }) => {
     <div className="relative">
       <input
         placeholder={placeholder}
-        className="p-[10px] rounded-md bg-black text-white font-[14px] mr-[10px] focus:outline-none w-full pr-9"
+        className="p-[1rem] rounded-md bg-black text-white font-[1.4rem] mr-[1rem] focus:outline-none w-full pr-9"
         type={passwordHide ? "password" : "text"}
       ></input>
 

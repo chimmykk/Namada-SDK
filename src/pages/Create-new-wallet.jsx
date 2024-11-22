@@ -18,18 +18,18 @@ const CreateNewWallet = () => {
 
   return (
     <div
-      className="bg-[#2a2a2a] w-[full] max-w-[400px] relative rounded-[15px] p-[20px] flex flex-col gap-2 items-center justify-center"
-      style={{ boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.5)" }}
+      className="bg-[#2a2a2a] w-[full] max-w-[40rem] relative rounded-[1.5rem] p-[2rem] flex flex-col gap-2 items-center justify-center xxsm:w-[90%]"
+      style={{ boxShadow: "0px 1rem 2rem rgba(0, 0, 0, 0.5)" }}
     >
       <BackButton />
       <StepIndicator activeNumber={1} />
-      <h2 className="font-bold"> New Seed Phrase</h2>
+      <h2 className="font-bold mt-10"> New Seed Phrase</h2>
 
-      <div className="flex gap-2">
+      <div className="flex gap-4 md:gap-8">
         <button
-          className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[16px] px-[15px] py-[5px] rounded-[5px] active:scale-95 duration-200"
+          className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.5rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
           style={{
-            boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
+            boxShadow: "0 1rem 2rem rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
           }}
           onClick={() => setActive(12)}
@@ -38,9 +38,9 @@ const CreateNewWallet = () => {
         </button>
 
         <button
-          className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[16px] px-[15px] py-[5px] rounded-[5px] active:scale-95 duration-200"
+          className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.5rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
           style={{
-            boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
+            boxShadow: "0 1rem 2rem rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
           }}
           onClick={() => setActive(24)}
@@ -49,37 +49,37 @@ const CreateNewWallet = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-4 gap-[10px] mb-[20px] mt-[20px]">
+      <div className="grid grid-cols-4 gap-[1rem] mb-[2rem] mt-[2rem]">
         {wordsHandler(active)}
       </div>
 
-      <a className="text-[#ffc800] hover:text-[#c69f03] hover:underline cursor-pointer text-[14px]">
+      <a className="text-[#ffc800] hover:text-[#c69f03] hover:underline cursor-pointer text-[1.4rem]">
         Copy to Clipboard
       </a>
 
-      <div className="bg-[#333] p-[15px] rounded-md text-[12px]  text-center">
+      <div className="bg-[#333] p-[1.5rem] rounded-md text-[1.2rem]  text-center">
         <div>
-          <p className="text-[#ffc800] font-medium text-[14px]">
+          <p className="text-[#ffc800] font-medium text-[1.4rem]">
             DO NOT share your seed phrase with ANYONE
           </p>
-          <p className="text-[12px]">
+          <p className="text-[1.2rem]">
             Anyone with your seed phrase can have full control over your assets.
             Stay vigilant against phishing attacks at all times.
           </p>
         </div>
 
-        <div className="mt-[20px] mb-[20px]">
-          <p className="text-[#ffc800] font-medium text-[14px]">
+        <div className="mt-[2rem] mb-[2rem]">
+          <p className="text-[#ffc800] font-medium text-[1.4rem]">
             Back up the phrase safely
           </p>
-          <p className="text-[12px]">
+          <p className="text-[1.2rem]">
             You will never be able to restore your account without your seed
             phrase.
           </p>
         </div>
       </div>
 
-      <button className="bg-[#ffc800] cursor-not-allowed opacity-50 p-[15px] w-full rounded-md text-black text-[14px] mt-[20px]">
+      <button className="bg-[#ffc800] cursor-not-allowed opacity-50 p-[1.2rem] w-full rounded-md text-black text-[1.8rem] mt-[2rem]">
         Next
       </button>
     </div>

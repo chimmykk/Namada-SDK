@@ -1,7 +1,7 @@
 const ButtonRounded = ({ title, active }) => {
   return active ? (
     <button
-      className="bg-[#ffc800] hover:bg-[#c69f03] text-black outline outline-2 outline-black py-[10px] px-[10px] rounded-full w-full"
+      className="bg-[#ffc800] hover:bg-[#c69f03] text-black outline outline-2 outline-black py-[1rem] px-[1rem] rounded-full w-full"
       onClick={() => setActive(12)}
       style={{ transition: "all 0.3s ease" }}
     >
@@ -9,7 +9,7 @@ const ButtonRounded = ({ title, active }) => {
     </button>
   ) : (
     <button
-      className="bg-[#333] hover:bg-[#c69f03] hover:outline hover:outline-2 outline-black py-[10px] px-[10px] rounded-full w-full"
+      className="bg-[#333] hover:bg-[#c69f03] hover:outline hover:outline-2 outline-black py-[1rem] px-[1rem] rounded-full w-full"
       onClick={() => setActive(24)}
       style={{ transition: "all 0.3s ease" }}
     >

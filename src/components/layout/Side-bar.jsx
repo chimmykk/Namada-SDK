@@ -1,45 +1,82 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import HelpIcon from "../../assets/icons/help";
+
+const navList = {
+  1: "wallet",
+  2: "help",
+  3: "settings",
+};
+
+console.log(navList[1]);
 
 const SideBar = ({ currActive }) => {
   return (
-    <nav className="flex flex-col gap-4 p-5 w-full max-w-[300px]">
+    <nav className="flex flex-col gap-4 p-5">
       <Link
         to={"/dashboard"}
         className={`${
-          currActive == "wallet"
+          currActive == navList[1]
             ? "bg-secondary text-black"
             : "hover:bg-secondary hover:text-black text-white"
-        } font-medium w-full p-2 rounded-md `}
+        } font-medium w-full p-2 rounded-md xsm:w-full`}
         style={{ transition: "all 0.3s ease" }}
       >
-        Wallet
+        <label
+          className={`${
+            currActive === navList[1] ? "text-black" : "text-white"
+          } xxsm:hidden xsm:block cursor-pointer`}
+        >
+          Wallet
+        </label>
+        <img
+          src={currActive === navList[1] ? wallet : walletActive}
+          className={`${
+            currActive == "wallet" ? "text-black" : "text-white"
+          } w-[40px] xsm:hidden xxsm:w-[40px] xxsm:h-[40px]`}
+        />
       </Link>
 
       <Link
-        to={""}
-        onClick={() => setActive("Help and Support")}
         className={`${
-          currActive == "Help and Support"
+          currActive == "help"
             ? "bg-secondary text-black"
             : "hover:bg-secondary hover:text-black text-white"
-        } font-medium w-full p-2 rounded-md `}
+        } font-medium w-full p-2 rounded-md xsm:w-full`}
         style={{ transition: "all 0.3s ease" }}
       >
-        Help and Support
+        <label
+          className={`${
+            currActive === navList[2] ? "text-black" : "text-white"
+          } xxsm:hidden xsm:block cursor-pointer`}
+        >
+          Help and Support
+        </label>
+        <img
+          src={currActive === navList[2] ? help : helpActive}
+          className="w-[40px] xsm:hidden xxsm:w-[40px] xxsm:h-[40px]"
+        />
       </Link>
 
       <Link
         to={"/settings"}
-        onClick={() => setActive("Settings")}
         className={`${
-          currActive == "Settings"
+          currActive == navList[3]
             ? "bg-secondary text-black"
             : "hover:bg-secondary hover:text-black text-white"
-        } font-medium w-full p-2 rounded-md `}
+        } font-medium w-full p-2 rounded-md  xsm:w-full`}
         style={{ transition: "all 0.3s ease" }}
       >
-        Sittings
+        <label
+          className={`${
+            currActive === navList[3] ? "text-black" : "text-white"
+          } xxsm:hidden xsm:block cursor-pointer`}
+        >
+          Setting
+        </label>
+        <img
+          src={currActive === navList[3] ? setting : settingActive}
+          className="w-[40px] xsm:hidden xxsm:w-[40px] xxsm:h-[40px]"
+        />
       </Link>
     </nav>
   );

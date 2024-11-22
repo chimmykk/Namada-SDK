@@ -23,23 +23,23 @@ const Receive = () => {
 
   return (
     <div
-      className="bg-primary p-[40px] rounded-lg w-[400px] shadow-custom-shadow hover:translate-y-[-5px]"
+      className="bg-primary p-[4rem] rounded-lg w-[40rem] shadow-custom-shadow hover:translate-y-[-0.5rem]"
       style={{ transition: "all 0.3s ease-in-out" }}
     >
-      <header className="flex justify-between items-center mb-[20px]">
+      <header className="flex justify-between items-center mb-[2rem]">
         <div className="flex items-center">
-          <span className="text-[24px] text-[#ffbf00]">🪙</span>
-          <span className="ml-[20px] font-[20px]">fghj</span>
+          <span className="text-[2.4rem] text-[#ffbf00]">🪙</span>
+          <span className="ml-[2rem] font-[2rem]">fghj</span>
         </div>
-        <p className="text-[#57a6ff] text-[12px]">SYNCHRONIZED</p>
+        <p className="text-[#57a6ff] text-[1.2rem]">SYNCHRONIZED</p>
       </header>
 
-      <div className="bg-primary p-[20px] rounded-lg mb-[20px] flex flex-col items-center">
-        <h2 className="text-[28px] mb-[25px] text-center text-[#f0f4f8] font-medium">
+      <div className="bg-primary p-[2rem] rounded-lg mb-[2rem] flex flex-col items-center">
+        <h2 className="text-[2.8rem] mb-[2.5rem] text-center text-[#f0f4f8] font-medium">
           Receive
         </h2>
 
-        <div className="w-[200px] h-[200px] bg-[#fff] flex items-center justify-center rounded-lg">
+        <div className="w-[20rem] h-[20rem] bg-[#fff] flex items-center justify-center rounded-lg">
           <img
             className="w-[90%]"
             src={
@@ -51,11 +51,11 @@ const Receive = () => {
         </div>
       </div>
 
-      <div className="mt-20px text-center">
+      <div className="mt-[2rem] text-center">
         <label>Address Type:</label>
         <select
           onChange={(e) => addressTypeHandler(e)}
-          className="w-full rounded-md my-[10px] bg-[#1e1e1e] text-white p-3 focus:outline focus:outline-1 focus:outline-[#57a6ff] focus:bg-[#1f2942]"
+          className="w-full rounded-md my-[1rem] bg-[#1e1e1e] text-white p-3 focus:outline focus:outline-1 focus:outline-[#57a6ff] focus:bg-[#1f2942]"
           style={{
             boxShadow: "0 1px 2px #ffc800",
             transition: "all 0.3s ease-in-out",
@@ -68,7 +68,7 @@ const Receive = () => {
 
       <p
         ref={addressRef}
-        className="mt-[20px] break-words text-[14px] text-center"
+        className="mt-[2rem] break-words text-[1.4rem] text-center"
       >
         {addressType == "Segwit"
           ? "bc1qf6zfy4we300vjx3fn0dnwwtjg33f0uvha8c4de"
@@ -77,7 +77,7 @@ const Receive = () => {
 
       <button
         onClick={CopyAddressHandler}
-        className="w-full rounded-md bg-secondary text-[#1e1e1e] font-medium cursor-pointer tracking-wide p-[14px] mt-[20px] hover:bg-[#285dcc]"
+        className="w-full rounded-md bg-secondary text-[#1e1e1e] font-medium cursor-pointer tracking-wide p-[1.4rem] mt-[2rem] hover:bg-[#285dcc]"
         style={{ transition: "all 0.3s ease-in-out" }}
       >
         COPY ADDRESS
