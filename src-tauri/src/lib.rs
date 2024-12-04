@@ -23,8 +23,8 @@ use rand_core::OsRng;
 use namada_sdk::masp::find_valid_diversifier;
 use std::io::Read;
 use std::path::Path;
-const RPC_URL: &str = "https://namada-campfire-rpc.zenode.app";
-const CHAIN_ID: &str = "housefire-reduce.e51ecf4264fc3";
+const RPC_URL: &str = "https://namada-rpc.mandragora.io";
+const CHAIN_ID: &str = "namada.5f5de2dd1b88cba30586420";
 
 #[tauri::command]
 async fn create_wallet<C, U, V, I>(
