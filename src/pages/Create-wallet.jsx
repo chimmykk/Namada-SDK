@@ -90,7 +90,7 @@ const CreateWallet = () => {
         <div className="relative">
           <input
             className="w-full focus:outline focus:outline-2 focus:outline-[#ffc800] p-[1.5rem] bg-[#000] rounded-md text-[1.2rem] relative"
-            placeholder="New password"
+            placeholder="new password"
             type={newPasswordShow ? "text" : "password"}
             onChange={(e) => setNewPasswordInput(e.target.value)}
             name="newPassword"
@@ -106,7 +106,7 @@ const CreateWallet = () => {
         <div className="relative">
           <input
             className="w-full focus:outline focus:outline-2 focus:outline-[#ffc800] p-[1.5rem] bg-[#000] rounded-md text-[1.2rem] relative"
-            placeholder="Confirm password"
+            placeholder="confirm password"
             type={confirmPasswordShow ? "text" : "password"}
             onChange={(e) => setConfirmPasswordInput(e.target.value)}
             name="confirmPassword"

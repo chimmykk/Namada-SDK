@@ -18,7 +18,7 @@ const CreateNewWallet = () => {
 
   return (
     <div
-      className="bg-[#2a2a2a] w-[full] max-w-[40rem] relative rounded-[1.5rem] p-[2rem] flex flex-col gap-2 items-center justify-center xxsm:w-[90%]"
+      className="bg-[#2a2a2a] w-[full] max-w-[40rem] relative rounded-[1.5rem] md:rounded-[1.2rem] p-[2rem] flex flex-col gap-2 items-center justify-center xxsm:w-[90%]"
       style={{ boxShadow: "0px 1rem 2rem rgba(0, 0, 0, 0.5)" }}
     >
       <BackButton />
