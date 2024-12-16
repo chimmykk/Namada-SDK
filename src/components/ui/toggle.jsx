@@ -13,7 +13,7 @@ const Toggle = ({ getValue, id }) => {
       onClick={activeHandler}
       className={`${
         active ? "bg-secondary" : "bg-[#555]"
-      } relative rounded-full h-[2rem] w-[4.2rem] cursor-pointer`}
+      } relative rounded-full h-[2rem] w-[3.6rem] cursor-pointer`}
       style={{ transition: "all 0.3s ease" }}
     >
       <span

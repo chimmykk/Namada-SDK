@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SettingNav from "./Setting-nav";
+import SettingNav from "./setting-nav";
 
 function SettingMain({ children }) {
   const [active, setActive] = useState("Connection and Sync");

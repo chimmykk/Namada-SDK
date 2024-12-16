@@ -18,14 +18,14 @@ const CreateNewWallet = () => {
 
   return (
     <div
-      className="bg-[#2a2a2a] w-[full] max-w-[40rem] relative rounded-[1.5rem] md:rounded-[1.2rem] p-[2rem] flex flex-col gap-2 items-center justify-center xxsm:w-[90%]"
+      className="bg-[#2a2a2a] w-[full] max-w-[40rem] relative rounded-[1.5rem] md:rounded-xl p-[2rem] flex flex-col gap-2 items-center justify-center xxsm:w-[90%]"
       style={{ boxShadow: "0px 1rem 2rem rgba(0, 0, 0, 0.5)" }}
     >
       <BackButton />
       <StepIndicator activeNumber={1} />
       <h2 className="font-bold mt-10"> New Seed Phrase</h2>
 
-      <div className="flex gap-4 md:gap-8">
+      <div className="flex gap-8">
         <button
           className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.5rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
           style={{
@@ -38,7 +38,7 @@ const CreateNewWallet = () => {
         </button>
 
         <button
-          className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.5rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
+          className="bg-[#ffc800] hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.2rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
           style={{
             boxShadow: "0 1rem 2rem rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
@@ -57,7 +57,7 @@ const CreateNewWallet = () => {
         Copy to Clipboard
       </a>
 
-      <div className="bg-[#333] p-[1.5rem] rounded-md text-[1.2rem]  text-center">
+      <div className="bg-[#333] p-[1.5rem] rounded-xl text-[1.2rem]  text-center">
         <div>
           <p className="text-[#ffc800] font-medium text-[1.4rem]">
             DO NOT share your seed phrase with ANYONE
@@ -79,7 +79,7 @@ const CreateNewWallet = () => {
         </div>
       </div>
 
-      <button className="bg-[#ffc800] cursor-not-allowed opacity-50 p-[1.2rem] w-full rounded-md text-black text-[1.8rem] mt-[2rem]">
+      <button className="bg-[#ffc800] cursor-not-allowed opacity-50 p-[1rem] w-full rounded-xl text-black text-[1.8rem] mt-[2rem]">
         Next
       </button>
     </div>

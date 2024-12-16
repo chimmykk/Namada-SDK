@@ -50,3 +50,13 @@ html {
     font: 12px;
   }
 }
+
+@layer utilities {
+  .custom-scrollbar {
+    scrollbar-width: none;
+    scrollbar-color: #a7a7a7 #e5e7eb;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 1px;
+  }
+}

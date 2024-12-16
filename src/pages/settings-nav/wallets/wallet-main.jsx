@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import AccountList from "./Account-list";
-import Receive from "./Recieve";
+import Receive from "./Receive";
 import { Link } from "react-router-dom";
 
 function Wallet() {
@@ -44,7 +44,7 @@ function Wallet() {
   return (
     <>
       {activeLayout === "main" && (
-        <div className="flex flex-col justify-between gap-4 items-center pb-[1.5rem] max-w-[40rem] Xsm:min-w-[35rem] xxsm:w-full">
+        <div className="flex flex-col justify-between gap-4 items-center pb-[1.5rem] max-w-fit xsm:min-w-[35rem] xxsm:w-full">
           <div className="flex items-center justify-between w-full gap-8 xxsm:gap-2">
             <div
               onMouseEnter={() => setShowAccountList(true)}

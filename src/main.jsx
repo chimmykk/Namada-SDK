@@ -1,20 +1,7 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import CreateNewWallet from "./pages/Create-new-wallet";
-import RestoreWallet from "./pages/Restore-wallet";
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CreateWallet from "./pages/Create-wallet";
-import NewPage from "./pages/New-Page";
-import VerifyWord from "./pages/Verify-word";
-import WalletList from "./pages/Wallet-list";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Settings from "./pages/dashboard/Settings";
-import HelpAndSupport from "./pages/dashboard/Help-and-support";
-import ImportWalletTold from "./pages/Import-wallet-told";
-import RecieveToken from "./pages/Recieve-token";
-import SendToken from "./pages/Send-token";
 import ConnectionAndSync from "./pages/settings-nav/Connection-and-sync";
 import SettingMain from "./pages/settings-nav/setting-main";
 import Wallet from "./pages/settings-nav/wallets/wallet-main";
@@ -22,32 +9,32 @@ import AddressBook from "./pages/settings-nav/Address-book";
 import SecurityAndBackup from "./pages/settings-nav/Security-and-backup";
 import Support from "./pages/settings-nav/Support";
 import Privacy from "./pages/settings-nav/Privacy";
-import Receive from "./pages/settings-nav/wallets/Recieve";
 import WalletSendToken from "./pages/settings-nav/wallets/Wallet-send-token";
-import NewWallet from "./pages/dashboard/NewWallet";
-import NewSettings from "./pages/New-settings";
+import Receive from "./pages/settings-nav/wallets/Receive";
+import MobileSetting from "./device/mobile-device/mobile-settings/Mobile-settings";
+import MobileWallet from "./device/mobile-device/mobile-wallets/Mobile-wallets";
+import MainRoutes from "./routes/MainRoutes";
+import MobileWalletRoutes from "./routes/mobile-routes/WalletRoutes";
+import MobileMainRoutes from "./routes/mobile-routes/MobileMainRoutes";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/create-new-wallet" element={<CreateNewWallet />} />
-        <Route path="/restore-wallet" element={<RestoreWallet />} />
-        <Route path="/create-wallet" element={<CreateWallet />} />
-        <Route path="/verify-word" element={<VerifyWord />} />
-        <Route path="/new-page" element={<NewPage />} />
-        <Route path="/wallet-list" element={<WalletList />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/help-and-support" element={<HelpAndSupport />} />
-        <Route path="/import-wallet-told" element={<ImportWalletTold />} />
-        <Route path="/recieve-token" element={<RecieveToken />} />
-        <Route path="/send-token" element={<SendToken />} />
+        <Route path="">
+          <Route path="/" element={<App />}></Route>
+          {MainRoutes()}
+        </Route>
+
+        <Route path="">{MobileMainRoutes()}</Route>
+
+        <Route path="/mobile-wallets">
+          <Route path="" element={<MobileWallet />}></Route>
+          {MobileWalletRoutes()}
+        </Route>
 
         {/* ========== Setting Section ======= */}
-        <Route path="/new-wallets" element={<NewWallet />}></Route>
-        <Route path="/new-settings" element={<NewSettings />}></Route>
+        <Route path="/mobile-setting" element={<MobileSetting />}></Route>
 
         <Route path="/setting-nav">
           <Route
@@ -71,7 +58,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             />
 
             <Route
-              path="recieve"
+              path="receive"
               element={
                 <SettingMain>
                   <Receive />

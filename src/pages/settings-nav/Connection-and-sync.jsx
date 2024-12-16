@@ -1,69 +1,92 @@
+import { Link } from "react-router-dom";
+import ButtonBack from "../../components/ui/button-back";
+import Toggle from "../../components/ui/toggle";
+
 const ConnectionAndSync = () => {
+  const button = (title) => {
+    return (
+      <button
+        className="bg-[#ffc800] text-white py-[1rem] px-[2rem] rounded-md text-[1.8rem] hover:bg-[#ffc800] w-auto flex items-center justify-center"
+        style={{ transition: "all 0.3s ease" }}
+      >
+        {title}
+      </button>
+    );
+  };
+
   return (
     <>
-      <label className="font-bold my-[1rem] block">Network name</label>
-      <input
-        placeholder="Network name"
-        type="text"
-        className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.4rem] bg-[#333]"
-      ></input>
+      <section className="p-8 h-full flex flex-col md:w-auto xxsm:w-full">
+        <div className="flex justify-between w-full mb-10 md:hidden">
+          <ButtonBack w={24} color={"white"} to={"/mobile-wallets"} />
+          <p className="text-[1.8rem]">Connection and Sync</p>
+          <b></b>
+        </div>
 
-      <label className="font-bold my-[1rem] block">New RPC URL</label>
+        <div className="flex justify-between items-center h-20 mb-8 md:hidden">
+          <label>Shielded Sync</label>
+          <Toggle />
+        </div>
 
-      <input
-        placeholder="New RPC URL"
-        type="text"
-        className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.4rem] bg-[#333]"
-      ></input>
+        <label className="font-bold my-[1rem] text-[1.8rem] block">
+          Network name
+        </label>
+        <input
+          placeholder="Network name"
+          type="text"
+          className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.8rem] bg-[#333]"
+        ></input>
 
-      <label className="font-bold my-[1rem] block">Chain ID</label>
+        <label className="font-bold my-[1rem] text-[1.8rem] block">
+          New RPC URL
+        </label>
 
-      <input
-        placeholder="Chain ID"
-        type="text"
-        className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.4rem] bg-[#333]"
-      ></input>
+        <input
+          placeholder="New RPC URL"
+          type="text"
+          className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.8rem] bg-[#333]"
+        ></input>
 
-      <label className="font-bold my-[1rem] block">Currency symbol</label>
+        <label className="font-bold my-[1rem] text-[1.8rem] block">
+          Chain ID
+        </label>
 
-      <input
-        placeholder="Currency symbol"
-        type="text"
-        className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.4rem] bg-[#333]"
-      ></input>
+        <input
+          placeholder="Chain ID"
+          type="text"
+          className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.8rem] bg-[#333]"
+        ></input>
 
-      <label className="font-bold my-[1rem] block">
-        Block explorer URL (Optional)
-      </label>
+        <label className="font-bold my-[1rem] block text-[1.8rem]">
+          Currency symbol
+        </label>
 
-      <input
-        placeholder="Block explorer URL"
-        type="text"
-        className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.4rem] bg-[#333]"
-      ></input>
+        <input
+          placeholder="Currency symbol"
+          type="text"
+          className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.8rem] bg-[#333]"
+        ></input>
 
-      <div className="grid grid-cols-2 gap-4 mt-[2rem] xxsm:flex-col">
-        <button
-          className="bg-[#ff4d4d] text-white py-[1rem] px-[2rem] rounded-md text-[1.4rem] hover:bg-[#e60000] w-auto flex items-center justify-center"
-          style={{ transition: "all 0.3s ease" }}
-        >
-          Cancel
-        </button>
+        <label className="font-bold my-[1rem] block text-[1.8rem]">
+          Block explorer URL (Optional)
+        </label>
 
-        <button
-          className="bg-[#ffc800] text-black py-[1rem] px-[2rem] rounded-md text-[1.4rem] hover:bg-[#e0b800] w-auto flex items-center justify-center"
-          style={{ transition: "all 0.3s ease" }}
-        >
-          Save
-        </button>
+        <input
+          placeholder="Block explorer URL"
+          type="text"
+          className="w-full p-[.8rem] rounded-md border border-1 border-[#ffc800] mb-[1.5rem] text-[1.8rem] bg-[#333]"
+        ></input>
 
-        <button
-          className="bg-[#007bff] text-white py-[1rem] px-[2rem] rounded-md text-[1.4rem] hover:bg-[#0056b3] w-full flex items-center justify-center xxsm:col-span-2"
-          style={{ transition: "all 0.3s ease" }}
-        >
-          Turn Shielded Sync
-        </button>
-      </div>
+        <div className="grid grid-cols-3 gap-4 mt-[3.6rem] xxsm:grid-cols-2 md:grid-cols-3 xxsm:mt-auto">
+          {button("Cancel")}
+
+          {button("Save")}
+
+          <aside className="xxsm:hidden md:block">
+            {button("Turn Shielded Sync")}
+          </aside>
+        </div>
+      </section>
     </>
   );
 };

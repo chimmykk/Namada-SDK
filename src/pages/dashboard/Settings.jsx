@@ -1,6 +1,5 @@
 import SideBar from "../../components/layout/Side-bar";
 import SettingDashboardList from "./component/SettingDashboardList";
-import { useState } from "react";
 
 const Settings = () => {
   // Get the value of toggle button
@@ -45,22 +44,19 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex justify-between items-start max-w-[80rem]  bg-primary rounded-lg w-[90%] p-[2rem] xxsm:p-[0rem] shadow-custom-shadow  h-[auto] ">
+    <div className="flex justify-start items-start max-w-[80rem]  bg-primary w-[90%] p-[2rem] xxsm:p-[0rem] shadow-custom-shadow  h-[auto] rounded-[0.8rem] max-h-[90%]">
       <SideBar currActive={"settings"} />
 
-      <section className="bg-[#2a2a2a] rounded-lg max-w-[48rem] w-full p-[1rem] shadow-custom-shadow m-[1rem] ">
-        <div
-          className="max-w-[50rem] w-full h-full p-4"
-          style={{ scrollbarWidth: "none" }}
-        >
+      <section className="bg-[#2a2a2a] rounded-lg w-full p-[2rem] shadow-custom-shadow m-[1rem] ">
+        <div className=" w-full h-fit p-4" style={{ scrollbarWidth: "none" }}>
           <div className="flex items-center justify-between">
-            <h1 className="text-[2.4rem] font-medium ">Settings</h1>
+            <h1 className="text-[2.4rem] font-medium">Settings</h1>
             <p className="bg-secondary text-black px-2 rounded-full text-[1.2rem]">
               SYNCHRONIZED
             </p>
           </div>
 
-          <section className=" w-full border-1 border-[#555] rounded-md p-3 flex flex-col gap-4 mt-4 overflow-y-auto xxsm:max-h-[60rem]">
+          <section className=" w-full custom-scrollbar  border-1 border-[#555] rounded-md p-3 flex flex-col gap-4 mt-4 overflow-y-auto max-h-[60vh]">
             <SettingDashboardList
               prop={settingList.wallet}
               EnableButton={EnableButton}

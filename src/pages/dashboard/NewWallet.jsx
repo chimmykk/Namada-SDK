@@ -6,7 +6,6 @@ import RightAchorIcon from "../../assets/icons/right-achor";
 import UpIcon from "../../assets/icons/up";
 import DownIcon from "../../assets/icons/down";
 import Transaction from "../../components/layout/Transaction";
-import MobileNav from "../../components/layout/mobile-nav";
 import WalletIcon from "../../assets/icons/wallet";
 import SettingIcon from "../../assets/icons/setting";
 
@@ -85,8 +84,6 @@ const NewSettings = () => {
           <Transaction />
         </div>
       </section>
-
-      <MobileNav />
     </div>
   );
 };

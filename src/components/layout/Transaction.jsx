@@ -91,11 +91,11 @@ const transactionType = {
   receive: "Receive",
 };
 
-const transaction = transactionList.map((items) => {
+const transaction = transactionList.slice(0, 4).map((items) => {
   return (
     <div
       key={items.name}
-      className="grid grid-cols-[auto,auto,1fr] w-full h-full gap-x-8"
+      className="grid grid-cols-[auto,auto,1fr] w-full  gap-x-8 items-center h-[fit]"
     >
       <div className="bg-[#FFC800] p-4 rounded-full w-fit h-fit row-span-2">
         {items.type === transactionType.send ? (
@@ -133,7 +133,7 @@ const transaction = transactionList.map((items) => {
 
 const Transaction = () => {
   return (
-    <div className="flex flex-col  gap-8 mt-8 mb-0 h-[42rem] overflow-y-auto">
+    <div className="flex flex-col  gap-8 mt-8 mb-0 h-fit overflow-y-auto">
       {transaction}
     </div>
   );

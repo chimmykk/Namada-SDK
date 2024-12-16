@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import WalletIcon from "../../assets/icons/wallet";
-import HelpIcon from "../../assets/icons/help";
-import SettingIcon from "../../assets/icons/settings";
 
 const navList = {
   1: "wallet",
@@ -11,7 +8,7 @@ const navList = {
 
 const SideBar = ({ currActive }) => {
   return (
-    <nav className="flex flex-col gap-4 p-5">
+    <nav className="flex flex-col gap-4 p-[1.8rem] w-fit">
       <Link
         to={"/dashboard"}
         className={`${
@@ -21,14 +18,10 @@ const SideBar = ({ currActive }) => {
         } font-medium w-full p-2 rounded-md xsm:w-full`}
         style={{ transition: "all 0.3s ease" }}
       >
-        <WalletIcon
-          color={`${currActive === navList[1] ? "black" : "white"}`}
-          w={32}
-        />
         <label
           className={`${
-            currActive === navList[1] ? "text-black" : "text-white"
-          } xxsm:hidden xsm:block cursor-pointer`}
+            currActive === navList[1] ? "text-white" : "text-white"
+          } xxsm:hidden xsm:block cursor-pointer text-[1.8rem]`}
         >
           Wallet
         </label>
@@ -38,19 +31,15 @@ const SideBar = ({ currActive }) => {
         to={"/help-and-support"}
         className={`${
           currActive === navList[2]
-            ? "bg-secondary text-black"
+            ? "bg-secondary "
             : "hover:bg-secondary hover:text-black text-white"
-        } font-medium w-full p-2 rounded-md xsm:w-full`}
+        } font-medium w-full p-2 rounded-md xsm:w-full `}
         style={{ transition: "all 0.3s ease" }}
       >
-        <HelpIcon
-          color={`${currActive === navList[2] ? "black" : "white"}`}
-          w={32}
-        />
         <label
           className={`${
-            currActive === navList[2] ? "text-black" : "text-white"
-          } xxsm:hidden xsm:block cursor-pointer`}
+            currActive === navList[2] ? "text-white" : "text-white"
+          } xxsm:hidden xsm:block cursor-pointer text-[1.8rem]`}
         >
           Help and Support
         </label>
@@ -59,20 +48,14 @@ const SideBar = ({ currActive }) => {
       <Link
         to={"/settings"}
         className={`${
-          currActive == navList[3]
-            ? "bg-secondary text-black"
-            : "hover:bg-secondary hover:text-black text-white"
-        } font-medium w-full p-2 rounded-md  xsm:w-full`}
+          currActive == navList[3] ? "bg-secondary " : "hover:bg-secondary"
+        } text-white font-medium w-full p-2 rounded-md  xsm:w-full`}
         style={{ transition: "all 0.3s ease" }}
       >
-        <SettingIcon
-          color={`${currActive === navList[3] ? "black" : "white"}`}
-          w={32}
-        />
         <label
           className={`${
-            currActive === navList[2] ? "text-black" : "text-white"
-          } xxsm:hidden xsm:block cursor-pointer`}
+            currActive === navList[2] ? "text-white" : "text-white"
+          } xxsm:hidden xsm:block cursor-pointer text-[1.8rem]`}
         >
           Settings
         </label>
