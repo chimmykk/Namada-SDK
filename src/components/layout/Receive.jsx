@@ -52,7 +52,7 @@ const Receive = () => {
       </div>
 
       <div className="mt-[2rem] text-center">
-        <label>Address Type:</label>
+        <label className="text-[1rem]">Address Type:</label>
         <select
           onChange={(e) => addressTypeHandler(e)}
           className="w-full rounded-md my-[1rem] bg-[#1e1e1e] text-white p-3 focus:outline focus:outline-1 focus:outline-[#57a6ff] focus:bg-[#1f2942]"

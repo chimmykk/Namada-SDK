@@ -3,7 +3,7 @@ import GlobalIcon from "../../../../../assets/icons/global";
 
 const WalletSettings = () => {
   return (
-    <div className=" border-b-[0.2rem] border-[#4d4d4d] pb-8">
+    <div className=" border-b-[0.2rem] border-[#d3d3d3] dark:border-[#4d4d4d] pb-8">
       <p className=" mt-8 mx-8 text-[1.8rem] font-medium">Wallet Settings</p>
 
       <div className="mt-8 rounded-2xl flex flex-col gap-8">

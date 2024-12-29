@@ -9,24 +9,29 @@ import UpIcon from "../../../assets/icons/up";
 import DownIcon from "../../../assets/icons/down";
 import Transaction from "../../../components/layout/Transaction";
 import ArrowLeftIcon from "../../../assets/icons/arrow-left";
-import BellIcon from "../../../assets/icons/bell";
+import ScanIcon from "../../../assets/icons/scan";
 import MobileNav from "../../../components/layout/mobile-nav";
+import DownAchorIcon from "../../../assets/icons/down-achor";
 
 const MobileWallet = () => {
   return (
     <MobileLayout>
-      <div className="w-full flex justify-between items-center p-8">
-        <ArrowLeftIcon color={"white"} w={24} />
-        <h2 className="text-[1.8rem]">Wallet 2</h2>
-        <BellIcon w={24} color={"white"} />
+      <div className="w-full flex justify-between items-center p-8 py-8">
+        <ArrowLeftIcon color={"currentColor"} w={24} />
+        <aside className="flex gap-4">
+          <h2 className="text-[1.8rem]">Wallet 2</h2>
+          <DownAchorIcon w={24} color={"currentColor"} />
+        </aside>
+
+        <ScanIcon w={24} color={"currentColor"} />
       </div>
 
-      <div className="bg-[#2A2A2A] w-full flex flex-col justify-between overflow-y-auto">
+      <div className="bg-primary w-full flex flex-col justify-between overflow-y-auto">
         <section className="w-full px-[2.4rem] pt-[2.4rem] pb-[0rem] flex items-start flex-col h-fit">
           <div className="w-full flex flex-col justify-center mt-[2.4rem]">
             <div className="flex justify-center items-center gap-4">
               <p className="text-[1.4rem]">Total Balance </p>
-              <EyeIcon w={18} />
+              <EyeIcon w={18} color={"currentColor"} />
             </div>
 
             <div className="flex justify-center gap-[0.8rem] items-center mt-8">
@@ -37,8 +42,8 @@ const MobileWallet = () => {
             </div>
 
             <div className="flex gap-4 justify-center">
-              <p className="text-[#dddddd] text-[1.5rem]">~ $65,000.00</p>
-              <p className="text-[#dddddd] text-[1.5rem]">USD</p>
+              <p className="text-secondary text-[1.5rem]">~ $65,000.00</p>
+              <p className="text-secondary text-[1.5rem]">USD</p>
             </div>
           </div>
 
@@ -88,7 +93,7 @@ const MobileWallet = () => {
           <div className="mt-[3rem] w-full mb-8">
             <div className="flex justify-start items-center gap-4">
               <p className="text-[1.8rem]">Transaction History</p>
-              <RightAchorIcon w={18} color={"white"} />
+              <RightAchorIcon w={18} color={"currentColor"} />
             </div>
 
             <Transaction />

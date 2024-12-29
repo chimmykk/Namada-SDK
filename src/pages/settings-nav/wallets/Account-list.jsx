@@ -34,13 +34,13 @@ const AccountList = ({ activeAccount, showAccountHandler }) => {
         <p className="row-span-2  self-center justify-self-end font-bold">
           $ {item.balance}
         </p>
-        <p className="text-[#8e8e8e]">{item.address}</p>
+        <p className="text-secondary>{item.address}</p>
       </div>
     );
   });
 
   return (
-    <div className="bg-[#333] p-4 absolute flex flex-col gap-2 top-[5rem] left-0 rounded-lg xxsm:w-fit ">
+    <div className="bg-secondary p-4 absolute flex flex-col gap-2  left-0 rounded-lg xxsm:w-fit">
       {accountDisplay}
 
       <div className="w-full p-2 hover:bg-primary rounded-md">

@@ -1,11 +1,12 @@
-const WalletActiveIcon = () => {
+const WalletActiveIcon = ({ w, color }) => {
+  if (localStorage.getItem("theme") === "dark") {
+    color = "#2a2a2a";
+  } else {
+    color = "#fff";
+  }
+
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
+    <svg width={w} height={w} viewBox="0 0 24 24">
       <path
         transform="matrix(1 0 0 1 3 3)"
         d="M16.5 5L16.5 1.5C16.5 0.671575 15.8284 0 15 0L1.5 0C0.671575 0 0 0.671575 0 1.5L0 16.5C0 17.3284 0.67157 18 1.5 18L15 18C15.8284 18 16.5 17.3284 16.5 16.5L16.5 13"
@@ -24,12 +25,12 @@ const WalletActiveIcon = () => {
       <path
         transform="matrix(1 0 0 1 11 7.76251)"
         d="M-1 1.5C-1 0.119288 0.119288 -1 1.5 -1L9.5 -1C10.8807 -1 12 0.119288 12 1.5L12 6.5C12 7.88071 10.8807 9 9.5 9L1.5 9C0.119288 9 -1 7.88071 -1 6.5L-1 1.5ZM1.5 1C1.22386 1 1 1.22386 1 1.5L1 6.5C1 6.77614 1.22386 7 1.5 7L9.5 7C9.77614 7 10 6.77614 10 6.5L10 1.5C10 1.22386 9.77614 1 9.5 1L1.5 1Z"
-        fill="rgb(42, 42, 42)"
+        fill={color}
       />
       <path
         transform="matrix(-1.31134e-07 -1 -1 1.31134e-07 16 13)"
         d="M2 1C2 0.447715 1.55228 0 1 0C0.447715 0 0 0.447715 0 1C0 1.55228 0.447715 2 1 2C1.55228 2 2 1.55228 2 1Z"
-        fill="rgb(42, 42, 42)"
+        fill={color}
       />
     </svg>
   );

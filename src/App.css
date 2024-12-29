@@ -4,9 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* index.css or global.css */
+:root {
+  --color-primary: #000; /* Light mode primary color */
+  --color-secondary: #888888; /* Light mode secondary color */
+  --color-yellow: #ffc800;
+  --bg-primary: #fff;
+  --bg-secondary: #f0f0f0;
+  font-weight: 600;
+  font-family: "Nunito";
+  font-size: 9px;
+}
+
+.dark {
+  --color-primary: #fff; /* Dark mode primary color */
+  --color-secondary: #aaa; /* Dark mode secondary color */
+  --color-yellow: #ffc800;
+  --bg-primary: #2a2a2a;
+  --bg-secondary: #2e2e2e;
+  font-family: "Nunito";
+}
+
 * {
   font-size: 15px;
-  color: white;
+  color: var(--color-primary);
   font-family: "Nunito";
 }
 

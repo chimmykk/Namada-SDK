@@ -114,7 +114,7 @@ const transaction = transactionList.slice(0, 4).map((items) => {
       <p className="ml-auto">
         {items.type === transactionType.send ? "+" : "-"}0.75 NAM
       </p>
-      <p className="text-[1.2rem] text-[#c7c7c7]">{items.date}</p>
+      <p className="text-[1.2rem] text-secondary">{items.date}</p>
 
       <div className="flex items-center gap-2 ml-auto">
         <div
@@ -123,7 +123,7 @@ const transaction = transactionList.slice(0, 4).map((items) => {
           }`}
         ></div>
 
-        <p className="text-[1.3rem] text-[#c7c7c7]">
+        <p className="text-[1.3rem] text-secondary">
           {items.transactionStatus}
         </p>
       </div>

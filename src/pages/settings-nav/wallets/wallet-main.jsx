@@ -49,7 +49,7 @@ function Wallet() {
             <div
               onMouseEnter={() => setShowAccountList(true)}
               onMouseLeave={() => setShowAccountList(false)}
-              className="bg-[#2a2a2a] py-[1.2rem] px-[2.4rem] text-[1.8rem] cursor-pointer rounded-md hover:bg-[#3b3b3b] relative left-0"
+              className="bg-primary py-[1.2rem] px-[2.4rem] text-[1.8rem] cursor-pointer rounded-md hover:bg-[#3b3b3b] relative left-0"
               style={{ transition: "all 0.3s ease" }}
             >
               {activeAccount.name} <span>▾</span>
@@ -105,14 +105,14 @@ function Wallet() {
             </Link>
 
             <button
-              className="bg-[#ffc800] text-black py-[1rem] px-[2.5rem] rounded-md text-[1.6rem] hover:translate-y-[-2px] hover:bg-[#c69f03] w-full"
+              className="bg-[#ffc800]  py-[1rem] px-[2.5rem] rounded-md text-[1.6rem] hover:translate-y-[-2px] hover:bg-[#c69f03] w-full"
               style={{ transition: "all 0.3s ease" }}
             >
               Buy
             </button>
 
             <button
-              className="bg-[#ffc800] text-black py-[1rem] px-[2.5rem] rounded-md text-[1.6rem] hover:translate-y-[-2px] hover:bg-[#c69f03] w-full"
+              className="bg-[#ffc800] py-[1rem] px-[2.5rem] rounded-md text-[1.6rem] hover:translate-y-[-2px] hover:bg-[#c69f03] w-full"
               style={{ transition: "all 0.3s ease" }}
             >
               Sell

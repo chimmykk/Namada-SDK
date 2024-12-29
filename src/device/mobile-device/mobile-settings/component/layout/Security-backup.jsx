@@ -4,7 +4,7 @@ import KeyIcon from "../../../../../assets/icons/key";
 
 const SecurityBackupLayout = () => {
   return (
-    <div className=" border-b-[0.2rem] border-[#4d4d4d] pb-8">
+    <div className=" border-b-[0.2rem] border-[#d3d3d3] dark:border-[#4d4d4d] pb-8">
       <p className=" mt-8 mx-8 text-[1.8rem] font-medium">
         Security and Backup
       </p>

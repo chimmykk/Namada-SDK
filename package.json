@@ -14,12 +14,11 @@
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-shell": "^2",
     "@vitejs/plugin-react-swc": "^3.7.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-native-web": "^0.19.13",
     "react-router": "^6.27.0",
     "react-router-dom": "^6.27.0",
-    "react-router-native": "^6.27.0",
     "router": "^2.0.0"
   },
   "devDependencies": {

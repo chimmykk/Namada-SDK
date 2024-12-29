@@ -41,7 +41,7 @@ const CreateWallet = () => {
 
   return (
     <div
-      className="bg-[#2a2a2a] rounded-[1rem] p-[2rem] w-[90%] max-w-[40rem] relative flex flex-col items-center gap-4"
+      className="bg-primary rounded-[1rem] p-[2rem] w-[90%] max-w-[40rem] relative flex flex-col items-center gap-4"
       style={{ boxShadow: "0px 1rem 2rem rgba(0, 0, 0, 0.5)" }}
     >
       <BackButton link={"/"} />
@@ -52,7 +52,7 @@ const CreateWallet = () => {
 
       <div className="flex gap-10 mt-10">
         <aside className="flex flex-col justify-center items-center">
-          <button className="bg-[#ff9800] text-white w-[4rem] h-[4rem] line-clamp-[3rem] rounded-full cursor-pointer">
+          <button className="bg-primary text-white w-[4rem] h-[4rem] line-clamp-[3rem] rounded-full cursor-pointer">
             1
           </button>
           <span className="cursor-pointer mt-[0.5rem] text-[1.2rem] text-center">

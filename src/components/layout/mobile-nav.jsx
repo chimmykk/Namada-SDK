@@ -13,7 +13,7 @@ const MobileNav = () => {
 
   const navList = {
     home: "/mobile-home",
-    wallet: "/mobile-wallets",
+    wallet: "/mobile/wallet",
     market: "/mobile-market",
     setting: "/mobile-setting",
   };
@@ -22,19 +22,18 @@ const MobileNav = () => {
 
   useEffect(() => {
     setActive(location.pathname);
-    console.log(active);
   }, [active]);
 
   return (
-    <nav className="flex justify-between items-center w-full  mt-auto border-1 px-10 py-3 bg-[#2a2a2a]">
+    <nav className="flex justify-between items-center w-full  mt-auto border-1 px-10 py-3 bg-primary">
       <ul className="flex flex-col justify-center items-center gap-2">
-        <HomeIcon w={20} />
+        <HomeIcon w={24} color={"currentColor"} />
         <p className="text-[1.3rem]">Home</p>
       </ul>
 
       <ul className="flex flex-col justify-center items-center gap-2">
         {active === navList.wallet ? (
-          <WalletActiveIcon />
+          <WalletActiveIcon w={24} color={"currentColor"} />
         ) : (
           <WalletIcon w={20} />
         )}
@@ -49,18 +48,18 @@ const MobileNav = () => {
       </ul>
 
       <ul className="flex flex-col justify-center items-center gap-2">
-        <TrendingUpIcon w={20} />
+        <TrendingUpIcon w={24} color={"currentColor"} />
         <p className="text-[1.3rem]">Market</p>
       </ul>
 
       <Link
-        to={"/mobile-setting"}
+        to={"/mobile/setting"}
         className="flex flex-col justify-center items-center gap-2"
       >
         {active === navList.setting ? (
           <SettingActive />
         ) : (
-          <SettingIcon w={20} color={"white"} />
+          <SettingIcon w={20} color={"currentColor"} />
         )}
 
         <p
