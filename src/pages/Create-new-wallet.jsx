@@ -27,7 +27,7 @@ const CreateNewWallet = () => {
 
       <div className="flex gap-8">
         <button
-          className="bg-primary hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.5rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
+          className="bg-primary hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-primary text-[1.6rem] px-[1.5rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
           style={{
             boxShadow: "0 1rem 2rem rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
@@ -38,7 +38,7 @@ const CreateNewWallet = () => {
         </button>
 
         <button
-          className="bg-primary hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-black text-[1.6rem] px-[1.2rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
+          className="bg-primary hover:bg-[#c69f03] hover:outline hover:outline-2 hover:outline-black text-primary text-[1.6rem] px-[1.2rem] py-[0.5rem] rounded-[0.5rem] active:scale-95 duration-200"
           style={{
             boxShadow: "0 1rem 2rem rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
@@ -79,7 +79,7 @@ const CreateNewWallet = () => {
         </div>
       </div>
 
-      <button className="bg-primary cursor-not-allowed opacity-50 p-[1rem] w-full rounded-xl text-black text-[1.8rem] mt-[2rem]">
+      <button className="bg-primary cursor-not-allowed opacity-50 p-[1rem] w-full rounded-xl text-primary text-[1.8rem] mt-[2rem]">
         Next
       </button>
     </div>

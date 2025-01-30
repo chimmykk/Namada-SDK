@@ -8,5 +8,11 @@
     "name": "Account 2",
     "address": "0x4a67...348a",
     "balance": 0.0
+  },
+
+  {
+    "name": "Account 3",
+    "address": "0x4e48...294z",
+    "balance": 2.34
   }
 ]

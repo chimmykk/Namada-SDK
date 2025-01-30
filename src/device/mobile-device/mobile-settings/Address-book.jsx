@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import fetchData from "../../../utils/fetchData";
 import ArrowLeftIcon from "../../../assets/icons/arrow-left";
 import CopyIcon from "../../../assets/icons/copy";
 import MobileLayout from "../../../components/layout/mobile-layout";
@@ -13,17 +14,16 @@ const AddressBook = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/account.json")
-      .then((res) => res.json())
-      .then((data) => setAccountList(data))
-      .catch((err) => console.log("Something when wrong", err));
+    fetchData("/api/wallets.json", (d) => {
+      setAccountList(d);
+    });
   }, []);
 
   return (
     <MobileLayout>
       <section className="grid grid-cols-[1fr,10fr,1fr] p-8 px-8">
         <Link preventScrollReset to={"/mobile/setting"}>
-          <ArrowLeftIcon color={"currentColor"} w={20} />
+          <ArrowLeftIcon color={"currentColor"} w={24} />
         </Link>
         <p className="text-[1.8rem] font-bold text-center">Address book</p>
       </section>

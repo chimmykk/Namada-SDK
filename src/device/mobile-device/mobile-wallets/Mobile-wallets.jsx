@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import fetchData from "../../../utils/fetchData";
+
 import MobileLayout from "../../../components/layout/mobile-layout";
 import EyeIcon from "../../../assets/icons/eye";
 import QrIcon from "../../../assets/icons/qr";
@@ -12,15 +15,41 @@ import ArrowLeftIcon from "../../../assets/icons/arrow-left";
 import ScanIcon from "../../../assets/icons/scan";
 import MobileNav from "../../../components/layout/mobile-nav";
 import DownAchorIcon from "../../../assets/icons/down-achor";
+import WalletSelector from "./Wallet-selector";
+import EyeOpen from "../../../assets/icons/eye-open";
 
 const MobileWallet = () => {
+  const [walletList, setWalletList] = useState();
+  const [openWallet, setOpenWallet] = useState(false);
+  const [showBalance, setShowBalance] = useState(false);
+  const [activeWallet, setActiveWallet] = useState({
+    name: "Account 1",
+    address: "0x5cf6...39fb",
+    balance: 14.74,
+  });
+
+  useEffect(() => {
+    fetchData("/api/wallets.json", (d) => {
+      setWalletList(d);
+    });
+  }, [openWallet]);
+
+  const openWalletHandler = () => {
+    setOpenWallet(!openWallet);
+  };
+
+  const activeWalletHandler = (data) => {
+    setActiveWallet(data);
+    setOpenWallet(false);
+  };
+
   return (
     <MobileLayout>
       <div className="w-full flex justify-between items-center p-8 py-8">
         <ArrowLeftIcon color={"currentColor"} w={24} />
-        <aside className="flex gap-4">
-          <h2 className="text-[1.8rem]">Wallet 2</h2>
-          <DownAchorIcon w={24} color={"currentColor"} />
+        <aside className="flex gap-2" onClick={openWalletHandler}>
+          <h2 className="text-[1.8rem]">{activeWallet.name}</h2>
+          <DownAchorIcon w={20} color={"currentColor"} />
         </aside>
 
         <ScanIcon w={24} color={"currentColor"} />
@@ -31,12 +60,18 @@ const MobileWallet = () => {
           <div className="w-full flex flex-col justify-center mt-[2.4rem]">
             <div className="flex justify-center items-center gap-4">
               <p className="text-[1.4rem]">Total Balance </p>
-              <EyeIcon w={18} color={"currentColor"} />
+              <button onClick={() => setShowBalance(!showBalance)}>
+                {showBalance ? (
+                  <EyeIcon w={18} color={"currentColor"} />
+                ) : (
+                  <EyeOpen w={18} color={"currentColor"} />
+                )}
+              </button>
             </div>
 
             <div className="flex justify-center gap-[0.8rem] items-center mt-8">
               <span className="text-[3.8rem] font-bold inline mt-auto">
-                1.234
+                {showBalance ? activeWallet.balance : "*****"}
               </span>
               <p className="mt-5">NAM</p>
             </div>
@@ -102,6 +137,14 @@ const MobileWallet = () => {
       </div>
 
       <MobileNav />
+      {openWallet && (
+        <WalletSelector
+          clickHander={openWalletHandler}
+          walletList={walletList}
+          activeHandler={activeWalletHandler}
+          activeWallet={activeWallet}
+        />
+      )}
     </MobileLayout>
   );
 };
