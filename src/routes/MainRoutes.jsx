@@ -13,6 +13,7 @@ import ImportWalletTold from "../pages/Import-wallet-told";
 import ReceiveToken from "../pages/Receive-token";
 import SendToken from "../pages/Send-token";
 import MobileMainRoutes from "../routes/mobile-routes/MobileMainRoutes";
+import TabletMainRoutes from "./tablet-routes/tablet-main-routes";
 import { ThemeProvider } from "../contexts/Theme";
 
 const MainRoutes = () => {
@@ -21,6 +22,7 @@ const MainRoutes = () => {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/mobile">{MobileMainRoutes()}</Route>
+        <Route path="/tablet">{TabletMainRoutes()}</Route>
         <Route path="/create-new-wallet" element={<CreateNewWallet />} />
         <Route path="/restore-wallet" element={<RestoreWallet />} />
         <Route path="/create-wallet" element={<CreateWallet />} />
